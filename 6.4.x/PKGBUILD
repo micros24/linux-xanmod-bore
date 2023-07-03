@@ -70,7 +70,7 @@ if [ -z ${_tickrate_HZ+x} ]; then
   _tickrate_HZ=500
 fi
 
-# Set the tickrate handling between (constant, idle, tickless)
+# Set the tickrate handling between (tickless, idle, constant)
 if [ -z ${_tickrate+x} ]; then
   _tickrate=tickless
 fi
@@ -78,6 +78,11 @@ fi
 # Set the preemption model (preemptible, voluntary, server)
 if [ -z ${_preemptmodel+x} ]; then
   _preemptmodel=preemptible
+fi
+
+# Use O3 (y, n)
+if [ -z ${_use_O3+x} ]; then
+  _use_O3=y
 fi
 
 # Tweak kernel options prior to a build via nconfig
@@ -167,6 +172,7 @@ prepare() {
   fi
 
   # Setting HZ tick rate
+  echo "Setting Tickrate HZ..."
   if [ "$_tickrate_HZ" = "1000" ]; then
     scripts/config --disable HZ_500
     scripts/config --enable HZ_1000
@@ -181,7 +187,8 @@ prepare() {
     scripts/config --enable HZ_100
   fi
 
-  ### Select tick type
+  # Selecting tick type
+  echo "Setting tick type..."
   if [ "$_tickrate" = "tickless" ]; then
     scripts/config --disable HZ_PERIODIC
     scripts/config --disable NO_HZ_IDLE
@@ -205,6 +212,8 @@ prepare() {
     scripts/config --enable HZ_PERIODIC
   fi
 
+  # Selecting Preemption model
+  echo "Setting preemption model..."
   if [ "$_preemptmodel" = "preemptible" ]; then
     scripts/config --disable PREEMPT_NONE
     scripts/config --disable PREEMPT_VOLUNTARY
@@ -230,6 +239,13 @@ prepare() {
     scripts/config --enable PREEMPT_NONE
   fi
 
+  # Setting O3
+  if [ "$_use_O3" = "y" ]; then
+    echo "Enabling O3..."
+    scripts/config --disable CC_OPTIMIZE_FOR_PERFORMANCE
+    scripts/config --enable CC_OPTIMIZE_FOR_PERFORMANCE_O3
+  fi
+
   # CONFIG_STACK_VALIDATION gives better stack traces. Also is enabled in all official kernel packages by Archlinux team
   scripts/config --enable CONFIG_STACK_VALIDATION
 
@@ -247,9 +263,23 @@ prepare() {
     fi
   fi
 
+  # Disabling NUMA
   if [ "$use_numa" = "n" ]; then
     echo "Disabling NUMA..."
     scripts/config --disable CONFIG_NUMA
+    scripts/config --disable NUMA
+    scripts/config --disable AMD_NUMA
+    scripts/config --disable X86_64_ACPI_NUMA
+    scripts/config --disable NODES_SPAN_OTHER_NODES
+    scripts/config --disable NUMA_EMU
+    scripts/config --disable USE_PERCPU_NUMA_NODE_ID
+    scripts/config --disable ACPI_NUMA
+    scripts/config --disable ARCH_SUPPORTS_NUMA_BALANCING
+    scripts/config --disable NODES_SHIFT
+    scripts/config --undefine NODES_SHIFT
+    scripts/config --disable NEED_MULTIPLE_NODES
+    scripts/config --disable NUMA_BALANCING
+    scripts/config --disable NUMA_BALANCING_DEFAULT_ENABLED
   fi
 
   # Compress modules by default (following Arch's kernel)
@@ -314,7 +344,7 @@ build() {
 }
 
 _package() {
-  pkgdesc="The Linux kernel and modules with Xanmod patches"
+  pkgdesc="Linux Xanmod (Stable) with BORE CPU scheduler and tickrate customizations"
   depends=(coreutils kmod initramfs)
   optdepends=('crda: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices')
@@ -347,59 +377,59 @@ _package-headers() {
   depends=(pahole)
 
   cd linux-${_major}
-  local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
+  local _builddir="$pkgdir/usr/lib/modules/$(<version)/build"
 
   echo "Installing build files..."
-  install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map \
+  install -Dt "$_builddir" -m644 .config Makefile Module.symvers System.map \
     localversion.* version vmlinux
-  install -Dt "$builddir/kernel" -m644 kernel/Makefile
-  install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
-  cp -t "$builddir" -a scripts
+  install -Dt "$_builddir/kernel" -m644 kernel/Makefile
+  install -Dt "$_builddir/arch/x86" -m644 arch/x86/Makefile
+  cp -t "$_builddir" -a scripts
 
   # required when STACK_VALIDATION is enabled
-  install -Dt "$builddir/tools/objtool" tools/objtool/objtool
+  install -Dt "$_builddir/tools/objtool" tools/objtool/objtool
 
   # required when DEBUG_INFO_BTF_MODULES is enabled
-  if [ -f "tools/bpf/resolve_btfids/resolve_btfids" ]; then install -Dt "$builddir/tools/bpf/resolve_btfids" tools/bpf/resolve_btfids/resolve_btfids ; fi
+  if [ -f "tools/bpf/resolve_btfids/resolve_btfids" ]; then install -Dt "$_builddir/tools/bpf/resolve_btfids" tools/bpf/resolve_btfids/resolve_btfids ; fi
 
   echo "Installing headers..."
-  cp -t "$builddir" -a include
-  cp -t "$builddir/arch/x86" -a arch/x86/include
-  install -Dt "$builddir/arch/x86/kernel" -m644 arch/x86/kernel/asm-offsets.s
+  cp -t "$_builddir" -a include
+  cp -t "$_builddir/arch/x86" -a arch/x86/include
+  install -Dt "$_builddir/arch/x86/kernel" -m644 arch/x86/kernel/asm-offsets.s
 
-  install -Dt "$builddir/drivers/md" -m644 drivers/md/*.h
-  install -Dt "$builddir/net/mac80211" -m644 net/mac80211/*.h
+  install -Dt "$_builddir/drivers/md" -m644 drivers/md/*.h
+  install -Dt "$_builddir/net/mac80211" -m644 net/mac80211/*.h
 
   # https://bugs.archlinux.org/task/13146
-  install -Dt "$builddir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
+  install -Dt "$_builddir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
 
   # https://bugs.archlinux.org/task/20402
-  install -Dt "$builddir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
-  install -Dt "$builddir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
-  install -Dt "$builddir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
+  install -Dt "$_builddir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
+  install -Dt "$_builddir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
+  install -Dt "$_builddir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
 
   # https://bugs.archlinux.org/task/71392
-  install -Dt "$builddir/drivers/iio/common/hid-sensors" -m644 drivers/iio/common/hid-sensors/*.h
+  install -Dt "$_builddir/drivers/iio/common/hid-sensors" -m644 drivers/iio/common/hid-sensors/*.h
 
   echo "Installing KConfig files..."
-  find . -name 'Kconfig*' -exec install -Dm644 {} "$builddir/{}" \;
+  find . -name 'Kconfig*' -exec install -Dm644 {} "$_builddir/{}" \;
 
   echo "Removing unneeded architectures..."
   local arch
-  for arch in "$builddir"/arch/*/; do
+  for arch in "$_builddir"/arch/*/; do
     [[ $arch = */x86/ ]] && continue
     echo "Removing $(basename "$arch")"
     rm -r "$arch"
   done
 
   echo "Removing documentation..."
-  rm -r "$builddir/Documentation"
+  rm -r "$_builddir/Documentation"
 
   echo "Removing broken symlinks..."
-  find -L "$builddir" -type l -printf 'Removing %P\n' -delete
+  find -L "$_builddir" -type l -printf 'Removing %P\n' -delete
 
   echo "Removing loose objects..."
-  find "$builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete
+  find "$_builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete
 
   echo "Stripping build tools..."
   local file
@@ -414,14 +444,14 @@ _package-headers() {
       application/x-pie-executable\;*) # Relocatable binaries
         strip -v $STRIP_SHARED "$file" ;;
     esac
-  done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
+  done < <(find "$_builddir" -type f -perm -u+x ! -name vmlinux -print0)
 
   echo "Stripping vmlinux..."
-  strip -v $STRIP_STATIC "$builddir/vmlinux"
+  strip -v $STRIP_STATIC "$_builddir/vmlinux"
   
   echo "Adding symlink..."
   mkdir -p "$pkgdir/usr/src"
-  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
+  ln -sr "$_builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
 pkgname=("${pkgbase}" "${pkgbase}-headers")

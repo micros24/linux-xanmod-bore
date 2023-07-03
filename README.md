@@ -5,6 +5,7 @@ A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kerne
 # Changes from Xanmod
 
 - BORE scheduler
+- O3 optimization (can be disabled)
 - Enabled the use of all CPU cores for compilation
 - Disabled NUMA by default
 - Choose your tickrate HZ from 1000, 5000, 300, 250, and 100. (500 is default)
@@ -16,6 +17,7 @@ A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kerne
 - Changed all msg2 to echo
 - Changed all kernver to \_kernver
 - Changed all modulesdir to \_modulesdir
+- Changed all builddir to \_builddir
 
 # Credits
 
