@@ -1,9 +1,26 @@
-This is a simple patchset to include BORE scheduler into Xanmod kernel.
+# linux-xanmod-bore
 
-The Glitched cfs patch is from tkg kernel.
+A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kernel with cfs patches from tkg. Tickrate customizations are set inside the PKGBUILD file, together with other Xanmod customizations.
 
-Xanmod - https://gitlab.com/xanmod/linux
+# Changes from Xanmod
 
-BORE Scheduler - https://github.com/CachyOS/kernel-patches
+- BORE scheduler
+- Enabled the use of all CPU cores for compilation
+- Disabled NUMA by default
+- Choose your tickrate HZ from 1000, 5000, 300, 250, and 100. (500 is default)
+- Choose your tickrate handling from tickless, idle, and constant (tickless is default)
+- Choose your Preemption Model from preemptible, voluntary, and server (preemptible is default)
+
+## Misc. changes
+
+- Changed all msg2 to echo
+- Changed all kernver to \_kernver
+- Changed all modulesdir to \_modulesdir
+
+# Credits
+
+Xanmod - http://www.xanmod.org/
+
+BORE Scheduler - https://github.com/firelzrd/bore-scheduler
 
 Glitched cfs patch - https://github.com/Frogging-Family/linux-tkg
