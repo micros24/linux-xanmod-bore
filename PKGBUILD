@@ -85,12 +85,6 @@ if [ -z ${_use_O3+x} ]; then
   _use_O3=y
 fi
 
-# PER_VMA_LOCK settings (standard, none)
-# https://lore.kernel.org/all/20230703182150.2193578-1-surenb@google.com/
-if [ -z ${_vma_lock+x} ]; then
-  _vma_lock=standard
-fi
-
 # Tweak kernel options prior to a build via nconfig
 if [ -z ${_makenconfig} ]; then
   _makenconfig=n
@@ -250,15 +244,6 @@ prepare() {
     echo "Enabling O3..."
     scripts/config --disable CC_OPTIMIZE_FOR_PERFORMANCE
     scripts/config --enable CC_OPTIMIZE_FOR_PERFORMANCE_O3
-  fi
-
-  # Select VMA locking config
-  echo "Setting VMA locking..."
-  if [ "$_vma_lock" = "standard" ]; then
-  scripts/config --enable PER_VMA_LOCK
-  scripts/config --disable PER_VMA_LOCK_STATS
-  elif [ "$_vma_lock" = "none" ]; then
-  scripts/config --disable PER_VMA_LOCK
   fi
 
   # CONFIG_STACK_VALIDATION gives better stack traces. Also is enabled in all official kernel packages by Archlinux team
