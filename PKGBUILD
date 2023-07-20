@@ -140,7 +140,7 @@ sha256sums=('8fa0588f0c2ceca44cac77a0e39ba48c9f00a6b9dc69761c02a5d3efac8da7f3'
             'ee7c8450613149090cf8854e227d9b5c070fd41dc0d4b9f0d37c687c2f5ed576'
             '01eea507af27ad3b1329ea6856fc302691ec13a5b13495f79eeb784b6cca521a'
             '0b7fc3efb55c277acdeb023905794c319f2cff3d27576c9edb0c8bbab0bdf6df'
-            '28d4b8f18aba795060c170a92ea06513649ca9b86efea40253123bf86f910e2d')
+            '3e55d402cc5867b2d44fd5fb183f68735a2b76f36abcd17852a71517ee1928bf')
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
 export KBUILD_BUILD_USER=${KBUILD_BUILD_USER:-makepkg}
@@ -168,7 +168,7 @@ prepare() {
 
   # Applying configuration
   cp -vf CONFIGS/xanmod/gcc/${_config} .config
-  # enable LTO_CLANG_THIN
+  # enable LTO_CLANG_FULL
   if [ "${_compiler}" = "clang" ]; then
     scripts/config --enable LTO
     scripts/config --enable LTO_CLANG
