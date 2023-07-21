@@ -116,9 +116,10 @@ source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar
         "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://github.com/xanmod/linux/releases/download/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0001-bore.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-glitched-cfs.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0003-glitched-cfs-additions.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0004-o3-optimization.patch")
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-constgran-vanilla-max.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0003-glitched-cfs.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0004-glitched-cfs-additions.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0005-o3-optimization.patch")
 validpgpkeys=(
     'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linux Torvalds
     '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
@@ -134,10 +135,12 @@ sha256sums=('8fa0588f0c2ceca44cac77a0e39ba48c9f00a6b9dc69761c02a5d3efac8da7f3'
             'SKIP'
             '03b3711b1465131219025aaa17783e1ac4fbc94df477180552ef0cc92e2ce5d6'
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30'
-            '2b0a54b6b92e55b5ff4fd902263c72958137b1d5f847f1c3b529eb9e756d8f11'
-            '01eea507af27ad3b1329ea6856fc302691ec13a5b13495f79eeb784b6cca521a'
-            '0b7fc3efb55c277acdeb023905794c319f2cff3d27576c9edb0c8bbab0bdf6df'
-            '3e55d402cc5867b2d44fd5fb183f68735a2b76f36abcd17852a71517ee1928bf')
+            '1b6460e5a500c9ce22e296b667b46c0ebf42b4ea25dd5cac4518fda22dab1995' # 0001-bore.patch
+            'a2c4322972924197763b52974b814d105e0ffef27336baabb8a96e0946566089' # 0002-constgran-vanilla-max.patch
+            '01eea507af27ad3b1329ea6856fc302691ec13a5b13495f79eeb784b6cca521a' # 0003-glitched-cfs.patch
+            '0b7fc3efb55c277acdeb023905794c319f2cff3d27576c9edb0c8bbab0bdf6df' # 0004-glitched-cfs-additions.patch
+            '3e55d402cc5867b2d44fd5fb183f68735a2b76f36abcd17852a71517ee1928bf' # 0005-o3-optimization.patch
+)
             
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
