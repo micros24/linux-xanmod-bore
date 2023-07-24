@@ -93,11 +93,11 @@ fi
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-bore
 _major=6.4
-pkgver=${_major}.4
+pkgver=${_major}.5
 _branch=6.x
 xanmod=1
 _revision=
-pkgrel=3
+pkgrel=${xanmod}
 pkgdesc='Linux Xanmod (Stable) with BORE CPU scheduler and tickrate customizations'
 url="http://www.xanmod.org/"
 arch=('x86_64')
@@ -133,7 +133,7 @@ for _patch in ${_patches[@]}; do
 done
 sha256sums=('8fa0588f0c2ceca44cac77a0e39ba48c9f00a6b9dc69761c02a5d3efac8da7f3'
             'SKIP'
-            '03b3711b1465131219025aaa17783e1ac4fbc94df477180552ef0cc92e2ce5d6'
+            '225f7f1c616f4796eade829f8f7c5543f9e4075441482c55fd84373c2ac93bf4'
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30'
             '1b6460e5a500c9ce22e296b667b46c0ebf42b4ea25dd5cac4518fda22dab1995' # 0001-bore.patch
             'a2c4322972924197763b52974b814d105e0ffef27336baabb8a96e0946566089' # 0002-constgran-vanilla-max.patch
