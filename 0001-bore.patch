@@ -1,16 +1,16 @@
-From cb18ccec91b621d122d63be7da4a97c66bbaaf7e Mon Sep 17 00:00:00 2001
+From c0b7eef8fa4064af9a8b2ff02ad2748766a0e419 Mon Sep 17 00:00:00 2001
 From: Masahito S <firelzrd@gmail.com>
-Date: Tue, 18 Jul 2023 02:37:04 +0900
-Subject: [PATCH] linux6.3.y-bore2.5.1
+Date: Sun, 23 Jul 2023 01:23:40 +0900
+Subject: [PATCH] linux6.3.y-bore2.5.3
 
 ---
  include/linux/sched.h   |  10 +++
  init/Kconfig            |  20 ++++++
- kernel/sched/core.c     | 118 ++++++++++++++++++++++++++++++++
+ kernel/sched/core.c     | 117 ++++++++++++++++++++++++++++++++
  kernel/sched/debug.c    |   3 +
  kernel/sched/fair.c     | 146 ++++++++++++++++++++++++++++++++++++++++
  kernel/sched/features.h |   8 +++
- 6 files changed, 305 insertions(+)
+ 6 files changed, 304 insertions(+)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
 index 6d654eb4c..0c2cd14a2 100644
@@ -72,7 +72,7 @@ index 908d045db..1a828aae9 100644
  	bool "Automatic process group scheduling"
  	select CGROUPS
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index c1a88c496..f7bda6f21 100644
+index c1a88c496..72a4d84da 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -4433,6 +4433,112 @@ int wake_up_state(struct task_struct *p, unsigned int state)
@@ -92,7 +92,7 @@ index c1a88c496..f7bda6f21 100644
 +	init_task.se.max_burst_time = 0;
 +}
 +
-+void inline sched_post_fork_bore(struct task_struct *p) {
++void inline sched_fork_bore(struct task_struct *p) {
 +	p->child_burst_cache = 0;
 +	p->child_burst_last_cached = 0;
 +	p->se.burst_time = 0;
@@ -173,7 +173,7 @@ index c1a88c496..f7bda6f21 100644
 +			anc = anc->real_parent;
 +		if (child_burst_cache_expired(anc, now))
 +			update_child_burst_cache_atavistic(
-+				anc, now, sched_burst_fork_atavistic, &cnt, &sum);
++				anc, now, sched_burst_fork_atavistic - 1, &cnt, &sum);
 +	} else
 +		if (child_burst_cache_expired(anc, now))
 +			update_child_burst_cache(anc, now);
@@ -193,31 +193,30 @@ index c1a88c496..f7bda6f21 100644
  	p->se.nr_migrations		= 0;
  	p->se.vruntime			= 0;
 +#ifdef CONFIG_SCHED_BORE
-+	sched_post_fork_bore(p);
++	sched_fork_bore(p);
 +#endif // CONFIG_SCHED_BORE
 	p->se.dur_avg			= 0;
-	p->se.prev_sleep_sum_runtime	= 0;	
+	p->se.prev_sleep_sum_runtime	= 0;
  	INIT_LIST_HEAD(&p->se.group_node);
  
  #ifdef CONFIG_FAIR_GROUP_SCHED
-@@ -4765,6 +4874,10 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
+@@ -4765,6 +4874,9 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
  
  void sched_post_fork(struct task_struct *p)
  {
 +#ifdef CONFIG_SCHED_BORE
-+	sched_post_fork_bore(p);
 +	update_task_initial_burst_time(p);
 +#endif // CONFIG_SCHED_BORE
  	uclamp_post_fork(p);
  }
  
-@@ -9863,6 +9976,11 @@ void __init sched_init(void)
+@@ -9863,6 +9975,11 @@ void __init sched_init(void)
  	BUG_ON(&dl_sched_class != &stop_sched_class + 1);
  #endif
  
 +#ifdef CONFIG_SCHED_BORE
 +	sched_init_bore();
-+	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 2.5.2 by Masahito Suzuki");
++	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 2.5.3 by Masahito Suzuki");
 +#endif // CONFIG_SCHED_BORE
 +
  	wait_bit_init();
@@ -238,7 +237,7 @@ index 18e1500e6..21e652c20 100644
  	SEQ_printf(m, " %d %d", task_node(p), task_numa_group_id(p));
  #endif
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 901200aa1..23bdc1851 100644
+index 901200aa1..01e41a8f1 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
 @@ -19,6 +19,9 @@
