@@ -135,6 +135,9 @@ sha256sums=('8fa0588f0c2ceca44cac77a0e39ba48c9f00a6b9dc69761c02a5d3efac8da7f3' #
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
             '3f9752cd37d6ab9b2995ee260be475bbd248098e0f1f12e1cb657a46b04d9acb' # 0001-bore.patch
             'f1f1dcc2e6990efcfead736096593a9b646e4e393591ff2547665c6d18030d08' # 0002-constgran-vanilla-max.patch
+            '01eea507af27ad3b1329ea6856fc302691ec13a5b13495f79eeb784b6cca521a' # 0003-glitched-cfs.patch
+            'dcfb32485d5942a55fb0505eec99900bf161bb12aefca867f024cfa62a3dc898' # 0004-glitched-cfs-additions.patch
+            '3e55d402cc5867b2d44fd5fb183f68735a2b76f36abcd17852a71517ee1928bf' # 0005-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
