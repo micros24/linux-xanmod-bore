@@ -93,7 +93,7 @@ fi
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-bore
 _major=6.4
-pkgver=${_major}.7
+pkgver=${_major}.5
 _branch=6.x
 xanmod=1
 _revision=
