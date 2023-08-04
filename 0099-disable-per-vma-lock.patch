@@ -1,0 +1,145 @@
+From mboxrd@z Thu Jan  1 00:00:00 1970
+Return-Path: <owner-linux-mm@kvack.org>
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-korg-lkml-1.web.codeaurora.org
+Received: from kanga.kvack.org (kanga.kvack.org [205.233.56.17])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3AB1C3063F
+	for <linux-mm@archiver.kernel.org>; Mon,  3 Jul 2023 18:21:58 +0000 (UTC)
+Received: by kanga.kvack.org (Postfix)
+	id 4508B280025; Mon,  3 Jul 2023 14:21:58 -0400 (EDT)
+Received: by kanga.kvack.org (Postfix, from userid 40)
+	id 40075280001; Mon,  3 Jul 2023 14:21:58 -0400 (EDT)
+X-Delivered-To: int-list-linux-mm@kvack.org
+Received: by kanga.kvack.org (Postfix, from userid 63042)
+	id 2A626280025; Mon,  3 Jul 2023 14:21:58 -0400 (EDT)
+X-Delivered-To: linux-mm@kvack.org
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+	by kanga.kvack.org (Postfix) with ESMTP id 165FA280001
+	for <linux-mm@kvack.org>; Mon,  3 Jul 2023 14:21:58 -0400 (EDT)
+Received: from smtpin16.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id D0AD0A0278
+	for <linux-mm@kvack.org>; Mon,  3 Jul 2023 18:21:57 +0000 (UTC)
+X-FDA: 80971119474.16.53BD567
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	by imf07.hostedemail.com (Postfix) with ESMTP id B71824001C
+	for <linux-mm@kvack.org>; Mon,  3 Jul 2023 18:21:55 +0000 (UTC)
+Authentication-Results: imf07.hostedemail.com;
+	dkim=pass header.d=google.com header.s=20221208 header.b="zmF/U4d5";
+	dmarc=pass (policy=reject) header.from=google.com;
+	spf=pass (imf07.hostedemail.com: domain of 3wxGjZAYKCJ4QSPCL9EMMEJC.AMKJGLSV-KKIT8AI.MPE@flex--surenb.bounces.google.com designates 209.85.219.201 as permitted sender) smtp.mailfrom=3wxGjZAYKCJ4QSPCL9EMMEJC.AMKJGLSV-KKIT8AI.MPE@flex--surenb.bounces.google.com
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=hostedemail.com;
+	s=arc-20220608; t=1688408516;
+	h=from:from:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:content-transfer-encoding:in-reply-to:
+	 references:dkim-signature; bh=5AXYT9zycW8Osk4e72iP59Qtrk0kBcjTI6T72ilYLy8=;
+	b=fwp7EJlpMHeZdod7hUSnMwMqnel5BNDIG4C5Q3Gg+uwmCOsrQZE8eutlA8SFuR3kZFfcjh
+	YWXK/JLVAm4LRcjk3Pec+4sck13LVbG/OtPsdJjnh9jxOUY6i2QWq1U01q9bB7Hq18Pbri
+	7q0wx0X9V57msJufnJOwo/SubsSKkx0=
+ARC-Authentication-Results: i=1;
+	imf07.hostedemail.com;
+	dkim=pass header.d=google.com header.s=20221208 header.b="zmF/U4d5";
+	dmarc=pass (policy=reject) header.from=google.com;
+	spf=pass (imf07.hostedemail.com: domain of 3wxGjZAYKCJ4QSPCL9EMMEJC.AMKJGLSV-KKIT8AI.MPE@flex--surenb.bounces.google.com designates 209.85.219.201 as permitted sender) smtp.mailfrom=3wxGjZAYKCJ4QSPCL9EMMEJC.AMKJGLSV-KKIT8AI.MPE@flex--surenb.bounces.google.com
+ARC-Seal: i=1; s=arc-20220608; d=hostedemail.com; t=1688408516; a=rsa-sha256;
+	cv=none;
+	b=kBckia3aj0i03OG+9zSZFlFAbeRvDSpLYxxksMAylMS02JyhN3EkStB12f4OkauP5HFM43
+	b2ClAS5Z//J9K//FAbCcLSMsa6IPv/hanNEY6gDC3skqB6VFcZVrWYVgQl4uumPtbbcbYB
+	67JzwCCWimg8TOjxH36WWp9mmYrP1+0=
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-c5a17bfb38bso495233276.3
+        for <linux-mm@kvack.org>; Mon, 03 Jul 2023 11:21:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688408515; x=1691000515;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5AXYT9zycW8Osk4e72iP59Qtrk0kBcjTI6T72ilYLy8=;
+        b=zmF/U4d5dW078gg99fvNsOXOy/d8B34ajDP1FQJl6vKxGIsvpkJEte0UOUDBsdrXn3
+         UvZ8UiY6OXMEwAcFpQUeg5VIN0OTqb9r9G225xLCgPdrKSrnOT1ojUk0VK+r5FTmpf0c
+         Pm/L8sEaGbZmRp2nFH1OEU0KI+3PVAkL3uSPurdHd7GksjDezC+np7ZMbTUBxvUuYi1Y
+         1pOJ/Tqx9mwz2t2EreQEwJ0gA2R9S6Q+VVo2A7vBH6+mxwgtbDpJHWgHp5TjxYJj4TtT
+         dqT1vKFrHg3nJTDifhus2ModquTItSJnMieZnM9RBCCxBU7yRQWb2Tx3Ls/rO75szIDo
+         Up8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688408515; x=1691000515;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5AXYT9zycW8Osk4e72iP59Qtrk0kBcjTI6T72ilYLy8=;
+        b=SN7WKkdJyGPYTz4m/ztuImjCIHoV9yTJIhXfWdnbNJM5lj5tMEKh3toIrbs1zACeVB
+         6BAMD6mpSYRRoGf6ba8TiPESfmb67LngRR0QFlmqlbrVtI2+pf9Q+Bl0CYUdwC9Yewxx
+         DIB+rKD8m/tWijxM1Vb6k4BSC1IL3WP+ZKuJ2h64hX5CmX1NJFFCIJYBAbuSewlOU4hm
+         sdrI5Apd6+tDMvj4DRyXRzmXbiHWLVzemEBV5dLGywO4OfdpmtWLnyroir9llDfvHmvt
+         SUKxTrCFUCdxalQg7PL259utjf/z0OgVsfDFeY2TsVqdZ/OdzsXkxNaocdVLilBgc2Vi
+         RV7Q==
+X-Gm-Message-State: ABy/qLbl+VJUFvtTCMo6OqKoKxQ15airrwjwRJXfvKk6pBsnzK5oYDYd
+	12jRDE00JvDJk/t+hztaAa2Kqcgfi94=
+X-Google-Smtp-Source: APBJJlFRG/gqamYDqIHl8BicT52VaV4Rr/ofm/UDO64W1w8RD+6pFlNX2asTqE/oAV6Ku1qSt4qXRlqsfXk=
+X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:e54:2624:5031:d0f0])
+ (user=surenb job=sendgmr) by 2002:a25:928c:0:b0:ba8:5bc9:80fe with SMTP id
+ y12-20020a25928c000000b00ba85bc980femr57326ybl.1.1688408515186; Mon, 03 Jul
+ 2023 11:21:55 -0700 (PDT)
+Date: Mon,  3 Jul 2023 11:21:50 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230703182150.2193578-1-surenb@google.com>
+Subject: [PATCH 1/1] mm: disable CONFIG_PER_VMA_LOCK by default until its fixed
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: jirislaby@kernel.org, jacobly.alt@gmail.com, holger@applied-asynchrony.com, 
+	michel@lespinasse.org, jglisse@google.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, mgorman@techsingularity.net, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, peterz@infradead.org, 
+	ldufour@linux.ibm.com, paulmck@kernel.org, mingo@redhat.com, will@kernel.org, 
+	luto@kernel.org, songliubraving@fb.com, peterx@redhat.com, david@redhat.com, 
+	dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de, 
+	kent.overstreet@linux.dev, punit.agrawal@bytedance.com, lstoakes@gmail.com, 
+	peterjung1337@gmail.com, rientjes@google.com, chriscli@google.com, 
+	axelrasmussen@google.com, joelaf@google.com, minchan@google.com, 
+	rppt@kernel.org, jannh@google.com, shakeelb@google.com, tatashin@google.com, 
+	edumazet@google.com, gthelen@google.com, linux-mm@kvack.org, 
+	Suren Baghdasaryan <surenb@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: B71824001C
+X-Rspam-User: 
+X-Rspamd-Server: rspam05
+X-Stat-Signature: ehygtw17poq3o9ei1k597mzuhru6z35i
+X-HE-Tag: 1688408515-226552
+X-HE-Meta: U2FsdGVkX1/8rhoE7NxEv3EsNmQBGZEGPiyv+K4LdEO0vWeCwmr2m89wpHV35N4LcYS3xhhyahABx6o1Xq4LMbUkMxbK8x8eCcT9gPkNQ+20mfYucpQnT7r+8ipYbjG1wN3EyyKtiWfkePXcmINcjA+vDHjPegaHBwxzuIbPOrCUzTiaGlM0UWI17mL+4qX5Vo1GK8C//PVXSxrwHADzbOj59adnudXqAUyWTFKhFWcbYE23iWjBmV2e+HJRjHlgDny22bnpjUbcPaA7NPJMscvKch0PpnjI8uY9KsunBxU7Gsh14xWSCpltbIG2jPTCVLfs2X9uY8eo+cug91PcHUwaHHuK3GDFdK89w7g5mat/t87JFC+6sBc9ZDoyeYsBV305mmK0nwWdnJyuYzDdh0bjeybacM3HTwSXJbSysi42Bt8nm0eIjxpCn7rQ8s7/iNRLl8bs5PtDq/XUcgQVF9xYSP0G837KqM+4IOuBcjvJ/TdRngqxlWdxtE7TCJ8hdwwTGTv+zvbR2QGTlDF1QTM58wsR9cy54yB6zVa1SlZcJ/i9MSASxF9Y9bpd3WxM4G1lf+HuOqMv6081HPXBg2BHQs0rprxxCD3QxsiVzbXEcjKaLvKh8AJLn9Cs2Ti77p6ghoZ/Nx3T7XbJ5EFmGalVk4UCNheO00vOHzOhTizVp16ns8oNCpCxMCktHtoLqfT+yX7MGyvCd1lPmpaL8KQ8VP/TwhX9WeAsqDZxa0+sR47L2aAZU9kL+PBDqgW34JzP3XBe4PyNBKM7IGBAGeYcGV7ehWsUENjQJlnakxLdSMIaEnElXxK+36SQmXlfmhNio1ReWeh1cwm7IrEtkDJJLlrQTCGjIukXuwOWJO3WR2dJm4SccXRuFhfMUXLBQHy+KGLMTMmL+OTQDHHLvKQ/fBigltRdRkiu/ds9z4Lk0RXbrQlJav8nhcIxaSiCnu+2Xn6CxWAmWEKeuQe
+ 6eoVpl2h
+ IIRpjCLInAXObYHbPy/oozQcTqEPrr82YQbcg9ZBpxJPPx2uIZ4ObRQtMZ5hDf5qFX+gBmiNc+O0K8BxcLB4aZOaJ3g6a/KTblnMGByYqrt2hG9zOsOa/76KIgEkR+BGqFM2aQTmI3mA8r4wTk4gxlHCUkRz8K3hdUfkd/Ltbx7gzjieebWHNROetlNfR0f4lmO/sl07eRoW/pnHbftfSTXTRG1G6AjNELRxXRdD2i1XBsvxyCxH1uTqdXYMfKeJXYFY9f/5uNjNMxnKq9/Wr3WLLuIA/kVAbsbvZwcF9wy6hrArGKctn0Yc+zNJQhfEGrVKfq3Qi/92ZdRRQho0cm6SBc55sKjzu56xMCvaC6r1ewIjBEZCG7Y53c633z/hAU8xhMoaDR4xwHC3O3n/OaXr/JTeFG5/0XP4rFduh4edIAPvTac1V9OlfL3OzRRhYuEOc3nV3ACJojy8wYganH5vjyYBMjrjeSsC5ECgPdg73VS3cBIzTBxbWbKB8kgMhLxDa+MSyWLRKelllKfoRLXGEFCbKU/Ov9uBr1uGxrjJxA9tr0x69oTaSfLiokYcNN4HAAA+D3p+xz3oAFYEIze+Tfmj9i8Qvyzw/MWJVYLG5wDz9eHtIvOZFpoun1qy8cIeTZQWbjXmkJDDDgKwEV2nYc7e8BL+8ztb+Nt5DOkIwshFYA2x2Ca9m+2H3CP7Bweh/P3dB/4WvvHiYmsEZdhL/a1Q5cwrreIysV3LIuIRq2NRXP2G0pqlLKYaysubOqjwFCruNUt1VkwlMq+Hz8/59nuKbLubemFMs38gtveYuVOZrNcrfNRyHnw==
+X-Bogosity: Ham, tests=bogofilter, spamicity=0.000000, version=1.2.4
+Sender: owner-linux-mm@kvack.org
+Precedence: bulk
+X-Loop: owner-majordomo@kvack.org
+List-ID: <linux-mm.kvack.org>
+
+A memory corruption was reported in [1] with bisection pointing to the
+patch [2] enabling per-VMA locks for x86.
+Disable per-VMA locks config to prevent this issue while the problem is
+being investigated. This is expected to be a temporary measure.
+
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=217624
+[2] https://lore.kernel.org/all/20230227173632.3292573-30-surenb@google.com
+
+Reported-by: Jiri Slaby <jirislaby@kernel.org>
+Reported-by: Jacob Young <jacobly.alt@gmail.com>
+Fixes: 0bff0aaea03e ("x86/mm: try VMA lock-based page fault handling first")
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+ mm/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 09130434e30d..de94b2497600 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -1224,7 +1224,7 @@ config ARCH_SUPPORTS_PER_VMA_LOCK
+        def_bool n
+ 
+ config PER_VMA_LOCK
+-	def_bool y
++	bool "Enable per-vma locking during page fault handling."
+ 	depends on ARCH_SUPPORTS_PER_VMA_LOCK && MMU && SMP
+ 	help
+ 	  Allow per-vma locking during page fault handling.
+-- 
+2.41.0.255.g8b1d071c50-goog
