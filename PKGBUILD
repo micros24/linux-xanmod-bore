@@ -139,7 +139,7 @@ sha256sums=('8fa0588f0c2ceca44cac77a0e39ba48c9f00a6b9dc69761c02a5d3efac8da7f3' #
             'f1f1dcc2e6990efcfead736096593a9b646e4e393591ff2547665c6d18030d08' # 0002-constgran-vanilla-max.patch
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0003-glitched-cfs.patch
             'dcfb32485d5942a55fb0505eec99900bf161bb12aefca867f024cfa62a3dc898' # 0004-glitched-cfs-additions.patch
-            '36fc9cd8ae9d488ab4277441dae45488a5239b507eb63bc4bf695e439776178e' # 0005-o3-optimization.patch
+            'eeeee6fabf3766c64b9b8b8457ae081927b40ec4000837895a3e0013b4ea7834' # 0005-o3-optimization.patch
 )
             
 

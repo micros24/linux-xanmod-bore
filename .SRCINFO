@@ -32,7 +32,7 @@ pkgbase = linux-xanmod-bore
 	sha256sums = f1f1dcc2e6990efcfead736096593a9b646e4e393591ff2547665c6d18030d08
 	sha256sums = 21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b
 	sha256sums = dcfb32485d5942a55fb0505eec99900bf161bb12aefca867f024cfa62a3dc898
-	sha256sums = 36fc9cd8ae9d488ab4277441dae45488a5239b507eb63bc4bf695e439776178e
+	sha256sums = eeeee6fabf3766c64b9b8b8457ae081927b40ec4000837895a3e0013b4ea7834
 
 pkgname = linux-xanmod-bore
 	pkgdesc = Linux Xanmod (Stable) with BORE CPU scheduler and tickrate customizations
