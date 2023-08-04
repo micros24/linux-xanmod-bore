@@ -2,7 +2,7 @@ diff --git a/Makefile b/Makefile
 index d5041f7daf689..d50f8b36065de 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -970,6 +970,9 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
+@@ -818,6 +818,9 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
  ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
  KBUILD_CFLAGS += -O2
  KBUILD_RUSTFLAGS += -Copt-level=2
@@ -12,7 +12,7 @@ index d5041f7daf689..d50f8b36065de 100644
  else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
  KBUILD_CFLAGS += -Os
  KBUILD_RUSTFLAGS += -Copt-level=s
-@@ -1215,11 +1218,6 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
+@@ -1060,11 +1063,6 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
  # Make sure -fstack-check isn't enabled (like gentoo apparently did)
  KBUILD_CFLAGS  += -fno-stack-check
  
@@ -185,7 +185,7 @@ index 944b347025fd1..ed64319f7eb29 100644
 index 32c24950c4ced..b6d38eccca108 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1379,6 +1399,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
+@@ -1367,6 +1387,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
  	  with the "-O2" compiler flag for best performance and most
  	  helpful compile-time warnings.
  
