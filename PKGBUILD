@@ -115,11 +115,9 @@ _srcname="linux-${pkgver}-xanmod${xanmod}"
 source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar."{xz,sign}
         "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://github.com/xanmod/linux/releases/download/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0001-bore.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-constgran-vanilla-max.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0003-glitched-cfs.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0004-glitched-cfs-additions.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0005-o3-optimization.patch")
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/update-bore/0001-bore.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/update-bore/0002-constgran-vanilla-max.patch"
+)
 validpgpkeys=(
     'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linux Torvalds
     '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
@@ -135,13 +133,12 @@ sha256sums=('8fa0588f0c2ceca44cac77a0e39ba48c9f00a6b9dc69761c02a5d3efac8da7f3' #
             'SKIP'                                                             # kernel signature
             '5a314f13da6a489b4001cb601f86c30fee1eae3f0fc09dc91efa1aaea4f97216' # xanmod
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            'ec83793ae083a70b4b91f22473179ddfa5fa80bed5751dfb80ee3224b498b498' # 0001-bore.patch
-            'a2c4322972924197763b52974b814d105e0ffef27336baabb8a96e0946566089' # 0002-constgran-vanilla-max.patch
+            '3f9752cd37d6ab9b2995ee260be475bbd248098e0f1f12e1cb657a46b04d9acb' # 0001-bore.patch
+            'f1f1dcc2e6990efcfead736096593a9b646e4e393591ff2547665c6d18030d08' # 0002-constgran-vanilla-max.patch
             '01eea507af27ad3b1329ea6856fc302691ec13a5b13495f79eeb784b6cca521a' # 0003-glitched-cfs.patch
             'dcfb32485d5942a55fb0505eec99900bf161bb12aefca867f024cfa62a3dc898' # 0004-glitched-cfs-additions.patch
             '3e55d402cc5867b2d44fd5fb183f68735a2b76f36abcd17852a71517ee1928bf' # 0005-o3-optimization.patch
 )
-            
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
 export KBUILD_BUILD_USER=${KBUILD_BUILD_USER:-makepkg}
