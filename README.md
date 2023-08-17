@@ -9,6 +9,7 @@ A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kerne
 - Clang compiler set to LTO_FULL (default compiler is GCC)
 - Enabled the use of all CPU cores for compilation
 - Disabled NUMA by default
+- Added option to enable kernel debugging (disabled by default)
 - Choose your tickrate HZ from 1000, 500, 300, 250, or 100. (500 is default)
 - Choose your tickrate handling from tickless, idle, or constant (tickless is default)
 - Choose your Preemption Model from preemptible, voluntary, or server (preemptible is default)
@@ -19,6 +20,8 @@ A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kerne
 - Changed all kernver to \_kernver
 - Changed all modulesdir to \_modulesdir
 - Changed all builddir to \_builddir
+- Changed all use_numa to \_use_numa
+- Changed all use_tracers to \_use_tracers
 
 # Credits
 

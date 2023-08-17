@@ -6,7 +6,7 @@
 ##
 ## The following variables can be customized at build time. Use env or export to change at your wish
 ##
-##   Example: env _microarchitecture=98 use_numa=n use_tracers=n makepkg -sc
+##   Example: env _microarchitecture=98 _use_numa=n _use_tracers=n makepkg -sc
 ##
 ## Look inside 'choose-gcc-optimization.sh' to choose your microarchitecture
 ## Valid numbers between: 0 to 99
@@ -18,19 +18,26 @@ fi
 
 ## Disable NUMA since most users do not have multiple processors. Breaks CUDA/NvEnc.
 ## Archlinux and Xanmod enable it by default.
-## Set variable "use_numa" to: n to disable (possibly increase performance)
+## Set variable "_use_numa" to: n to disable (possibly increase performance)
 ##                             y to enable  (stock default)
-if [ -z ${use_numa+x} ]; then
-  use_numa=n
+if [ -z ${_use_numa+x} ]; then
+  _use_numa=n
+fi
+
+## Disable kernel debugging
+## Enabling debugging increases kernel overhead by a tiny amount
+## No debugging messages will be present when trying to fix kernel stuff
+if [ -z ${_disable_debug+x} ]; then
+  _disable_debug=y
 fi
 
 ## Since upstream disabled CONFIG_STACK_TRACER (limits debugging and analyzing of the kernel)
 ## you can enable them setting this option. Caution, because they have an impact in performance.
 ## Stock Archlinux has this enabled. 
-## Set variable "use_tracers" to: n to disable (possibly increase performance, XanMod default)
+## Set variable "_use_tracers" to: n to disable (possibly increase performance, XanMod default)
 ##                                y to enable  (Archlinux default)
-if [ -z ${use_tracers+x} ]; then
-  use_tracers=n
+if [ -z ${_use_tracers+x} ]; then
+  _use_tracers=n
 fi
 
 # Unique compiler supported upstream is GCC
@@ -119,7 +126,8 @@ source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-constgran-vanilla-max.patch"
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0003-glitched-cfs.patch"
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0004-glitched-cfs-additions.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0005-o3-optimization.patch")
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0005-o3-optimization.patch"
+)
 validpgpkeys=(
     'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linux Torvalds
     '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
@@ -168,6 +176,7 @@ prepare() {
 
   # Applying configuration
   cp -vf CONFIGS/xanmod/gcc/${_config} .config
+
   # enable LTO_CLANG_FULL
   if [ "${_compiler}" = "clang" ]; then
     scripts/config --enable LTO
@@ -263,7 +272,7 @@ prepare() {
                  --enable CONFIG_IKCONFIG_PROC
 
   # User set. See at the top of this file
-  if [ "$use_tracers" = "y" ]; then
+  if [ "$_use_tracers" = "y" ]; then
     echo "Enabling CONFIG_FTRACE only if we are not compiling with clang..."
     if [ "${_compiler}" = "gcc" ]; then
       scripts/config --enable CONFIG_FTRACE \
@@ -273,7 +282,7 @@ prepare() {
   fi
 
   # Disabling NUMA
-  if [ "$use_numa" = "n" ]; then
+  if [ "$_use_numa" = "n" ]; then
     echo "Disabling NUMA..."
     scripts/config --disable CONFIG_NUMA
     scripts/config --disable NUMA
@@ -289,6 +298,27 @@ prepare() {
     scripts/config --disable NEED_MULTIPLE_NODES
     scripts/config --disable NUMA_BALANCING
     scripts/config --disable NUMA_BALANCING_DEFAULT_ENABLED
+  fi
+
+  # Disabling Debug
+  if [ "$_disable_debug" = "y" ]; then
+    echo "Disabling debugging..."
+    scripts/config --disable EXPERT
+    scripts/config --disable DEBUG_KERNEL
+    scripts/config --disable DEBUG_INFO
+    scripts/config --disable DEBUG_INFO_BTF
+    scripts/config --disable DEBUG_INFO_DWARF4
+    scripts/config --disable DEBUG_INFO_DWARF5
+    scripts/config --disable PAHOLE_HAS_SPLIT_BTF
+    scripts/config --disable DEBUG_INFO_BTF_MODULES
+    scripts/config --disable SLUB_DEBUG
+    scripts/config --disable PM_DEBUG
+    scripts/config --disable PM_ADVANCED_DEBUG
+    scripts/config --disable PM_SLEEP_DEBUG
+    scripts/config --disable ACPI_DEBUG
+    scripts/config --disable SCHED_DEBUG
+    scripts/config --disable LATENCYTOP
+    scripts/config --disable DEBUG_PREEMPT
   fi
 
   # Compress modules by default (following Arch's kernel)
