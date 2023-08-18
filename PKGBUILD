@@ -120,13 +120,13 @@ fi
 options=('!strip')
 _srcname="linux-${pkgver}-xanmod${xanmod}"
 source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar."{xz,sign}
-        "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/main/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
+        "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/lts/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0001-bore.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-constgran-vanilla-max.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0003-glitched-cfs.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0004-glitched-cfs-additions.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0005-o3-optimization.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/lts/0001-bore.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/lts/0002-constgran-vanilla-max.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/lts/0003-glitched-cfs.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/lts/0004-glitched-cfs-additions.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/lts/0005-o3-optimization.patch"
 )
 validpgpkeys=(
     'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linux Torvalds
@@ -139,15 +139,15 @@ _patches=()
 for _patch in ${_patches[@]}; do
     source+=("${_patch}::https://raw.githubusercontent.com/archlinux/svntogit-packages/${_commit}/trunk/${_patch}")
 done
-sha256sums=('8fa0588f0c2ceca44cac77a0e39ba48c9f00a6b9dc69761c02a5d3efac8da7f3' # kernel
+sha256sums=('2ca1f17051a430f6fed1196e4952717507171acfd97d96577212502703b25deb' # kernel
             'SKIP'                                                             # kernel signature
-            '7ab090ebe38a39347ad9d15d95c81e643be13fa6c5f0cb2604b7983202d6ea90' # xanmod patch
+            'f80f0c46b4f1e57ce115da02036f058a73afd234190ed6a7f32757098c4b6c7a' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            '619eca352e57ab3f2081e60fe64d80503f60a88119dca0896a2745a970197334' # 0001-bore.patch
+            '5db5637740ceafab39a2bbca9bd0b928aea2df293d1fba618cd1744033af4f02' # 0001-bore.patch
             '0f27de550180803b90690137163ebb140adcf8d6338a52a8e94bc4c854100e78' # 0002-constgran-vanilla-max.patch
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0003-glitched-cfs.patch
-            'a7f8e5ff1e37327e251b1fc61bc89cf4e10624a70f3a9f65a1f826d24f39e98a' # 0004-glitched-cfs-additions.patch
-            'eeeee6fabf3766c64b9b8b8457ae081927b40ec4000837895a3e0013b4ea7834' # 0005-o3-optimization.patch
+            '4c94ffb33f866b9793b6106e802256cb7d1323088dec13a18c95bfd92629b05b' # 0004-glitched-cfs-additions.patch
+            'd37cf41b30225b87596e83cf77b66b647fd4213bc04467c8e1adb696a36b3eb0' # 0005-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
