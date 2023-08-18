@@ -98,7 +98,7 @@ if [ -z ${_makenconfig} ]; then
 fi
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
-pkgbase=linux-xanmod-bore
+pkgbase=linux-xanmod-lts-bore
 _major=6.1
 pkgver=${_major}.46
 _branch=6.x

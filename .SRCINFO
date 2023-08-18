@@ -1,4 +1,4 @@
-pkgbase = linux-xanmod-bore
+pkgbase = linux-xanmod-lts-bore
 	pkgdesc = Linux Xanmod (Stable) with BORE CPU scheduler and tickrate customizations
 	pkgver = 6.1.46
 	pkgrel = 1
@@ -34,7 +34,7 @@ pkgbase = linux-xanmod-bore
 	sha256sums = 4c94ffb33f866b9793b6106e802256cb7d1323088dec13a18c95bfd92629b05b
 	sha256sums = d37cf41b30225b87596e83cf77b66b647fd4213bc04467c8e1adb696a36b3eb0
 
-pkgname = linux-xanmod-bore
+pkgname = linux-xanmod-lts-bore
 	pkgdesc = Linux Xanmod (Stable) with BORE CPU scheduler and tickrate customizations
 	depends = coreutils
 	depends = kmod
@@ -46,6 +46,6 @@ pkgname = linux-xanmod-bore
 	provides = KSMBD-MODULE
 	provides = NTFS3-MODULE
 
-pkgname = linux-xanmod-bore-headers
+pkgname = linux-xanmod-lts-bore-headers
 	pkgdesc = Headers and scripts for building modules for the Linux Xanmod (Stable) with BORE CPU scheduler and tickrate customizations kernel
 	depends = pahole
