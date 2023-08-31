@@ -235,7 +235,7 @@ index b3469d9be..baca3a1da 100644
  	uclamp_post_fork(p);
  }
  
-@@ -9901,6 +10018,11 @@ void __init sched_init(void)
+@@ -9896,6 +10013,11 @@ void __init sched_init(void)
  	BUG_ON(&dl_sched_class != &stop_sched_class + 1);
  #endif
  
