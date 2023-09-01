@@ -141,7 +141,7 @@ for _patch in ${_patches[@]}; do
 done
 sha256sums=('7a574bbc20802ea76b52ca7faf07267f72045e861b18915c5272a98c27abf884' # kernel
             'SKIP'                                                             # kernel signature
-            'f80ed6ea84709fc8fe2d8a45ae382ee025b6a4f91a54fff56d75fef2410f81f3' # xanmod patch
+            'bcc96e944a22a14c67ce00eb9a125d0881ade5ad4da83ee42548fead25ceec44' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
             'bd3fe009898b60cc53c74bc63639331cc9696da164a8269c85475b8e8f421ebe' # 0001-bore.patch
             '0f27de550180803b90690137163ebb140adcf8d6338a52a8e94bc4c854100e78' # 0002-constgran-vanilla-max.patch
