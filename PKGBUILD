@@ -143,11 +143,11 @@ sha256sums=('7a574bbc20802ea76b52ca7faf07267f72045e861b18915c5272a98c27abf884' #
             'SKIP'                                                             # kernel signature
             'bcc96e944a22a14c67ce00eb9a125d0881ade5ad4da83ee42548fead25ceec44' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            'bd3fe009898b60cc53c74bc63639331cc9696da164a8269c85475b8e8f421ebe' # 0001-bore.patch
+            'a223acd2afc415bea2e7868bde09d4f9160a9fcfa90323187dce68caed49f2cf' # 0001-bore.patch
             '0f27de550180803b90690137163ebb140adcf8d6338a52a8e94bc4c854100e78' # 0002-constgran-vanilla-max.patch
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0003-glitched-cfs.patch
             'a7f8e5ff1e37327e251b1fc61bc89cf4e10624a70f3a9f65a1f826d24f39e98a' # 0004-glitched-cfs-additions.patch
-            'eeeee6fabf3766c64b9b8b8457ae081927b40ec4000837895a3e0013b4ea7834' # 0005-o3-optimization.patch
+            '364ad1cf4103ac2f88d4d0c2252798183381c063dceee71731e259e087a94743' # 0005-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}

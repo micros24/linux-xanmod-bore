@@ -15,7 +15,7 @@ diff --git a/include/linux/sched.h b/include/linux/sched.h
 index 00d4ce3af..f237f4d3b 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
-@@ -546,6 +546,24 @@ struct sched_statistics {
+@@ -545,6 +545,24 @@ struct sched_statistics {
  #endif /* CONFIG_SCHEDSTATS */
  } ____cacheline_aligned;
  
@@ -40,7 +40,7 @@ index 00d4ce3af..f237f4d3b 100644
  struct sched_entity {
  	/* For load-balancing: */
  	struct load_weight		load;
-@@ -557,6 +575,12 @@ struct sched_entity {
+@@ -556,6 +574,12 @@ struct sched_entity {
  	u64				sum_exec_runtime;
  	u64				vruntime;
  	u64				prev_sum_exec_runtime;
@@ -53,7 +53,7 @@ index 00d4ce3af..f237f4d3b 100644
  
  	u64				nr_migrations;
  	u64				prev_sleep_sum_runtime;
-@@ -988,6 +1012,11 @@ struct task_struct {
+@@ -987,6 +1011,11 @@ struct task_struct {
  	struct list_head		children;
  	struct list_head		sibling;
  	struct task_struct		*group_leader;
@@ -99,7 +99,7 @@ diff --git a/kernel/sched/core.c b/kernel/sched/core.c
 index b3469d9be..baca3a1da 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -4455,6 +4455,117 @@ int wake_up_state(struct task_struct *p, unsigned int state)
+@@ -4493,6 +4493,117 @@ int wake_up_state(struct task_struct *p, unsigned int state)
  	return try_to_wake_up(p, state, 0);
  }
  
@@ -217,7 +217,7 @@ index b3469d9be..baca3a1da 100644
  /*
   * Perform scheduler related setup for a newly forked process p.
   * p is forked by current.
-@@ -4473,6 +4583,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
+@@ -4511,6 +4621,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
  	p->se.vruntime			= 0;
  	p->se.dur_avg			= 0;
  	p->se.prev_sleep_sum_runtime	= 0;
@@ -227,7 +227,7 @@ index b3469d9be..baca3a1da 100644
  	INIT_LIST_HEAD(&p->se.group_node);
  
  #ifdef CONFIG_FAIR_GROUP_SCHED
-@@ -4792,4 +4905,7 @@ void sched_post_fork(struct task_struct *p)
+@@ -4830,4 +4943,7 @@ void sched_post_fork(struct task_struct *p)
  {
 +#ifdef CONFIG_SCHED_BORE
 +	fork_burst_penalty(p);
@@ -235,7 +235,7 @@ index b3469d9be..baca3a1da 100644
  	uclamp_post_fork(p);
  }
  
-@@ -9896,6 +10013,11 @@ void __init sched_init(void)
+@@ -9937,6 +10054,11 @@ void __init sched_init(void)
  	BUG_ON(&dl_sched_class != &stop_sched_class + 1);
  #endif
  
@@ -470,7 +470,7 @@ index 0fdf93646..c6eb41219 100644
  		cfs_rq = cfs_rq_of(se);
  		dequeue_entity(cfs_rq, se, flags);
  
-@@ -7636,6 +7783,9 @@ static int
+@@ -7693,6 +7840,9 @@ static int
  wakeup_preempt_entity(struct sched_entity *curr, struct sched_entity *se)
  {
  	s64 gran, vdiff = curr->vruntime - se->vruntime;
@@ -480,7 +480,7 @@ index 0fdf93646..c6eb41219 100644
  
  	if (vdiff <= 0)
  		return -1;
-@@ -7985,8 +8135,12 @@ static void yield_task_fair(struct rq *rq)
+@@ -8042,8 +8192,12 @@ static void yield_task_fair(struct rq *rq)
  	/*
  	 * Are we the only task in the tree?
  	 */
@@ -494,7 +494,7 @@ index 0fdf93646..c6eb41219 100644
  
  	clear_buddies(cfs_rq, se);
  
-@@ -7996,6 +8150,9 @@ static void yield_task_fair(struct rq *rq)
+@@ -8053,6 +8207,9 @@ static void yield_task_fair(struct rq *rq)
  		 * Update run-time statistics of the 'current'.
  		 */
  		update_curr(cfs_rq);
