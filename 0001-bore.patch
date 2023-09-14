@@ -69,7 +69,7 @@ diff --git a/init/Kconfig b/init/Kconfig
 index b034c8334..d12d9cccf 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1257,6 +1257,25 @@ config CHECKPOINT_RESTORE
+@@ -1258,6 +1258,25 @@ config CHECKPOINT_RESTORE
  
  	  If unsure, say N here.
  
@@ -470,7 +470,7 @@ index 0fdf93646..c6eb41219 100644
  		cfs_rq = cfs_rq_of(se);
  		dequeue_entity(cfs_rq, se, flags);
  
-@@ -7693,6 +7840,9 @@ static int
+@@ -7690,6 +7837,9 @@ static int
  wakeup_preempt_entity(struct sched_entity *curr, struct sched_entity *se)
  {
  	s64 gran, vdiff = curr->vruntime - se->vruntime;
@@ -480,7 +480,7 @@ index 0fdf93646..c6eb41219 100644
  
  	if (vdiff <= 0)
  		return -1;
-@@ -8042,8 +8192,12 @@ static void yield_task_fair(struct rq *rq)
+@@ -8039,8 +8189,12 @@ static void yield_task_fair(struct rq *rq)
  	/*
  	 * Are we the only task in the tree?
  	 */
@@ -494,7 +494,7 @@ index 0fdf93646..c6eb41219 100644
  
  	clear_buddies(cfs_rq, se);
  
-@@ -8053,6 +8207,9 @@ static void yield_task_fair(struct rq *rq)
+@@ -8050,6 +8204,9 @@ static void yield_task_fair(struct rq *rq)
  		 * Update run-time statistics of the 'current'.
  		 */
  		update_curr(cfs_rq);

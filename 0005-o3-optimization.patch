@@ -185,7 +185,7 @@ index 944b347025fd1..ed64319f7eb29 100644
 index 32c24950c4ced..b6d38eccca108 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1398,6 +1418,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
+@@ -1399,6 +1419,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
  	  with the "-O2" compiler flag for best performance and most
  	  helpful compile-time warnings.
  
