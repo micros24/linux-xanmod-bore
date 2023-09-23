@@ -1,17 +1,17 @@
-From 6758adc6a354f18a32b704e8f8ef1f6021515e51 Mon Sep 17 00:00:00 2001
+From 349b6c4159752284cb1284dcbfc0e21aa26c7a0d Mon Sep 17 00:00:00 2001
 From: Masahito S <firelzrd@gmail.com>
-Date: Fri, 28 Apr 2023 01:07:13 +0900
-Subject: [PATCH] constgran v4 sched: Make latency / granularity constant
- tunable_scaling = 1 (logarithmic) -> 0 (constant) latency_ns = variable
- 6-24ms -> constant 12.8ms min_granularity_ns = variable 0.75-3ms -> constant
- 1.6ms wakeup_granularity_ns = variable 1-4ms -> constant 6.4ms
+Date: Mon, 15 May 2023 06:00:52 +0900
+Subject: [PATCH] constgran vanilla-max sched: Make latency / granularity
+ constant tunable_scaling = 1 (logarithmic) -> 0 (constant) latency_ns =
+ variable 6-24ms -> constant 24ms min_granularity_ns = variable 0.75-3ms ->
+ constant 3ms wakeup_granularity_ns = variable 1-4ms -> constant 4ms
 
 ---
  kernel/sched/fair.c | 31 +++++++++++++++++++++++++++----
  1 file changed, 27 insertions(+), 4 deletions(-)
 
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index f8f1efa5f..87923da0f 100644
+index c46fa2aa44..0fdf936465 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
 @@ -73,10 +73,16 @@
