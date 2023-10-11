@@ -1,15 +1,15 @@
-From b1448aec8caf3cc1035400e5f59e291075252527 Mon Sep 17 00:00:00 2001
+From 60521c0628d679fefa701539e4e693198feb009c Mon Sep 17 00:00:00 2001
 From: Masahito S <firelzrd@gmail.com>
-Date: Mon, 18 Sep 2023 02:52:16 +0900
-Subject: [PATCH] linux6.5.y-bore3.1.4
+Date: Wed, 4 Oct 2023 19:55:04 +0900
+Subject: [PATCH] linux6.5.y-bore3.1.5
 
 ---
  include/linux/sched.h |  31 ++++++++
  init/Kconfig          |  19 +++++
- kernel/sched/core.c   | 160 ++++++++++++++++++++++++++++++++++++++
+ kernel/sched/core.c   | 162 ++++++++++++++++++++++++++++++++++++++
  kernel/sched/debug.c  |   3 +
  kernel/sched/fair.c   | 177 +++++++++++++++++++++++++++++++++++++++++-
- 5 files changed, 388 insertions(+), 2 deletions(-)
+ 5 files changed, 390 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
 index 609bde814c..e702d08113 100644
@@ -52,8 +52,8 @@ index 609bde814c..e702d08113 100644
 +#endif // CONFIG_SCHED_BORE
  
  	u64				nr_migrations;
- 	u64				prev_sleep_sum_runtime;
-@@ -987,6 +1011,13 @@ struct task_struct {
+ 
+@@ -984,6 +1008,13 @@ struct task_struct {
  	struct list_head		children;
  	struct list_head		sibling;
  	struct task_struct		*group_leader;
@@ -68,7 +68,7 @@ index 609bde814c..e702d08113 100644
  	/*
  	 * 'ptraced' is the list of tasks this task is using ptrace() on.
 diff --git a/init/Kconfig b/init/Kconfig
-index 71755cc8ed..15b272ffb2 100644
+index 5e7d4885d1..bca84bcf7b 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
 @@ -1258,6 +1258,25 @@ config CHECKPOINT_RESTORE
@@ -98,16 +98,17 @@ index 71755cc8ed..15b272ffb2 100644
  	bool "Automatic process group scheduling"
  	select CGROUPS
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index c52c2eba7c..113cfb8801 100644
+index c52c2eba7c..77342c5385 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -4493,6 +4493,155 @@ int wake_up_state(struct task_struct *p, unsigned int state)
+@@ -4493,6 +4493,157 @@ int wake_up_state(struct task_struct *p, unsigned int state)
  	return try_to_wake_up(p, state, 0);
  }
  
 +#ifdef CONFIG_SCHED_BORE
 +extern unsigned int sched_burst_cache_lifetime;
 +extern unsigned int sched_bore;
++extern unsigned int sched_bore_extra_flags;
 +extern unsigned int sched_burst_fork_atavistic;
 +
 +void __init sched_init_bore(void) {
@@ -214,6 +215,7 @@ index c52c2eba7c..113cfb8801 100644
 +}
 +
 +#define forked_task_is_process(p) (p->pid == p->tgid)
++#define bore_thread_fork_group_inherit (sched_bore_extra_flags & 2)
 +
 +static void fork_burst_penalty(struct task_struct *p) {
 +	struct sched_entity *se = &p->se;
@@ -225,7 +227,7 @@ index c52c2eba7c..113cfb8801 100644
 +	if (likely(sched_bore)) {
 +		read_lock(&tasklist_lock);
 +
-+		if (forked_task_is_process(p)) {
++		if (forked_task_is_process(p) || !bore_thread_fork_group_inherit) {
 +			anc = p->real_parent;
 +			if (likely(sched_burst_fork_atavistic)) {
 +				while ((anc->real_parent != anc) &&
@@ -257,17 +259,17 @@ index c52c2eba7c..113cfb8801 100644
  /*
   * Perform scheduler related setup for a newly forked process p.
   * p is forked by current.
-@@ -4511,6 +4660,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
- 	p->se.vruntime			= 0;
- 	p->se.dur_avg			= 0;
- 	p->se.prev_sleep_sum_runtime	= 0;
+@@ -4509,6 +4658,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
+	p->se.prev_sum_exec_runtime	= 0;
+	p->se.nr_migrations		= 0;
+	p->se.vruntime			= 0;
 +#ifdef CONFIG_SCHED_BORE
 +	sched_fork_bore(p);
 +#endif // CONFIG_SCHED_BORE
  	INIT_LIST_HEAD(&p->se.group_node);
  
  #ifdef CONFIG_FAIR_GROUP_SCHED
-@@ -4828,6 +4941,9 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
+@@ -4826,6 +4939,9 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
  
  void sched_post_fork(struct task_struct *p)
  {
@@ -277,13 +279,13 @@ index c52c2eba7c..113cfb8801 100644
  	uclamp_post_fork(p);
  }
  
-@@ -9937,6 +10054,11 @@ void __init sched_init(void)
+@@ -9935,6 +10052,11 @@ void __init sched_init(void)
  	BUG_ON(&dl_sched_class != &stop_sched_class + 1);
  #endif
  
 +#ifdef CONFIG_SCHED_BORE
 +	sched_init_bore();
-+	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 3.1.4 by Masahito Suzuki");
++	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 3.1.5 by Masahito Suzuki");
 +#endif // CONFIG_SCHED_BORE
 +
  	wait_bit_init();
@@ -304,7 +306,7 @@ index 066ff1c8ae..15b962708e 100644
  	SEQ_printf(m, " %d %d", task_node(p), task_numa_group_id(p));
  #endif
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 875352ff10..370cefd741 100644
+index 1d9c2482c5..25e3ff17c5 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
 @@ -20,6 +20,9 @@
@@ -313,7 +315,7 @@ index 875352ff10..370cefd741 100644
   *
 + *  Burst-Oriented Response Enhancer (BORE) CPU Scheduler
 + *  Copyright (C) 2021-2023 Masahito Suzuki <firelzrd@gmail.com>
-+ *  
++ *
   *  Remove energy efficiency functions by Alexandre Frade
   *  (C) 2021 Alexandre Frade <kernel@xanmod.org>
   */
@@ -411,7 +413,7 @@ index 875352ff10..370cefd741 100644
 +		.mode		= 0644,
 +		.proc_handler	= &proc_dointvec_minmax,
 +		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
++		.extra2		= &three,
 +	},
 +	{
 +		.procname	= "sched_burst_cache_lifetime",
@@ -474,7 +476,7 @@ index 875352ff10..370cefd741 100644
   * delta /= w
   */
 +#ifdef CONFIG_SCHED_BORE
-+#define bore_start_debit_full_penalty (sched_bore_extra_flags)
++#define bore_start_debit_full_penalty (sched_bore_extra_flags & 1)
 +#define calc_delta_fair_debit(delta, se) \
 +        __calc_delta_fair(delta, se, !bore_start_debit_full_penalty)
 +#define calc_delta_fair(delta, se) __calc_delta_fair(delta, se, false)
@@ -517,7 +519,7 @@ index 875352ff10..370cefd741 100644
  	update_min_vruntime(cfs_rq);
  
  	if (entity_is_task(curr)) {
-@@ -6425,6 +6569,9 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
+@@ -6413,6 +6557,9 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
  	util_est_dequeue(&rq->cfs, p);
  
  	for_each_sched_entity(se) {
@@ -527,7 +529,7 @@ index 875352ff10..370cefd741 100644
  		cfs_rq = cfs_rq_of(se);
  		dequeue_entity(cfs_rq, se, flags);
  
-@@ -7690,6 +7837,9 @@ static int
+@@ -7631,6 +7878,9 @@ static int
  wakeup_preempt_entity(struct sched_entity *curr, struct sched_entity *se)
  {
  	s64 gran, vdiff = curr->vruntime - se->vruntime;
@@ -537,7 +539,7 @@ index 875352ff10..370cefd741 100644
  
  	if (vdiff <= 0)
  		return -1;
-@@ -8039,8 +8189,12 @@ static void yield_task_fair(struct rq *rq)
+@@ -7980,8 +8140,12 @@ static void yield_task_fair(struct rq *rq)
  	/*
  	 * Are we the only task in the tree?
  	 */
@@ -551,7 +553,7 @@ index 875352ff10..370cefd741 100644
  
  	clear_buddies(cfs_rq, se);
  
-@@ -8050,6 +8204,9 @@ static void yield_task_fair(struct rq *rq)
+@@ -7991,6 +8165,9 @@ static void yield_task_fair(struct rq *rq)
  		 * Update run-time statistics of the 'current'.
  		 */
  		update_curr(cfs_rq);
