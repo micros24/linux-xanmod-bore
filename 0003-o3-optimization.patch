@@ -170,7 +170,7 @@ index d3ef189c75f8b..922b1b24f5184 100644
  # CONFIG_VM_EVENT_COUNTERS is not set
 diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
 index 944b347025fd1..ed64319f7eb29 100644
---- a/arch/arc/configs/vdk_hs38_smp_defconfig
+--- a/arch/arc/configs/f015ca6474a883157ccb257270585293b728fc587f7d765d7098bb8b043f4ceevdk_hs38_smp_defconfig
 +++ b/arch/arc/configs/vdk_hs38_smp_defconfig
 @@ -4,6 +4,7 @@ CONFIG_HIGH_RES_TIMERS=y
  CONFIG_IKCONFIG=y
@@ -185,7 +185,7 @@ index 944b347025fd1..ed64319f7eb29 100644
 index 32c24950c4ced..b6d38eccca108 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1428,6 +1447,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
+@@ -1427,6 +1446,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
  	  with the "-O2" compiler flag for best performance and most
  	  helpful compile-time warnings.
  

@@ -143,7 +143,7 @@ sha256sums=('2ca1f17051a430f6fed1196e4952717507171acfd97d96577212502703b25deb' #
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0001-glitched-cfs.patch
             'db5298605b0578423aa5c2a5716894d24f4023b72456c3de027ec87e03dcd9c9' # 0002-glitched-cfs-additions.patch
-            'b21d653612295e80d62d7bef016e7d5dfc7e1659713276e7bf6a2ad2bdb5ce48' # 0003-o3-optimization.patch
+            '0dd40a0b6e39ab6f2025d459817087c5ed9ab8d1375f4fd0229ba96e693cb783' # 0003-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
