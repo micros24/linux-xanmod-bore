@@ -139,10 +139,10 @@ for _patch in ${_patches[@]}; do
 done
 sha256sums=('2ca1f17051a430f6fed1196e4952717507171acfd97d96577212502703b25deb' # kernel
             'SKIP'                                                             # kernel signature
-            'f80f0c46b4f1e57ce115da02036f058a73afd234190ed6a7f32757098c4b6c7a' # xanmod patch
+            '15c484955e2b3b381b9332858d17537959f3150285f95941031df2c7c29f8450' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0001-glitched-cfs.patch
-            'd62bb095aebc64ab068e1ab8b39822b85288d45fa29bd9f3baf534b5edbb253e' # 0002-glitched-cfs-additions.patch
+            'a14db6e22b3c159b040d402f222eff10a3df289c6ff7f0a3e11c381a2b620e6c' # 0002-glitched-cfs-additions.patch
             'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0003-o3-optimization.patch
 )
 
