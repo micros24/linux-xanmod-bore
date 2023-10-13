@@ -98,7 +98,7 @@ if [ -z ${_makenconfig} ]; then
 fi
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
-pkgbase=linux-xanmod-lts-bore
+pkgbase=linux-xanmod-lts
 _major=6.1
 pkgver=${_major}.57
 _branch=6.x
@@ -142,7 +142,7 @@ sha256sums=('2ca1f17051a430f6fed1196e4952717507171acfd97d96577212502703b25deb' #
             '15c484955e2b3b381b9332858d17537959f3150285f95941031df2c7c29f8450' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0001-glitched-cfs.patch
-            '9b213aa5bdd2a98fe4435c69244bb3c0ff90e7b04648871185becda8b91d6dfc' # 0002-glitched-cfs-additions.patch
+            'acdc5058bd74953e52136638aab5fc2e778f02919f73d6d7255b787b2f8aa3aa' # 0002-glitched-cfs-additions.patch
             'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0003-o3-optimization.patch
 )
 

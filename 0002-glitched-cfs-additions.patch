@@ -2,15 +2,15 @@ diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
 index 051aaf65c..705df5511 100644
 --- a/kernel/sched/topology.c
 +++ b/kernel/sched/topology.c
-@@ -208,7 +208,7 @@ sd_parent_degenerate(struct sched_domain *sd, struct sched_domain *parent)
+@@ -206,7 +206,7 @@ sd_parent_degenerate(struct sched_domain *sd, struct sched_domain *parent)
  
  #if defined(CONFIG_ENERGY_MODEL) && defined(CONFIG_CPU_FREQ_GOV_SCHEDUTIL)
  DEFINE_STATIC_KEY_FALSE(sched_energy_present);
 -static unsigned int sysctl_sched_energy_aware = 1;
 +static unsigned int sysctl_sched_energy_aware = 0;
- static DEFINE_MUTEX(sched_energy_mutex);
- static bool sched_energy_update;
-
+ DEFINE_MUTEX(sched_energy_mutex);
+ bool sched_energy_update;
+ 
 From f85ed068b4d0e6c31edce8574a95757a60e58b87 Mon Sep 17 00:00:00 2001
 From: Etienne Juvigny <Ti3noU@gmail.com>
 Date: Mon, 3 Sep 2018 17:36:25 +0200
@@ -25,7 +25,7 @@ diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
 index 6b3b59cc51d6..2a0072192c3d 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -77,8 +77,8 @@
+@@ -72,8 +72,8 @@
   *
   * (default: 6ms * (1 + ilog(ncpus)), units: nanoseconds)
   */
@@ -36,7 +36,7 @@ index 6b3b59cc51d6..2a0072192c3d 100644
  
  /*
   * The initial- and re-scaling of tunables is configurable
-@@ -109,21 +114,21 @@
+@@ -93,21 +108,21 @@
   *
   * (default: 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds)
   */
@@ -62,7 +62,7 @@ index 6b3b59cc51d6..2a0072192c3d 100644
  
  /*
   * After fork, child runs first. If set to 0 (default) then
-@@ -270,7 +291,7 @@ int __weak arch_asym_cpu_priority(int cpu)
+@@ -178,7 +179,7 @@ int __weak arch_asym_cpu_priority(int cpu)
   *
   * (default: 5 msec, units: microseconds)
   */
@@ -75,7 +75,7 @@ diff --git a/mm/page-writeback.c b/mm/page-writeback.c
 index 28b3e7a67565..01a1aef2b9b1 100644
 --- a/mm/page-writeback.c
 +++ b/mm/page-writeback.c
-@@ -71,7 +71,7 @@ static long ratelimit_pages = 32;
+@@ -70,7 +70,7 @@ static long ratelimit_pages = 32;
  /*
   * Start background writeback (via writeback threads) at this percentage
   */
@@ -84,7 +84,7 @@ index 28b3e7a67565..01a1aef2b9b1 100644
  
  /*
   * dirty_background_bytes starts at 0 (disabled) so that it is a function of
-@@ -88,7 +92,7 @@ static int vm_highmem_is_dirtyable;
+@@ -87,7 +91,7 @@ static int vm_highmem_is_dirtyable;
  /*
   * The generator of dirty data starts writeback at this percentage
   */
