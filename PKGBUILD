@@ -142,8 +142,8 @@ sha256sums=('2ca1f17051a430f6fed1196e4952717507171acfd97d96577212502703b25deb' #
             '15c484955e2b3b381b9332858d17537959f3150285f95941031df2c7c29f8450' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0001-glitched-cfs.patch
-            'acdc5058bd74953e52136638aab5fc2e778f02919f73d6d7255b787b2f8aa3aa' # 0002-glitched-cfs-additions.patch
-            'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0003-o3-optimization.patch
+            'db5298605b0578423aa5c2a5716894d24f4023b72456c3de027ec87e03dcd9c9' # 0002-glitched-cfs-additions.patch
+            'f015ca6474a883157ccb257270585293b728fc587f7d765d7098bb8b043f4cee' # 0003-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
