@@ -3,7 +3,7 @@ index 051aaf65c..705df5511 100644
 --- a/kernel/sched/topology.c
 +++ b/kernel/sched/topology.c
 @@ -208,7 +208,7 @@ sd_parent_degenerate(struct sched_domain *sd, struct sched_domain *parent)
-
+ 
  #if defined(CONFIG_ENERGY_MODEL) && defined(CONFIG_CPU_FREQ_GOV_SCHEDUTIL)
  DEFINE_STATIC_KEY_FALSE(sched_energy_present);
 -static unsigned int sysctl_sched_energy_aware = 1;
@@ -70,7 +70,7 @@ index 6b3b59cc51d6..2a0072192c3d 100644
 +static unsigned int sysctl_sched_cfs_bandwidth_slice		= 3000UL;
  #endif
  
- #ifdef CONFIG_NUMA_BALANCING
+ #ifdef CONFIG_SYSCTL
 diff --git a/mm/page-writeback.c b/mm/page-writeback.c
 index 28b3e7a67565..01a1aef2b9b1 100644
 --- a/mm/page-writeback.c
