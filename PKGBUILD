@@ -100,7 +100,7 @@ fi
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-lts-bore
 _major=6.1
-pkgver=${_major}.46
+pkgver=${_major}.57
 _branch=6.x
 xanmod=1
 _revision=
@@ -143,11 +143,11 @@ sha256sums=('2ca1f17051a430f6fed1196e4952717507171acfd97d96577212502703b25deb' #
             'SKIP'                                                             # kernel signature
             'f80f0c46b4f1e57ce115da02036f058a73afd234190ed6a7f32757098c4b6c7a' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            '5db5637740ceafab39a2bbca9bd0b928aea2df293d1fba618cd1744033af4f02' # 0001-bore.patch
-            '0f27de550180803b90690137163ebb140adcf8d6338a52a8e94bc4c854100e78' # 0002-constgran-vanilla-max.patch
+            '5f79f910bba833b0f6ea36f573ed26ef8dd0751be0e9300436092557329de4e9' # 0001-bore.patch
+            'baf8d2d1b0701326ee6ba0ffeabec2b5d716b6e136b836f60069cf6937527165' # 0002-constgran-vanilla-max.patch
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0003-glitched-cfs.patch
-            '4c94ffb33f866b9793b6106e802256cb7d1323088dec13a18c95bfd92629b05b' # 0004-glitched-cfs-additions.patch
-            'd37cf41b30225b87596e83cf77b66b647fd4213bc04467c8e1adb696a36b3eb0' # 0005-o3-optimization.patch
+            'd62bb095aebc64ab068e1ab8b39822b85288d45fa29bd9f3baf534b5edbb253e' # 0004-glitched-cfs-additions.patch
+            'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0005-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
