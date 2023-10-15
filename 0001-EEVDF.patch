@@ -93,7 +93,7 @@ diff --git a/kernel/sched/core.c b/kernel/sched/core.c
 index c52c2eba7c..8116ef56d6 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -4501,6 +4501,8 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
+@@ -4509,6 +4509,8 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
  	p->se.prev_sum_exec_runtime	= 0;
  	p->se.nr_migrations		= 0;
  	p->se.vruntime			= 0;
@@ -216,7 +216,7 @@ diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
 index 1d9c2482c5..caec9b43cb 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -47,6 +47,7 @@
+@@ -50,6 +50,7 @@
  #include <linux/psi.h>
  #include <linux/ratelimit.h>
  #include <linux/task_work.h>
@@ -224,7 +224,7 @@ index 1d9c2482c5..caec9b43cb 100644
  
  #include <asm/switch_to.h>
  
-@@ -56,22 +57,6 @@
+@@ -59,22 +60,6 @@
  #include "stats.h"
  #include "autogroup.h"
  
@@ -247,7 +247,7 @@ index 1d9c2482c5..caec9b43cb 100644
  /*
   * The initial- and re-scaling of tunables is configurable
   *
-@@ -90,21 +75,8 @@ unsigned int sysctl_sched_tunable_scaling = SCHED_TUNABLESCALING_LOG;
+@@ -93,21 +78,8 @@ unsigned int sysctl_sched_tunable_scaling = SCHED_TUNABLESCALING_LOG;
   *
   * (default: 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds)
   */
@@ -284,13 +284,13 @@ index 1d9c2482c5..caec9b43cb 100644
 - *
 - * (default: 1 msec * (1 + ilog(ncpus)), units: nanoseconds)
 - */
--unsigned int sysctl_sched_wakeup_granularity			= 1000000UL;
--static unsigned int normalized_sysctl_sched_wakeup_granularity	= 1000000UL;
+-unsigned int sysctl_sched_wakeup_granularity			= 3000000UL;
+-static unsigned int normalized_sysctl_sched_wakeup_granularity	= 3000000UL;
 -
  const_debug unsigned int sysctl_sched_migration_cost	= 500000UL;
  
  int sched_thermal_decay_shift;
-@@ -277,9 +237,7 @@ static void update_sysctl(void)
+@@ -280,9 +240,7 @@ static void update_sysctl(void)
  
  #define SET_SYSCTL(name) \
  	(sysctl_##name = (factor) * normalized_sysctl_##name)

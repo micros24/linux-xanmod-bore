@@ -314,15 +314,15 @@ index caec9b43cb..c036921bdc 100644
 +++ b/kernel/sched/fair.c
 @@ -19,6 +19,9 @@
   *
-  *  Adaptive scheduling granularity, math enhancements by Peter Zijlstra
-  *  Copyright (C) 2007 Red Hat, Inc., Peter Zijlstra
+  *  Remove energy efficiency functions by Alexandre Frade
+  *  (C) 2021 Alexandre Frade <kernel@xanmod.org>
 + *
 + *  Burst-Oriented Response Enhancer (BORE) CPU Scheduler
 + *  Copyright (C) 2021-2023 Masahito Suzuki <firelzrd@gmail.com>
   */
  #include <linux/energy_model.h>
  #include <linux/mmap_lock.h>
-@@ -66,17 +69,28 @@
+@@ -66,17 +69,19 @@
   *   SCHED_TUNABLESCALING_LOG - scaled logarithmical, *1+ilog(ncpus)
   *   SCHED_TUNABLESCALING_LINEAR - scaled linear, *ncpus
   *
@@ -330,11 +330,7 @@ index caec9b43cb..c036921bdc 100644
 + * (BORE  default SCHED_TUNABLESCALING_NONE = *1 constant)
 + * (EEVDF default SCHED_TUNABLESCALING_LOG  = *(1+ilog(ncpus))
   */
-+#ifdef CONFIG_SCHED_BORE
-+unsigned int sysctl_sched_tunable_scaling = SCHED_TUNABLESCALING_NONE;
-+#else // CONFIG_SCHED_BORE
- unsigned int sysctl_sched_tunable_scaling = SCHED_TUNABLESCALING_LOG;
-+#endif // CONFIG_SCHED_BORE
+ unsigned int sysctl_sched_tunable_scaling = SCHED_TUNABLESCALING_NONE;
  
  /*
   * Minimal preemption granularity for CPU-bound tasks:
@@ -343,13 +339,10 @@ index caec9b43cb..c036921bdc 100644
 + * (BORE  default: 3 msec constant, units: nanoseconds)
 + * (EEVDF default: 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds)
   */
-+#ifdef CONFIG_SCHED_BORE
+-unsigned int sysctl_sched_base_slice			= 750000ULL;
+-static unsigned int normalized_sysctl_sched_base_slice	= 750000ULL;
 +unsigned int sysctl_sched_base_slice			= 3000000ULL;
 +static unsigned int normalized_sysctl_sched_base_slice	= 3000000ULL;
-+#else // CONFIG_SCHED_BORE
- unsigned int sysctl_sched_base_slice			= 750000ULL;
- static unsigned int normalized_sysctl_sched_base_slice	= 750000ULL;
-+#endif // CONFIG_SCHED_BORE
  
  /*
   * After fork, child runs first. If set to 0 (default) then

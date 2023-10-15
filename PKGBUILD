@@ -124,9 +124,7 @@ source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar
         choose-gcc-optimization.sh
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0001-EEVDF.patch"
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0001-linux6.5.y-eevdf-bore3.2.3.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0002-glitched-cfs.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0003-glitched-cfs-additions.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0004-o3-optimization.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0002-o3-optimization.patch"
 )
 validpgpkeys=(
     'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linux Torvalds
@@ -143,11 +141,9 @@ sha256sums=('7a574bbc20802ea76b52ca7faf07267f72045e861b18915c5272a98c27abf884' #
             'SKIP'                                                             # kernel signature
             'f835ab9f227a9742821a2f236deabb2a17e5bc7d52f571ddfa25df4104a20504' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            'fa175f7aa5a826be5b2b84db6b9c99250af54deeea207875ebdca974e6290b9b' # 0001-EEVDF.patch
-            '0ac09161a9fc6d5045ccbd80cad39ffcb2f6ac8f381e024ae8c589230d1000bb' # 0001-linux6.5.y-eevdf-bore3.2.3.patch
-            '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0002-glitched-cfs.patch
-            'd62bb095aebc64ab068e1ab8b39822b85288d45fa29bd9f3baf534b5edbb253e' # 0003-glitched-cfs-additions.patch
-            'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0004-o3-optimization.patch
+            '92e945487837c50a0cdff0371775503935e464dd4174e0ff7197d63df8a6919e' # 0001-EEVDF.patch
+            '23f669089519adf5ad8abb3770966de33fddc3fda02dcd59448d949b11cd0d8d' # 0001-linux6.5.y-eevdf-bore3.2.3.patch
+            'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0002-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
