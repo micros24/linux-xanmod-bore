@@ -122,11 +122,11 @@ _srcname="linux-${pkgver}-xanmod${xanmod}"
 source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar."{xz,sign}
         "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/main/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0001-bore.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-constgran-vanilla-max.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0003-glitched-cfs.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0004-glitched-cfs-additions.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0005-o3-optimization.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0001-EEVDF.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0001-linux6.5.y-eevdf-bore3.2.3.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0002-glitched-cfs.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0003-glitched-cfs-additions.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0004-o3-optimization.patch"
 )
 validpgpkeys=(
     'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linux Torvalds
@@ -143,11 +143,11 @@ sha256sums=('7a574bbc20802ea76b52ca7faf07267f72045e861b18915c5272a98c27abf884' #
             'SKIP'                                                             # kernel signature
             'f835ab9f227a9742821a2f236deabb2a17e5bc7d52f571ddfa25df4104a20504' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            '5f79f910bba833b0f6ea36f573ed26ef8dd0751be0e9300436092557329de4e9' # 0001-bore.patch
-            'baf8d2d1b0701326ee6ba0ffeabec2b5d716b6e136b836f60069cf6937527165' # 0002-constgran-vanilla-max.patch
-            '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0003-glitched-cfs.patch
-            '1097d17a25ad017fb0a78d2259c794957579499bea1bde5efa64bfdc7523ca2c' # 0004-glitched-cfs-additions.patch
-            'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0005-o3-optimization.patch
+            'fa175f7aa5a826be5b2b84db6b9c99250af54deeea207875ebdca974e6290b9b' # 0001-EEVDF.patch
+            '0ac09161a9fc6d5045ccbd80cad39ffcb2f6ac8f381e024ae8c589230d1000bb' # 0001-linux6.5.y-eevdf-bore3.2.3.patch
+            '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0002-glitched-cfs.patch
+            'd62bb095aebc64ab068e1ab8b39822b85288d45fa29bd9f3baf534b5edbb253e' # 0003-glitched-cfs-additions.patch
+            'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0004-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
