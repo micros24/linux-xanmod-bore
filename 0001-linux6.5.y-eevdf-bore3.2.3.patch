@@ -103,7 +103,7 @@ diff --git a/kernel/sched/core.c b/kernel/sched/core.c
 index be77d999d6..de4988e73c 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -4485,6 +4485,158 @@ int wake_up_state(struct task_struct *p, unsigned int state)
+@@ -4493,6 +4493,158 @@ int wake_up_state(struct task_struct *p, unsigned int state)
  	return try_to_wake_up(p, state, 0);
  }
  
@@ -262,7 +262,7 @@ index be77d999d6..de4988e73c 100644
  /*
   * Perform scheduler related setup for a newly forked process p.
   * p is forked by current.
-@@ -4501,6 +4653,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
+@@ -4509,6 +4661,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
  	p->se.prev_sum_exec_runtime	= 0;
  	p->se.nr_migrations		= 0;
  	p->se.vruntime			= 0;
@@ -272,7 +272,7 @@ index be77d999d6..de4988e73c 100644
  	p->se.vlag			= 0;
  	p->se.slice			= sysctl_sched_base_slice;
  	INIT_LIST_HEAD(&p->se.group_node);
-@@ -4820,6 +4975,9 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
+@@ -4828,6 +4983,9 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
  
  void sched_post_fork(struct task_struct *p)
  {
@@ -282,7 +282,7 @@ index be77d999d6..de4988e73c 100644
  	uclamp_post_fork(p);
  }
  
-@@ -9923,6 +10081,11 @@ void __init sched_init(void)
+@@ -9931,6 +10089,11 @@ void __init sched_init(void)
  	BUG_ON(&dl_sched_class != &stop_sched_class + 1);
  #endif
  
@@ -312,7 +312,7 @@ diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
 index caec9b43cb..c036921bdc 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -19,6 +19,9 @@
+@@ -22,6 +22,9 @@
   *
   *  Remove energy efficiency functions by Alexandre Frade
   *  (C) 2021 Alexandre Frade <kernel@xanmod.org>
@@ -322,7 +322,7 @@ index caec9b43cb..c036921bdc 100644
   */
  #include <linux/energy_model.h>
  #include <linux/mmap_lock.h>
-@@ -66,17 +69,19 @@
+@@ -69,17 +72,19 @@
   *   SCHED_TUNABLESCALING_LOG - scaled logarithmical, *1+ilog(ncpus)
   *   SCHED_TUNABLESCALING_LINEAR - scaled linear, *ncpus
   *
@@ -346,7 +346,7 @@ index caec9b43cb..c036921bdc 100644
  
  /*
   * After fork, child runs first. If set to 0 (default) then
-@@ -86,6 +100,66 @@ unsigned int sysctl_sched_child_runs_first __read_mostly;
+@@ -89,6 +103,66 @@ unsigned int sysctl_sched_child_runs_first __read_mostly;
  
  const_debug unsigned int sysctl_sched_migration_cost	= 500000UL;
  
@@ -413,7 +413,7 @@ index caec9b43cb..c036921bdc 100644
  int sched_thermal_decay_shift;
  static int __init setup_sched_thermal_decay_shift(char *str)
  {
-@@ -145,6 +219,69 @@ static unsigned int sysctl_numa_balancing_promote_rate_limit = 65536;
+@@ -148,6 +222,69 @@ static unsigned int sysctl_numa_balancing_promote_rate_limit = 65536;
  
  #ifdef CONFIG_SYSCTL
  static struct ctl_table sched_fair_sysctls[] = {
@@ -483,7 +483,7 @@ index caec9b43cb..c036921bdc 100644
  	{
  		.procname       = "sched_child_runs_first",
  		.data           = &sysctl_sched_child_runs_first,
-@@ -313,6 +450,9 @@ static inline u64 calc_delta_fair(u64 delta, struct sched_entity *se)
+@@ -316,6 +453,9 @@ static inline u64 calc_delta_fair(u64 delta, struct sched_entity *se)
  	if (unlikely(se->load.weight != NICE_0_LOAD))
  		delta = __calc_delta(delta, NICE_0_LOAD, &se->load);
  
@@ -493,7 +493,7 @@ index caec9b43cb..c036921bdc 100644
  	return delta;
  }
  
-@@ -715,6 +855,11 @@ void update_entity_lag(struct cfs_rq *cfs_rq, struct sched_entity *se)
+@@ -718,6 +858,11 @@ void update_entity_lag(struct cfs_rq *cfs_rq, struct sched_entity *se)
  	lag = avg_vruntime(cfs_rq) - se->vruntime;
  
  	limit = calc_delta_fair(max_t(u64, 2*se->slice, TICK_NSEC), se);
@@ -505,7 +505,7 @@ index caec9b43cb..c036921bdc 100644
  	se->vlag = clamp(lag, -limit, limit);
  }
  
-@@ -1172,7 +1317,11 @@ static void update_curr(struct cfs_rq *cfs_rq)
+@@ -1175,7 +1320,11 @@ static void update_curr(struct cfs_rq *cfs_rq)
  	curr->sum_exec_runtime += delta_exec;
  	schedstat_add(cfs_rq->exec_clock, delta_exec);
  
@@ -518,7 +518,7 @@ index caec9b43cb..c036921bdc 100644
  	update_deadline(cfs_rq, curr);
  	update_min_vruntime(cfs_rq);
  
-@@ -6529,6 +6678,9 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
+@@ -6532,6 +6681,9 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
  	util_est_dequeue(&rq->cfs, p);
  
  	for_each_sched_entity(se) {
@@ -528,7 +528,7 @@ index caec9b43cb..c036921bdc 100644
  		cfs_rq = cfs_rq_of(se);
  		dequeue_entity(cfs_rq, se, flags);
  
-@@ -8253,8 +8405,12 @@ static void yield_task_fair(struct rq *rq)
+@@ -8256,8 +8408,12 @@ static void yield_task_fair(struct rq *rq)
  	/*
  	 * Are we the only task in the tree?
  	 */
@@ -542,7 +542,7 @@ index caec9b43cb..c036921bdc 100644
  
  	clear_buddies(cfs_rq, se);
  
-@@ -8263,6 +8419,9 @@ static void yield_task_fair(struct rq *rq)
+@@ -8266,6 +8422,9 @@ static void yield_task_fair(struct rq *rq)
  	 * Update run-time statistics of the 'current'.
  	 */
  	update_curr(cfs_rq);

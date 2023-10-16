@@ -141,9 +141,9 @@ sha256sums=('7a574bbc20802ea76b52ca7faf07267f72045e861b18915c5272a98c27abf884' #
             'SKIP'                                                             # kernel signature
             'f835ab9f227a9742821a2f236deabb2a17e5bc7d52f571ddfa25df4104a20504' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            '92e945487837c50a0cdff0371775503935e464dd4174e0ff7197d63df8a6919e' # 0001-EEVDF.patch
-            '23f669089519adf5ad8abb3770966de33fddc3fda02dcd59448d949b11cd0d8d' # 0001-linux6.5.y-eevdf-bore3.2.3.patch
-            'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0002-o3-optimization.patch
+            '41d7d7e3624f816c332aad298c51fd44d0914e4800bee9223de82427b116717c' # 0001-EEVDF.patch
+            '534fa1f08d80e0018a8673d2551b20e04fd6f269857762411977a50e26e65060' # 0001-linux6.5.y-eevdf-bore3.2.3.patch
+            'c0eb80042277ddd54a9cee7140ce0714fcf567cb3d4c519788d5468e61ee5025' # 0002-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
