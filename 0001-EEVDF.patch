@@ -738,7 +738,7 @@ index 1d9c2482c5..caec9b43cb 100644
  }
  
  #ifdef CONFIG_SCHED_DEBUG
-@@ -692,103 +1000,44 @@ int sched_update_scaling(void)
+@@ -692,104 +1003,45 @@ int sched_update_scaling(void)
  {
  	unsigned int factor = get_update_sysctl_factor();
  
@@ -874,7 +874,7 @@ index 1d9c2482c5..caec9b43cb 100644
  	update_min_vruntime(cfs_rq);
  
  	if (entity_is_task(curr)) {
-@@ -3380,16 +3634,37 @@ dequeue_load_avg(struct cfs_rq *cfs_rq, struct sched_entity *se) { }
+@@ -3378,16 +3632,37 @@ dequeue_load_avg(struct cfs_rq *cfs_rq, struct sched_entity *se) { }
  static void reweight_entity(struct cfs_rq *cfs_rq, struct sched_entity *se,
  			    unsigned long weight)
  {
@@ -912,7 +912,7 @@ index 1d9c2482c5..caec9b43cb 100644
  #ifdef CONFIG_SMP
  	do {
  		u32 divider = get_pelt_divider(&se->avg);
-@@ -3400,9 +3674,11 @@ static void reweight_entity(struct cfs_rq *cfs_rq, struct sched_entity *se,
+@@ -3397,9 +3671,11 @@ static void reweight_entity(struct cfs_rq *cfs_rq, struct sched_entity *se,
  #endif
  
  	enqueue_load_avg(cfs_rq, se);
@@ -1670,7 +1670,7 @@ index 1d9c2482c5..caec9b43cb 100644
  }
  
  static bool yield_to_task_fair(struct rq *rq, struct task_struct *p)
-@@ -9242,8 +8262,7 @@ static int task_hot(struct task_struct *p, struct lb_env *env)
+@@ -8242,8 +8262,7 @@ static int task_hot(struct task_struct *p, struct lb_env *env)
  	 * Buddy candidates are cache hot:
  	 */
  	if (sched_feat(CACHE_HOT_BUDDY) && env->dst_rq->nr_running &&
@@ -1680,7 +1680,7 @@ index 1d9c2482c5..caec9b43cb 100644
  		return 1;
  
  	if (sysctl_sched_migration_cost == -1)
-@@ -1200411753,8 +11772,8 @@ static void rq_offline_fair(struct rq *rq)
+@@ -11753,8 +11772,8 @@ static void rq_offline_fair(struct rq *rq)
  static inline bool
  __entity_slice_used(struct sched_entity *se, int min_nr_tasks)
  {

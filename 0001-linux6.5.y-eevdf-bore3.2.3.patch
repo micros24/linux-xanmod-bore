@@ -282,7 +282,7 @@ index be77d999d6..de4988e73c 100644
  	uclamp_post_fork(p);
  }
  
-@@ -9931,6 +10089,11 @@ void __init sched_init(void)
+@@ -9937,6 +10095,11 @@ void __init sched_init(void)
  	BUG_ON(&dl_sched_class != &stop_sched_class + 1);
  #endif
  
@@ -528,7 +528,7 @@ index caec9b43cb..c036921bdc 100644
  		cfs_rq = cfs_rq_of(se);
  		dequeue_entity(cfs_rq, se, flags);
  
-@@ -8256,8 +8408,12 @@ static void yield_task_fair(struct rq *rq)
+@@ -8002,8 +8154,12 @@ static void yield_task_fair(struct rq *rq)
  	/*
  	 * Are we the only task in the tree?
  	 */
@@ -542,7 +542,7 @@ index caec9b43cb..c036921bdc 100644
  
  	clear_buddies(cfs_rq, se);
  
-@@ -8266,6 +8422,9 @@ static void yield_task_fair(struct rq *rq)
+@@ -8012,6 +8168,9 @@ static void yield_task_fair(struct rq *rq)
  	 * Update run-time statistics of the 'current'.
  	 */
  	update_curr(cfs_rq);

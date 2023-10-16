@@ -141,8 +141,8 @@ sha256sums=('7a574bbc20802ea76b52ca7faf07267f72045e861b18915c5272a98c27abf884' #
             'SKIP'                                                             # kernel signature
             'f835ab9f227a9742821a2f236deabb2a17e5bc7d52f571ddfa25df4104a20504' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            'e9ab23098e3051210cbbd82fc93dc84e35439b3199bd5f7d4c2a69eb00995d94' # 0001-EEVDF.patch
-            '534fa1f08d80e0018a8673d2551b20e04fd6f269857762411977a50e26e65060' # 0001-linux6.5.y-eevdf-bore3.2.3.patch
+            '2a8362161007d723fc7126f17010ef2bfeaeebf7bc8ac7c76fdb6203acb88355' # 0001-EEVDF.patch
+            '1874112af9ebfab1692553c657a9ffda7944010027cf6230996587d2aaf28427' # 0001-linux6.5.y-eevdf-bore3.2.3.patch
             'c0eb80042277ddd54a9cee7140ce0714fcf567cb3d4c519788d5468e61ee5025' # 0002-o3-optimization.patch
 )
 
