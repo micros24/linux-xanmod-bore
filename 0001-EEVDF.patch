@@ -537,7 +537,7 @@ index 1d9c2482c5..caec9b43cb 100644
  		if (!curr)
  			vruntime = se->vruntime;
  		else
-@@ -633,7 +791,7 @@ static void update_min_vruntime(struct cfs_rq *cfs_rq)
+@@ -632,7 +790,7 @@ static void update_min_vruntime(struct cfs_rq *cfs_rq)
  
  	/* ensure we never gain time by being placed backwards. */
  	u64_u32_store(cfs_rq->min_vruntime,
@@ -738,7 +738,7 @@ index 1d9c2482c5..caec9b43cb 100644
  }
  
  #ifdef CONFIG_SCHED_DEBUG
-@@ -692,107 +1000,45 @@ int sched_update_scaling(void)
+@@ -692,103 +1000,44 @@ int sched_update_scaling(void)
  {
  	unsigned int factor = get_update_sysctl_factor();
  
