@@ -72,7 +72,7 @@ index 6b3b59cc51d6..2a0072192c3d 100644
  
  /*
   * After fork, child runs first. If set to 0 (default) then
-@@ -270,7 +291,11 @@ int __weak arch_asym_cpu_priority(int cpu)
+@@ -274,7 +295,11 @@ int __weak arch_asym_cpu_priority(int cpu)
   *
   * (default: 5 msec, units: microseconds)
   */
