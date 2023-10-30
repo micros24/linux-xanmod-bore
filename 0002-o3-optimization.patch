@@ -2,7 +2,7 @@ diff --git a/Makefile b/Makefile
 index d5041f7daf689..d50f8b36065de 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -983,6 +983,9 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
+@@ -971,6 +971,9 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
  ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
  KBUILD_CFLAGS += -O2
  KBUILD_RUSTFLAGS += -Copt-level=2
@@ -12,7 +12,7 @@ index d5041f7daf689..d50f8b36065de 100644
  else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
  KBUILD_CFLAGS += -Os
  KBUILD_RUSTFLAGS += -Copt-level=s
-@@ -1231,11 +1234,6 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
+@@ -1155,11 +1158,6 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
  # Make sure -fstack-check isn't enabled (like gentoo apparently did)
  KBUILD_CFLAGS  += -fno-stack-check
  
@@ -21,10 +21,10 @@ index d5041f7daf689..d50f8b36065de 100644
 -KBUILD_CFLAGS   += -fconserve-stack
 -endif
 -
- # Prohibit date/time macros, which would make the build non-deterministic
- KBUILD_CFLAGS   += -Werror=date-time
-
- diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
+ # change __FILE__ to the relative path from the srctree
+ KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+ 
+diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
 index 81764160451f7..2c15d3bf747a9 100644
 --- a/arch/arc/configs/axs101_defconfig
 +++ b/arch/arc/configs/axs101_defconfig
@@ -33,7 +33,7 @@ index 81764160451f7..2c15d3bf747a9 100644
  # CONFIG_PID_NS is not set
  CONFIG_BLK_DEV_INITRD=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
  # CONFIG_VM_EVENT_COUNTERS is not set
 diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
@@ -45,7 +45,7 @@ index d5181275490ed..7d868e148d9a4 100644
  # CONFIG_PID_NS is not set
  CONFIG_BLK_DEV_INITRD=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
  # CONFIG_VM_EVENT_COUNTERS is not set
 diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
@@ -57,7 +57,7 @@ index 2f336d99a8cf3..777a9f21eb6b6 100644
  # CONFIG_PID_NS is not set
  CONFIG_BLK_DEV_INITRD=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
  # CONFIG_VM_EVENT_COUNTERS is not set
 diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
@@ -81,7 +81,7 @@ index 0d32aac8069f2..dbd74fea69aa5 100644
  # CONFIG_PID_NS is not set
  CONFIG_BLK_DEV_INITRD=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
  # CONFIG_VM_EVENT_COUNTERS is not set
 diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
@@ -93,7 +93,7 @@ index d18378d2c2a63..2396ca4171826 100644
  CONFIG_BLK_DEV_INITRD=y
  CONFIG_BLK_DEV_RAM=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
  # CONFIG_VM_EVENT_COUNTERS is not set
 diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
@@ -106,7 +106,7 @@ index 3e98297759925..5044609540cc3 100644
  CONFIG_BLK_DEV_INITRD=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
  CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
 diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
 index 502c87f351c87..748c809d1c4c6 100644
@@ -118,7 +118,7 @@ index 502c87f351c87..748c809d1c4c6 100644
  CONFIG_BLK_DEV_INITRD=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
  CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
 diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
 index f721cc3997d02..205c32b0074ca 100644
@@ -130,7 +130,7 @@ index f721cc3997d02..205c32b0074ca 100644
  CONFIG_BLK_DEV_INITRD=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
  CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
 diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
 index 1419fc946a083..2477b7c809771 100644
@@ -155,7 +155,7 @@ index 6f0d2be9d926c..cf02ad0fc210e 100644
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
  CONFIG_KALLSYMS_ALL=y
  # CONFIG_AIO is not set
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
 diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
 index d3ef189c75f8b..922b1b24f5184 100644
 --- a/arch/arc/configs/vdk_hs38_defconfig
@@ -165,7 +165,7 @@ index d3ef189c75f8b..922b1b24f5184 100644
  CONFIG_IKCONFIG_PROC=y
  CONFIG_BLK_DEV_INITRD=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
  # CONFIG_VM_EVENT_COUNTERS is not set
 diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
@@ -177,15 +177,14 @@ index 944b347025fd1..ed64319f7eb29 100644
  CONFIG_IKCONFIG_PROC=y
  CONFIG_BLK_DEV_INITRD=y
 +CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
+ CONFIG_EXPERT=y
  CONFIG_PERF_EVENTS=y
  # CONFIG_VM_EVENT_COUNTERS is not set
-
- diff --git a/init/Kconfig b/init/Kconfig
+diff --git a/init/Kconfig b/init/Kconfig
 index 32c24950c4ced..b6d38eccca108 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1400,6 +1420,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
+@@ -1399,6 +1419,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
  	  with the "-O2" compiler flag for best performance and most
  	  helpful compile-time warnings.
  
