@@ -99,8 +99,8 @@ fi
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-bore
-_major=6.5
-pkgver=${_major}.7
+_major=6.6
+pkgver=${_major}.0
 _branch=6.x
 xanmod=1
 _revision=
@@ -120,10 +120,9 @@ fi
 options=('!strip')
 _srcname="linux-${pkgver}-xanmod${xanmod}"
 source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar."{xz,sign}
-        "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/main/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
+        "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/edge/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0001-EEVDF.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0001-linux6.5.y-eevdf-bore3.2.3.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0001-linux6.6.y-bore3.2.9.patch"
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/eevdf-bore/0002-o3-optimization.patch"
 )
 validpgpkeys=(
@@ -137,13 +136,12 @@ _patches=()
 for _patch in ${_patches[@]}; do
     source+=("${_patch}::https://raw.githubusercontent.com/archlinux/svntogit-packages/${_commit}/trunk/${_patch}")
 done
-sha256sums=('7a574bbc20802ea76b52ca7faf07267f72045e861b18915c5272a98c27abf884' # kernel
+sha256sums=('d926a06c63dd8ac7df3f86ee1ffc2ce2a3b81a2d168484e76b5b389aba8e56d0' # kernel
             'SKIP'                                                             # kernel signature
-            'f835ab9f227a9742821a2f236deabb2a17e5bc7d52f571ddfa25df4104a20504' # xanmod patch
+            '4c9a6d8d73102c16ff6968f3f0855cb1912d35d018a4b2576063b61a95d44cdc' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            '2a8362161007d723fc7126f17010ef2bfeaeebf7bc8ac7c76fdb6203acb88355' # 0001-EEVDF.patch
-            '1874112af9ebfab1692553c657a9ffda7944010027cf6230996587d2aaf28427' # 0001-linux6.5.y-eevdf-bore3.2.3.patch
-            'c0eb80042277ddd54a9cee7140ce0714fcf567cb3d4c519788d5468e61ee5025' # 0002-o3-optimization.patch
+            '2e5f4ac46acf92066d117ec3b2a1ad050aca53794fd6873333591b7bcb177256' # 0001-linux6.6.y-bore3.2.9.patch
+            '30dc69c13d6bb0492ff61e9fdbd3b198eb0bb5b33845726c8008822e9162d667' # 0002-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
@@ -403,8 +401,8 @@ _package() {
   echo "Installing modules..."
   make INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 modules_install
 
-  # remove build and source links
-  rm "$_modulesdir"/{source,build}
+  # remove build link
+  rm "$_modulesdir"/build
 }
 
 _package-headers() {
