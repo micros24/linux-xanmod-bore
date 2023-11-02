@@ -92,7 +92,7 @@ index 28b3e7a67565..01a1aef2b9b1 100644
  /*
   * Start background writeback (via writeback threads) at this percentage
   */
-+#ifdef CONFIG_ZENIFY
++#ifdef CONFIG_SCHED_BORE
 +static int dirty_background_ratio = 20;
 +#else
  static int dirty_background_ratio = 10;
@@ -104,7 +104,7 @@ index 28b3e7a67565..01a1aef2b9b1 100644
  /*
   * The generator of dirty data starts writeback at this percentage
   */
-+#ifdef CONFIG_ZENIFY
++#ifdef CONFIG_SCHED_BORE
 +static int vm_dirty_ratio = 50;
 +#else
  static int vm_dirty_ratio = 20;
