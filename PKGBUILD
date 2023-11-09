@@ -72,7 +72,7 @@ if [ -z ${_localmodcfg} ]; then
   _localmodcfg=n
 fi
 
-# Set the hertz of the tickrate (1000, 500, 300, 250, 100)
+# Set the hertz of the tickrate (1000, 500, 300, 100)
 if [ -z ${_tickrate_HZ+x} ]; then
   _tickrate_HZ=500
 fi
@@ -100,7 +100,7 @@ fi
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-bore
 _major=6.6
-pkgver=${_major}.0
+pkgver=${_major}.
 _branch=6.x
 xanmod=1
 _revision=
@@ -138,7 +138,7 @@ for _patch in ${_patches[@]}; do
 done
 sha256sums=('d926a06c63dd8ac7df3f86ee1ffc2ce2a3b81a2d168484e76b5b389aba8e56d0' # kernel
             'SKIP'                                                             # kernel signature
-            '4c9a6d8d73102c16ff6968f3f0855cb1912d35d018a4b2576063b61a95d44cdc' # xanmod patch
+            'f391d4d7c5d610b3793a5f4f9d496b1e9c39de91f019d39a8762c86de8c66eac' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
             '2e5f4ac46acf92066d117ec3b2a1ad050aca53794fd6873333591b7bcb177256' # 0001-linux6.6.y-bore3.2.9.patch
             '30dc69c13d6bb0492ff61e9fdbd3b198eb0bb5b33845726c8008822e9162d667' # 0002-o3-optimization.patch
@@ -186,16 +186,16 @@ prepare() {
   # Setting HZ tick rate
   echo "Setting Tickrate HZ..."
   if [ "$_tickrate_HZ" = "1000" ]; then
-    scripts/config --disable HZ_500
+    scripts/config --disable HZ_250
     scripts/config --enable HZ_1000
-  elif [ "$_tickrate_HZ" = "300" ]; then
-    scripts/config --disable HZ_500
-    scripts/config --enable HZ_300
+  elif [ "$_tickrate_HZ" = "500" ]; then
+    scripts/config --disable HZ_250
+    scripts/config --enable HZ_500
   elif [ "$_tickrate_HZ" = "250" ]; then
-    scripts/config --disable HZ_500
-    scripts/config --enable HZ_250
+    scripts/config --disable HZ_250
+    scripts/config --enable HZ_300
   elif [ "$_tickrate_HZ" = "100" ]; then
-    scripts/config --disable HZ_500
+    scripts/config --disable HZ_250
     scripts/config --enable HZ_100
   fi
 

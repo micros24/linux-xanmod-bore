@@ -10,7 +10,7 @@ A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kerne
 - Enabled the use of all CPU cores for compilation
 - Disabled NUMA by default (can be enabled)
 - Disabled kernel debugging by default (can be enabled)
-- Choose your tickrate HZ from 1000, 500, 300, 250, or 100. (500 is default)
+- Choose your tickrate HZ from 1000, 500, 300, or 100. (500 is default)
 - Choose your tickrate handling from tickless, idle, or constant (tickless is default)
 - Choose your Preemption Model from preemptible, voluntary, or server (preemptible is default)
 
