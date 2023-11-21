@@ -101,7 +101,7 @@ diff --git a/kernel/sched/core.c b/kernel/sched/core.c
 index c52c2eba7c..75a4dc22b7 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -4493,6 +4493,158 @@ int wake_up_state(struct task_struct *p, unsigned int state)
+@@ -4497,6 +4497,158 @@ int wake_up_state(struct task_struct *p, unsigned int state)
  	return try_to_wake_up(p, state, 0);
  }
  
@@ -260,7 +260,7 @@ index c52c2eba7c..75a4dc22b7 100644
  /*
   * Perform scheduler related setup for a newly forked process p.
   * p is forked by current.
-@@ -4509,6 +4658,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
+@@ -4513,6 +4662,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
  	p->se.prev_sum_exec_runtime	= 0;
  	p->se.nr_migrations		= 0;
  	p->se.vruntime			= 0;
@@ -270,7 +270,7 @@ index c52c2eba7c..75a4dc22b7 100644
  	INIT_LIST_HEAD(&p->se.group_node);
  
  #ifdef CONFIG_FAIR_GROUP_SCHED
-@@ -4826,6 +4939,9 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
+@@ -4830,6 +4943,9 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
  
  void sched_post_fork(struct task_struct *p)
  {
@@ -280,7 +280,7 @@ index c52c2eba7c..75a4dc22b7 100644
  	uclamp_post_fork(p);
  }
  
-@@ -9935,6 +10052,11 @@ void __init sched_init(void)
+@@ -9941,6 +10058,11 @@ void __init sched_init(void)
  	BUG_ON(&dl_sched_class != &stop_sched_class + 1);
  #endif
  
@@ -511,7 +511,7 @@ index 96563cbb29..b29d20575f 100644
  	update_min_vruntime(cfs_rq);
  
  	if (entity_is_task(curr)) {
-@@ -6413,6 +6563,9 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
+@@ -6397,6 +6547,9 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
  	util_est_dequeue(&rq->cfs, p);
  
  	for_each_sched_entity(se) {
@@ -521,7 +521,7 @@ index 96563cbb29..b29d20575f 100644
  		cfs_rq = cfs_rq_of(se);
  		dequeue_entity(cfs_rq, se, flags);
  
-@@ -7631,6 +7784,9 @@ static int
+@@ -7615,6 +7768,9 @@ static int
  wakeup_preempt_entity(struct sched_entity *curr, struct sched_entity *se)
  {
  	s64 gran, vdiff = curr->vruntime - se->vruntime;
@@ -531,7 +531,7 @@ index 96563cbb29..b29d20575f 100644
  
  	if (vdiff <= 0)
  		return -1;
-@@ -7980,8 +8136,12 @@ static void yield_task_fair(struct rq *rq)
+@@ -7964,8 +8120,12 @@ static void yield_task_fair(struct rq *rq)
  	/*
  	 * Are we the only task in the tree?
  	 */
@@ -545,7 +545,7 @@ index 96563cbb29..b29d20575f 100644
  
  	clear_buddies(cfs_rq, se);
  
-@@ -7991,6 +8151,9 @@ static void yield_task_fair(struct rq *rq)
+@@ -7975,6 +8135,9 @@ static void yield_task_fair(struct rq *rq)
  		 * Update run-time statistics of the 'current'.
  		 */
  		update_curr(cfs_rq);
