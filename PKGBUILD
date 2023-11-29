@@ -140,7 +140,7 @@ sha256sums=('d926a06c63dd8ac7df3f86ee1ffc2ce2a3b81a2d168484e76b5b389aba8e56d0' #
             'SKIP'                                                             # kernel signature
             '204e14690c74ff53cb5d77dbf17834d21a8aea6a9e05a54edaf29c47edad62e9' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            'd97e3cc40541e134605d541dc7719954e4fd7e88c9aa1754bef4b8083d703299' # 0001-bore.patch
+            'faea03f20fd97ea3ce74d00ac5315a9cc6cac1b8dd77dbebca3ddc70b8e0603a' # 0001-bore.patch
             '30dc69c13d6bb0492ff61e9fdbd3b198eb0bb5b33845726c8008822e9162d667' # 0002-o3-optimization.patch
 )
 
