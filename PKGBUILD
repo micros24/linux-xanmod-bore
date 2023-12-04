@@ -100,7 +100,7 @@ fi
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-bore
 _major=6.6
-pkgver=${_major}.3
+pkgver=${_major}.4
 _branch=6.x
 xanmod=1
 _revision=
@@ -120,7 +120,7 @@ fi
 options=('!strip')
 _srcname="linux-${pkgver}-xanmod${xanmod}"
 source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar."{xz,sign}
-        "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/edge/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
+        "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/main/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0001-bore.patch"
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-o3-optimization.patch"
@@ -138,9 +138,9 @@ for _patch in ${_patches[@]}; do
 done
 sha256sums=('d926a06c63dd8ac7df3f86ee1ffc2ce2a3b81a2d168484e76b5b389aba8e56d0' # kernel
             'SKIP'                                                             # kernel signature
-            'b77ec28d494b2c691b1dcc81794f14a46a1412ff7169cc96b7578a878c223722' # xanmod patch
+            'ce833776671df7b8f366f79b3e7f1fbffc967d7e8ad5c055c4e2e7f81c9d4f75' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            'faea03f20fd97ea3ce74d00ac5315a9cc6cac1b8dd77dbebca3ddc70b8e0603a' # 0001-bore.patch
+            'a2821a535c652b61a7b102bac93c7928579f6f53d035afd34d40ced89dbc1297' # 0001-bore.patch
             '30dc69c13d6bb0492ff61e9fdbd3b198eb0bb5b33845726c8008822e9162d667' # 0002-o3-optimization.patch
 )
 
