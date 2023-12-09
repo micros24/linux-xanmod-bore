@@ -1,16 +1,16 @@
-From 217361f0681ea201041634aa9e7f4e197eb5c595 Mon Sep 17 00:00:00 2001
+From 60a0b66f608bdbfae7823de0d2dbaa20aadbcea3 Mon Sep 17 00:00:00 2001
 From: Masahito S <firelzrd@gmail.com>
-Date: Sun, 3 Dec 2023 08:20:22 +0900
-Subject: [PATCH] linux6.6.y-bore3.5.6
+Date: Tue, 5 Dec 2023 22:54:38 +0900
+Subject: [PATCH] linux6.6.y-bore3.5.7
 
 ---
  include/linux/sched.h   |  10 ++
  init/Kconfig            |  19 ++++
  kernel/sched/core.c     | 128 ++++++++++++++++++++++++
  kernel/sched/debug.c    |   3 +
- kernel/sched/fair.c     | 213 +++++++++++++++++++++++++++++++++++++---
+ kernel/sched/fair.c     | 216 +++++++++++++++++++++++++++++++++++++---
  kernel/sched/features.h |   4 +
- 6 files changed, 363 insertions(+), 14 deletions(-)
+ 6 files changed, 366 insertions(+), 14 deletions(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
 index 77f01ac385..01f2839adf 100644
@@ -64,7 +64,7 @@ index 9dee4c1003..49d343e97b 100644
  	bool "Automatic process group scheduling"
  	select CGROUPS
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index a854b71836..8298f2a9b5 100644
+index a854b71836..a98cfa7ab4 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -4496,6 +4496,123 @@ int wake_up_state(struct task_struct *p, unsigned int state)
@@ -217,7 +217,7 @@ index a854b71836..8298f2a9b5 100644
  
 +#ifdef CONFIG_SCHED_BORE
 +	sched_init_bore();
-+	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 3.5.6 by Masahito Suzuki");
++	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 3.5.7 by Masahito Suzuki");
 +#endif // CONFIG_SCHED_BORE
 +
  	wait_bit_init();
@@ -238,7 +238,7 @@ index 4c3d0d9f3d..e37fdfad1c 100644
  	SEQ_printf(m, " %d %d", task_node(p), task_numa_group_id(p));
  #endif
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 1795f6fe99..59ffd50965 100644
+index 1795f6fe99..af6bac4862 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
 @@ -22,6 +22,9 @@
@@ -508,7 +508,7 @@ index 1795f6fe99..59ffd50965 100644
  	update_deadline(cfs_rq, curr);
  	update_min_vruntime(cfs_rq);
  
-@@ -5069,6 +5218,9 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
+@@ -5069,6 +5221,9 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
  	s64 lag = 0;
  
  	se->slice = sysctl_sched_base_slice;
@@ -533,7 +533,7 @@ index 1795f6fe99..59ffd50965 100644
  
  		/*
  		 * If we want to place a task and preserve lag, we have to
-@@ -5145,6 +5198,21 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
+@@ -5145,6 +5303,21 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
  		if (WARN_ON_ONCE(!load))
  			load = 1;
  		lag = div_s64(lag, load);
@@ -555,17 +555,20 @@ index 1795f6fe99..59ffd50965 100644
  	}
  
  	se->vruntime = vruntime - lag;
-@@ -6758,6 +6926,9 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
- 		rq->next_balance = jiffies;
+@@ -6701,6 +6874,12 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
+ 	bool was_sched_idle = sched_idle_rq(rq);
  
- dequeue_throttle:
+ 	util_est_dequeue(&rq->cfs, p);
 +#ifdef CONFIG_SCHED_BORE
-+	if (task_sleep) restart_burst(&p->se);
++	if (task_sleep) {
++		update_curr(cfs_rq_of(se));
++		restart_burst(se);
++	}
 +#endif // CONFIG_SCHED_BORE
- 	util_est_update(&rq->cfs, p, task_sleep);
- 	hrtick_update(rq);
- }
-@@ -8180,8 +8622,13 @@ static void yield_task_fair(struct rq *rq)
+ 
+ 	for_each_sched_entity(se) {
+ 		cfs_rq = cfs_rq_of(se);
+@@ -8180,8 +8459,13 @@ static void yield_task_fair(struct rq *rq)
  	/*
  	 * Are we the only task in the tree?
  	 */
@@ -580,7 +583,7 @@ index 1795f6fe99..59ffd50965 100644
  
  	clear_buddies(cfs_rq, se);
  
-@@ -8190,6 +8371,10 @@ static void yield_task_fair(struct rq *rq)
+@@ -8190,6 +8374,10 @@ static void yield_task_fair(struct rq *rq)
  	 * Update run-time statistics of the 'current'.
  	 */
  	update_curr(cfs_rq);
@@ -609,4 +612,3 @@ index f770168230..a2e09c04f3 100644
   * Prefer to schedule the task we woke last (assuming it failed
 -- 
 2.25.1
-
