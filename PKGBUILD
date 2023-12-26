@@ -122,8 +122,8 @@ _srcname="linux-${pkgver}-xanmod${xanmod}"
 source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar."{xz,sign}
         "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/main/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0001-bore.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-constgran-vanilla-max.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0001-EEVDF.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-linux6.5.y-eevdf-bore3.2.9r2.patch"
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0003-glitched-cfs.patch"
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0004-glitched-cfs-additions.patch"
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0005-o3-optimization.patch"
@@ -143,10 +143,10 @@ sha256sums=('7a574bbc20802ea76b52ca7faf07267f72045e861b18915c5272a98c27abf884' #
             'SKIP'                                                             # kernel signature
             '9056062aee2045b5cd68c1a043d96dc8dd4793aa87ac394a103f369fbf64d7fd' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            'd3a185427f26dd3356b80290f4648717e548c54614035bd3259c360c17a7d0ca' # 0001-bore.patch
-            'baf8d2d1b0701326ee6ba0ffeabec2b5d716b6e136b836f60069cf6937527165' # 0002-constgran-vanilla-max.patch
+            '49cff6e9471b35a2fe977233e0cc031cd4aef092341f0b7328243afc085b52e4' # 0001-EEVDF.patch
+            'c7e2bb9ce4cee0d4e4138279e1cefa19dd8839ac1d88735dcb99665a2a232447' # 0002-linux6.5.y-eevdf-bore3.2.9r2.patch
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0003-glitched-cfs.patch
-            '7a308df306e585ca230f724ec5f397e5273f662ebc6ae93a4b5f6d6780a41c3c' # 0004-glitched-cfs-additions.patch
+            '5486d0c24a4d3c4853dd419c8d2ce03f64da7fe7948fbe43bf7fdd2cb982b242' # 0004-glitched-cfs-additions.patch
             'b3c1601f1d43acab973b44813cbb1fcedfc3de9caf71e61615fa92b4cd76d041' # 0005-o3-optimization.patch
 )
 
