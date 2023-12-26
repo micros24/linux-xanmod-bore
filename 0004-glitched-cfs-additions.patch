@@ -25,53 +25,6 @@ diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
 index 6b3b59cc51d6..2a0072192c3d 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -77,8 +77,8 @@
-  * (CFS  default: 6ms * (1 + ilog(ncpus)), units: nanoseconds)
-  */
- #ifdef CONFIG_SCHED_BORE
--unsigned int sysctl_sched_latency			= 24000000ULL;
--static unsigned int normalized_sysctl_sched_latency	= 24000000ULL;
-+unsigned int sysctl_sched_latency			= 3000000ULL;
-+static unsigned int normalized_sysctl_sched_latency	= 3000000ULL;
- #else // CONFIG_SCHED_BORE
- unsigned int sysctl_sched_latency			= 6000000ULL;
- static unsigned int normalized_sysctl_sched_latency	= 6000000ULL;
-@@ -109,25 +114,33 @@
-  * (CFS  default: 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds)
-  */
- #ifdef CONFIG_SCHED_BORE
--unsigned int sysctl_sched_min_granularity			= 3000000ULL;
--static unsigned int normalized_sysctl_sched_min_granularity	= 3000000ULL;
-+unsigned int sysctl_sched_min_granularity			= 300000ULL;
-+static unsigned int normalized_sysctl_sched_min_granularity	= 300000ULL;
- #else // CONFIG_SCHED_BORE
- unsigned int sysctl_sched_min_granularity			= 750000ULL;
- static unsigned int normalized_sysctl_sched_min_granularity	= 750000ULL;
- #endif // CONFIG_SCHED_BORE
- 
- /*
-  * Minimal preemption granularity for CPU-bound SCHED_IDLE tasks.
-  * Applies only when SCHED_IDLE tasks compete with normal tasks.
-  *
-  * (default: 0.75 msec)
-  */
-+#ifdef CONFIG_SCHED_BORE
-+unsigned int sysctl_sched_idle_min_granularity			= 300000ULL;
-+#else // CONFIG_SCHED_BORE
- unsigned int sysctl_sched_idle_min_granularity			= 750000ULL;
-+#endif // CONFIG_SCHED_BORE
- 
- /*
-  * This value is kept at sysctl_sched_latency/sysctl_sched_min_granularity
-  */
-+#ifdef CONFIG_SCHED_BORE
-+static unsigned int sched_nr_latency = 10;
-+#else
- static unsigned int sched_nr_latency = 8;
-+#endif
- 
- /*
-  * After fork, child runs first. If set to 0 (default) then
 @@ -274,7 +295,11 @@ int __weak arch_asym_cpu_priority(int cpu)
   *
   * (default: 5 msec, units: microseconds)
