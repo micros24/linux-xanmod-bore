@@ -1,6 +1,6 @@
 # linux-xanmod-bore
 
-A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kernel with cfs patches from tkg. Tickrate customizations are set inside the PKGBUILD file, together with other Xanmod customizations.
+A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kernel. Tickrate customizations are set inside the PKGBUILD file together with other Xanmod customizations.
 
 # Changes from Xanmod
 
