@@ -25,7 +25,7 @@ pkgbase = linux-xanmod-bore
 	sha256sums = SKIP
 	sha256sums = 043fef298fa0193a0deb5a276b63f3ff1bc0335aec0fb986855527c5dc2a0ec7
 	sha256sums = 5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30
-	sha256sums = c802ac438b34602b7a7e89a3e3d144e94defccddb1a140ebb00d4ba3cc0eb8bc
+	sha256sums = e202cf486650d6a3651dec13e7c70ecc45e2f7b3d5455c4dbe8d8b33170c0edd
 	sha256sums = 30dc69c13d6bb0492ff61e9fdbd3b198eb0bb5b33845726c8008822e9162d667
 
 pkgname = linux-xanmod-bore
