@@ -297,9 +297,6 @@ prepare() {
   # Disabling Debug
   if [ "$_disable_debug" = "y" ]; then
     echo "Disabling debugging..."
-    scripts/config --disable EXPERT
-    scripts/config --disable DEBUG_KERNEL
-    scripts/config --disable DEBUG_INFO
     scripts/config --disable DEBUG_INFO_BTF
     scripts/config --disable DEBUG_INFO_DWARF4
     scripts/config --disable DEBUG_INFO_DWARF5
