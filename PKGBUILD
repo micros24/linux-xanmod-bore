@@ -120,7 +120,7 @@ fi
 options=('!strip')
 _srcname="linux-${pkgver}-xanmod${xanmod}"
 source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar."{xz,sign}
-        "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/main/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
+        "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/edge/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0001-bore.patch"
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-o3-optimization.patch"
@@ -136,12 +136,12 @@ _patches=()
 for _patch in ${_patches[@]}; do
     source+=("${_patch}::https://raw.githubusercontent.com/archlinux/svntogit-packages/${_commit}/trunk/${_patch}")
 done
-sha256sums=('d926a06c63dd8ac7df3f86ee1ffc2ce2a3b81a2d168484e76b5b389aba8e56d0' # kernel
+sha256sums=('ef31144a2576d080d8c31698e83ec9f66bf97c677fa2aaf0d5bbb9f3345b1069' # kernel
             'SKIP'                                                             # kernel signature
-            '29f423ed8398889ee43f6a29680e68653b6a5191c68d9e6d1aaf34faa27ba851' # xanmod patch
+            '26e7bd2a76fc5ee8e2f314097e3361acb021d919f812141c966a13e5e12f5438' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            '4933331ddc466aa9df267af5b530522d204c998e0d99075984381b41f7a93f21' # 0001-bore.patch
-            '30dc69c13d6bb0492ff61e9fdbd3b198eb0bb5b33845726c8008822e9162d667' # 0002-o3-optimization.patch
+            '3bd637db076e66b994f8af2f3ef096b751e4cb92a9414e814530b11acd0c94f7' # 0001-bore.patch
+            'f4384ffedc2f3585229a669b127f1759db92125e3d0068be9040df5952f56466' # 0002-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
