@@ -37,7 +37,7 @@ fi
 ## Set variable "_use_tracers" to: n to disable (possibly increase performance, XanMod default)
 ##                                y to enable  (Archlinux default)
 if [ -z ${_use_tracers+x} ]; then
-  _use_tracers=n
+  _use_tracers=y
 fi
 
 # Unique compiler supported upstream is GCC
@@ -267,12 +267,10 @@ prepare() {
 
   # User set. See at the top of this file
   if [ "$_use_tracers" = "y" ]; then
-    echo "Enabling CONFIG_FTRACE only if we are not compiling with clang..."
-    if [ "${_compiler}" = "gcc" ]; then
-      scripts/config --enable CONFIG_FTRACE \
-                     --enable CONFIG_FUNCTION_TRACER \
-                     --enable CONFIG_STACK_TRACER
-    fi
+    echo "Enabling CONFIG_FTRACE..."
+    scripts/config --enable CONFIG_FTRACE \
+                   --enable CONFIG_FUNCTION_TRACER \
+                   --enable CONFIG_STACK_TRACER
   fi
 
   # Disabling NUMA
