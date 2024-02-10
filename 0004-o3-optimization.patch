@@ -12,7 +12,7 @@ index d5041f7daf689..d50f8b36065de 100644
  else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
  KBUILD_CFLAGS += -Os
  KBUILD_RUSTFLAGS += -Copt-level=s
-@@ -1215,11 +1218,6 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
+@@ -1209,11 +1203,6 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
  # Make sure -fstack-check isn't enabled (like gentoo apparently did)
  KBUILD_CFLAGS  += -fno-stack-check
  
@@ -185,7 +185,7 @@ index 944b347025fd1..ed64319f7eb29 100644
 index 32c24950c4ced..b6d38eccca108 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1398,6 +1418,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
+@@ -1446,6 +1418,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
  	  with the "-O2" compiler flag for best performance and most
  	  helpful compile-time warnings.
  
