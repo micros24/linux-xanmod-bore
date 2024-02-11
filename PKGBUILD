@@ -142,9 +142,9 @@ sha256sums=('2ca1f17051a430f6fed1196e4952717507171acfd97d96577212502703b25deb' #
             'SKIP'                                                             # kernel signature
             '4422aa1a4dbcfd145fd081eec460d8bf42f3816f8b05bc94615c0a96c5352c37' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            '0baadf3c636b82d99fd6db477783510d263a6d5c5217f18d3d9a8471a20f10b0' # 0001-bore.patch
+            '3124b17a5174d169e4c47f1a26f95dbad3bf75da31d3902170cc3802591180b4' # 0001-bore.patch
             '21e98d300d48f7d087bfae7bf5fba9fb320e2d6cec20856a29dfeb34a6ff7c3b' # 0002-glitched-cfs.patch
-            '4c94ffb33f866b9793b6106e802256cb7d1323088dec13a18c95bfd92629b05b' # 0003-glitched-cfs-additions.patch
+            '0eb63487f97d07cfa73b45eea0a5384838b0f139c26197c07b329f721d90b0b2' # 0003-glitched-cfs-additions.patch
             '6522633aae533aa9169410cfd035da75741b65724b3995711c5849ae308357d2' # 0004-o3-optimization.patch
 )
 
