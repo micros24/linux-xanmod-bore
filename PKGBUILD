@@ -100,7 +100,7 @@ fi
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-bore
 _major=6.7
-pkgver=${_major}.3
+pkgver=${_major}.4
 _branch=6.x
 xanmod=1
 _revision=
@@ -123,7 +123,9 @@ source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar
         "patch-${pkgver}-xanmod${xanmod}${_revision}.xz::https://sourceforge.net/projects/xanmod/files/releases/edge/${pkgver}-xanmod${xanmod}${_revision}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
         "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0001-bore.patch"
-        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-o3-optimization.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0002-glitched-cfs.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0003-glitched-eevdf-additions.patch"
+        "https://raw.githubusercontent.com/micros24/linux-xanmod-bore/${_major}/0004-o3-optimization.patch"
 )
 validpgpkeys=(
     'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linux Torvalds
@@ -138,10 +140,12 @@ for _patch in ${_patches[@]}; do
 done
 sha256sums=('ef31144a2576d080d8c31698e83ec9f66bf97c677fa2aaf0d5bbb9f3345b1069' # kernel
             'SKIP'                                                             # kernel signature
-            '26e7bd2a76fc5ee8e2f314097e3361acb021d919f812141c966a13e5e12f5438' # xanmod patch
+            '5c0534f1a301ca43d0b2befbdc1859016c5a33a321efbd77300ea4c2a9b00214' # xanmod patch
             '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            '3bd637db076e66b994f8af2f3ef096b751e4cb92a9414e814530b11acd0c94f7' # 0001-bore.patch
-            'f4384ffedc2f3585229a669b127f1759db92125e3d0068be9040df5952f56466' # 0002-o3-optimization.patch
+            'f8e21f14bdf2f90f37ab03e9b67cee83b999547bbfc9e0c67d1942c4dc3e40fb' # 0001-bore.patch
+            '02be008f054a44322a74f0615e8a0d3ad7d6c5bc80182472a9cefbded959ce61' # 0002-glitched-cfs.patch
+            '73d4dfd63744a7a510354a66255067ae9aebc4a5c538df32eab852cf7691c835' # 0003-glitched-eevdf-additions.patch
+            'f4384ffedc2f3585229a669b127f1759db92125e3d0068be9040df5952f56466' # 0004-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
