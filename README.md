@@ -4,16 +4,17 @@ A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kerne
 
 # Changes from Xanmod
 
-- BORE scheduler
-- O3 optimization (can be disabled)
-- Clang compiler set to LTO_FULL (default compiler is GCC)
-- Enabled the use of all CPU cores for compilation
-- Enabled tracers in kernel options
-- Disabled NUMA by default (can be enabled)
-- Disabled kernel debugging by default (can be enabled)
-- Choose your tickrate HZ from 1000, 500, 300, or 100. (500 is default)
-- Choose your tickrate handling from tickless, idle, or constant (tickless is default)
-- Choose your Preemption Model from preemptible, voluntary, or server (preemptible is default)
+- BORE scheduler.
+- O3 optimization (can be disabled).
+- Clang compiler set to LTO_FULL (default compiler is GCC).
+- Enabled the use of all CPU cores for compilation.
+- Enabled tracers in kernel options.
+- Glitched patches from Frogging Family.
+- Disabled NUMA by default (can be enabled).
+- Disabled kernel debugging by default (can be enabled).
+- Choose your tickrate HZ from 1000, 500, 300, or 100. (500 is default).
+- Choose your tickrate handling from tickless, idle, or constant (tickless is default).
+- Choose your Preemption Model from preemptible, voluntary, or server (preemptible is default).
 
 ## Misc. changes
 
@@ -30,6 +31,6 @@ Xanmod - http://www.xanmod.org/
 
 BORE Scheduler - https://github.com/firelzrd/bore-scheduler
 
-Glitched cfs patch - https://github.com/Frogging-Family/linux-tkg
+Glitched patches - https://github.com/Frogging-Family/linux-tkg
 
 CachyOS - https://github.com/CachyOS/linux-cachyos
