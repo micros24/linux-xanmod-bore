@@ -120,8 +120,6 @@ makedepends=(
   tar
   xz
 )
-_jobs=$(nproc)
-_core=$(nproc --all)
 if [ "${_compiler}" = "clang" ]; then
   makedepends+=(clang llvm lld)
 fi
@@ -390,7 +388,7 @@ prepare() {
 
 build() {
   cd linux-${_major}
-  make ${_compiler_flags} all
+  make ${_compiler_flags} -j$(nproc) all
 }
 
 _package() {
