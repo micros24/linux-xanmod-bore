@@ -184,6 +184,7 @@ prepare() {
   cp -vf CONFIGS/xanmod/gcc/${_config} .config
 
   # enable LTO_CLANG_FULL
+  echo "Enabling LTO_CLANG_FULL..."
   if [ "${_compiler}" = "clang" ]; then
     scripts/config --enable LTO
     scripts/config --enable LTO_CLANG
@@ -194,6 +195,11 @@ prepare() {
     scripts/config --enable LTO_CLANG_FULL
     scripts/config --disable LTO_CLANG_THIN
   fi
+
+  # Disable features not needed for desktop use
+  scripts/config --disable X86_EXTENDED_PLATFORM \
+                 --disable BLK_DEBUG_FS \
+                 --disable MEMORY_HOTPLUG
 
   # Setting HZ tick rate
   echo "Setting Tickrate HZ..."
