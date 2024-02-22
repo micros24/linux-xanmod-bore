@@ -186,14 +186,15 @@ prepare() {
   # enable LTO_CLANG_FULL
   echo "Enabling LTO_CLANG_FULL..."
   if [ "${_compiler}" = "clang" ]; then
-    scripts/config --enable LTO
-    scripts/config --enable LTO_CLANG
-    scripts/config --enable ARCH_SUPPORTS_LTO_CLANG
-    scripts/config --enable ARCH_SUPPORTS_LTO_CLANG_THIN
-    scripts/config --disable LTO_NONE
-    scripts/config --enable HAS_LTO_CLANG
-    scripts/config --enable LTO_CLANG_FULL
-    scripts/config --disable LTO_CLANG_THIN
+    scripts/config --disable LTO_CLANG_THIN \
+                   --disable LTO_NONE \
+                   --enable LTO \
+                   --enable LTO_CLANG \
+                   --enable ARCH_SUPPORTS_LTO_CLANG \
+                   --enable ARCH_SUPPORTS_LTO_CLANG_THIN \
+                   --enable HAS_LTO_CLANG \
+                   --enable LTO_CLANG_FULL
+
   fi
 
   # Disable features not needed for desktop use
@@ -204,137 +205,136 @@ prepare() {
   # Setting HZ tick rate
   echo "Setting Tickrate HZ..."
   if [ "$_tickrate_HZ" = "1000" ]; then
-    scripts/config --disable HZ_250
-    scripts/config --enable HZ_1000
+    scripts/config --disable HZ_250 \
+                   --enable HZ_1000
   elif [ "$_tickrate_HZ" = "500" ]; then
-    scripts/config --disable HZ_250
-    scripts/config --enable HZ_500
+    scripts/config --disable HZ_250 \
+                   --enable HZ_500
   elif [ "$_tickrate_HZ" = "250" ]; then
-    scripts/config --disable HZ_250
-    scripts/config --enable HZ_300
+    scripts/config --disable HZ_250 \
+                   --enable HZ_300
   elif [ "$_tickrate_HZ" = "100" ]; then
-    scripts/config --disable HZ_250
-    scripts/config --enable HZ_100
+    scripts/config --disable HZ_250 \
+                   --enable HZ_100
   fi
 
   # Selecting tick type
   echo "Setting tick type..."
   if [ "$_tickrate" = "tickless" ]; then
-    scripts/config --disable HZ_PERIODIC
-    scripts/config --disable NO_HZ_IDLE
-    scripts/config --disable CONTEXT_TRACKING_FORCE
-    scripts/config --enable NO_HZ_FULL_NODEF
-    scripts/config --enable NO_HZ_FULL
-    scripts/config --enable NO_HZ
-    scripts/config --enable NO_HZ_COMMON
-    scripts/config --enable CONTEXT_TRACKING
+    scripts/config --disable HZ_PERIODIC \
+                   --disable NO_HZ_IDLE \
+                   --disable CONTEXT_TRACKING_FORCE \
+                   --enable NO_HZ_FULL_NODEF \
+                   --enable NO_HZ_FULL \
+                   --enable NO_HZ \
+                   --enable NO_HZ_COMMON \
+                   --enable CONTEXT_TRACKING
   elif [ "$_tickrate" = "idle" ]; then
-    scripts/config --disable HZ_PERIODIC
-    scripts/config --disable NO_HZ_FULL
-    scripts/config --enable NO_HZ_IDLE
-    scripts/config --enable NO_HZ
-    scripts/config --enable NO_HZ_COMMON
+    scripts/config --disable HZ_PERIODIC \
+                   --disable NO_HZ_FULL \
+                   --enable NO_HZ_IDLE \
+                   --enable NO_HZ \
+                   --enable NO_HZ_COMMON
   elif [ "$_tickrate" = "constant" ]; then
-    scripts/config --disable NO_HZ_IDLE
-    scripts/config --disable NO_HZ_FULL
-    scripts/config --disable NO_HZ
-    scripts/config --disable NO_HZ_COMMON
-    scripts/config --enable HZ_PERIODIC
+    scripts/config --disable NO_HZ_IDLE \
+                   --disable NO_HZ_FULL \
+                   --disable NO_HZ \
+                   --disable NO_HZ_COMMON \
+                   --enable HZ_PERIODIC
   fi
 
   # Selecting Preemption model
   echo "Setting preemption model..."
   if [ "$_preemptmodel" = "preemptible" ]; then
-    scripts/config --disable PREEMPT_NONE
-    scripts/config --disable PREEMPT_VOLUNTARY
-    scripts/config --enable PREEMPT_BUILD
-    scripts/config --enable PREEMPT
-    scripts/config --enable PREEMPT_COUNT
-    scripts/config --enable PREEMPTION
-    scripts/config --enable PREEMPT_DYNAMIC
+    scripts/config --disable PREEMPT_NONE \
+                   --disable PREEMPT_VOLUNTARY \
+                   --enable PREEMPT_BUILD \
+                   --enable PREEMPT \
+                   --enable PREEMPT_COUNT \
+                   --enable PREEMPTION \
+                   --enable PREEMPT_DYNAMIC
   elif [ "$_preemptmodel" = "voluntary" ]; then
-    scripts/config --disable PREEMPT_NONE
-    scripts/config --disable PREEMPT
-    scripts/config --disable PREEMPT_DYNAMIC
-    scripts/config --enable PREEMPT_BUILD
-    scripts/config --enable PREEMPT_VOLUNTARY
-    scripts/config --enable PREEMPT_COUNT
-    scripts/config --enable PREEMPTION
+    scripts/config --disable PREEMPT_NONE \
+                   --disable PREEMPT \
+                   --disable PREEMPT_DYNAMIC \
+                   --enable PREEMPT_BUILD \
+                   --enable PREEMPT_VOLUNTARY \
+                   --enable PREEMPT_COUNT \
+                   --enable PREEMPTION
   elif [ "$_preemptmodel" = "server" ]; then
-    scripts/config --disable PREEMPT_VOLUNTARY
-    scripts/config --disable PREEMPT
-    scripts/config --disable PREEMPTION
-    scripts/config --disable PREEMPT_DYNAMIC
-    scripts/config --enable PREEMPT_NONE_BUILD
-    scripts/config --enable PREEMPT_NONE
+    scripts/config --disable PREEMPT_VOLUNTARY \
+                   --disable PREEMPT \
+                   --disable PREEMPTION \
+                   --disable PREEMPT_DYNAMIC \
+                   --enable PREEMPT_NONE_BUILD \
+                   --enable PREEMPT_NONE
   fi
 
   # Setting O3
   if [ "$_use_O3" = "y" ]; then
     echo "Enabling O3..."
-    scripts/config --disable CC_OPTIMIZE_FOR_PERFORMANCE
-    scripts/config --enable CC_OPTIMIZE_FOR_PERFORMANCE_O3
+    scripts/config --disable CC_OPTIMIZE_FOR_PERFORMANCE \
+                   --enable CC_OPTIMIZE_FOR_PERFORMANCE_O3
   fi
 
   # CONFIG_STACK_VALIDATION gives better stack traces. Also is enabled in all official kernel packages by Archlinux team
-  scripts/config --enable CONFIG_STACK_VALIDATION
+  scripts/config --enable STACK_VALIDATION
 
   # Enable IKCONFIG following Arch's philosophy
-  scripts/config --enable CONFIG_IKCONFIG \
-                 --enable CONFIG_IKCONFIG_PROC
+  scripts/config --enable IKCONFIG \
+                 --enable IKCONFIG_PROC
 
   # Requested by Alexandre Frade to fix issues in python-gbinder
-  scripts/config --enable CONFIG_ANDROID_BINDERFS
-  scripts/config --enable CONFIG_ANDROID_BINDER_IPC
+  scripts/config --enable ANDROID_BINDERFS
+  scripts/config --enable ANDROID_BINDER_IPC
 
   # User set. See at the top of this file
   if [ "$_use_tracers" = "y" ]; then
     echo "Enabling CONFIG_FTRACE..."
-    scripts/config --enable CONFIG_FTRACE \
-                   --enable CONFIG_FUNCTION_TRACER \
-                   --enable CONFIG_STACK_TRACER
+    scripts/config --enable FTRACE \
+                   --enable FUNCTION_TRACER \
+                   --enable STACK_TRACER
   fi
 
   # Disabling NUMA
   if [ "$_use_numa" = "n" ]; then
     echo "Disabling NUMA..."
-    scripts/config --disable CONFIG_NUMA
-    scripts/config --disable NUMA
-    scripts/config --disable AMD_NUMA
-    scripts/config --disable X86_64_ACPI_NUMA
-    scripts/config --disable NODES_SPAN_OTHER_NODES
-    scripts/config --disable NUMA_EMU
-    scripts/config --disable USE_PERCPU_NUMA_NODE_ID
-    scripts/config --disable ACPI_NUMA
-    scripts/config --disable ARCH_SUPPORTS_NUMA_BALANCING
-    scripts/config --disable NODES_SHIFT
-    scripts/config --undefine NODES_SHIFT
-    scripts/config --disable NEED_MULTIPLE_NODES
-    scripts/config --disable NUMA_BALANCING
-    scripts/config --disable NUMA_BALANCING_DEFAULT_ENABLED
+    scripts/config --disable NUMA \
+                   --disable AMD_NUMA \
+                   --disable X86_64_ACPI_NUMA \
+                   --disable NODES_SPAN_OTHER_NODES \
+                   --disable NUMA_EMU \
+                   --disable USE_PERCPU_NUMA_NODE_ID \
+                   --disable ACPI_NUMA \
+                   --disable ARCH_SUPPORTS_NUMA_BALANCING \
+                   --disable NODES_SHIFT \
+                   --undefine NODES_SHIFT \
+                   --disable NEED_MULTIPLE_NODES \
+                   --disable NUMA_BALANCING \
+                   --disable NUMA_BALANCING_DEFAULT_ENABLED
   fi
 
   # Disabling Debug
   if [ "$_disable_debug" = "y" ]; then
     echo "Disabling debugging..."
-    scripts/config --disable DEBUG_INFO_BTF
-    scripts/config --disable DEBUG_INFO_DWARF4
-    scripts/config --disable DEBUG_INFO_DWARF5
-    scripts/config --disable PAHOLE_HAS_SPLIT_BTF
-    scripts/config --disable DEBUG_INFO_BTF_MODULES
-    scripts/config --disable SLUB_DEBUG
-    scripts/config --disable PM_DEBUG
-    scripts/config --disable PM_ADVANCED_DEBUG
-    scripts/config --disable PM_SLEEP_DEBUG
-    scripts/config --disable ACPI_DEBUG
-    scripts/config --disable SCHED_DEBUG
-    scripts/config --disable LATENCYTOP
-    scripts/config --disable DEBUG_PREEMPT
+    scripts/config --disable DEBUG_INFO_BTF \
+                   --disable DEBUG_INFO_DWARF4 \
+                   --disable DEBUG_INFO_DWARF5 \
+                   --disable PAHOLE_HAS_SPLIT_BTF \
+                   --disable DEBUG_INFO_BTF_MODULES \
+                   --disable SLUB_DEBUG \
+                   --disable PM_DEBUG \
+                   --disable PM_ADVANCED_DEBUG \
+                   --disable PM_SLEEP_DEBUG \
+                   --disable ACPI_DEBUG \
+                   --disable SCHED_DEBUG \
+                   --disable LATENCYTOP \
+                   --disable DEBUG_PREEMPT
   fi
 
   # Compress modules by default (following Arch's kernel)
   if [ "$_compress_modules" = "y" ]; then
-    scripts/config --enable CONFIG_MODULE_COMPRESS_ZSTD
+    scripts/config --enable MODULE_COMPRESS_ZSTD
   fi
 
   # Let's user choose microarchitecture optimization in GCC
