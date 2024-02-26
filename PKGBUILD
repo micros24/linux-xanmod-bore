@@ -24,13 +24,6 @@ if [ -z ${_use_numa+x} ]; then
   _use_numa=n
 fi
 
-## Disable kernel debugging
-## Enabling debugging increases kernel overhead by a tiny amount
-## No debugging messages will be present when trying to fix kernel stuff
-if [ -z ${_disable_debug+x} ]; then
-  _disable_debug=y
-fi
-
 ## Since upstream disabled CONFIG_STACK_TRACER (limits debugging and analyzing of the kernel)
 ## you can enable them setting this option. Caution, because they have an impact in performance.
 ## Stock Archlinux has this enabled. 
@@ -311,24 +304,6 @@ prepare() {
                    --disable NEED_MULTIPLE_NODES \
                    --disable NUMA_BALANCING \
                    --disable NUMA_BALANCING_DEFAULT_ENABLED
-  fi
-
-  # Disabling Debug
-  if [ "$_disable_debug" = "y" ]; then
-    echo "Disabling debugging..."
-    scripts/config --disable DEBUG_INFO_BTF \
-                   --disable DEBUG_INFO_DWARF4 \
-                   --disable DEBUG_INFO_DWARF5 \
-                   --disable PAHOLE_HAS_SPLIT_BTF \
-                   --disable DEBUG_INFO_BTF_MODULES \
-                   --disable SLUB_DEBUG \
-                   --disable PM_DEBUG \
-                   --disable PM_ADVANCED_DEBUG \
-                   --disable PM_SLEEP_DEBUG \
-                   --disable ACPI_DEBUG \
-                   --disable SCHED_DEBUG \
-                   --disable LATENCYTOP \
-                   --disable DEBUG_PREEMPT
   fi
 
   # Compress modules by default (following Arch's kernel)
