@@ -175,18 +175,17 @@ prepare() {
   # Applying configuration
   cp -vf CONFIGS/xanmod/gcc/${_config} .config
 
-  # enable LTO_CLANG_FULL
-  echo "Enabling LTO_CLANG_FULL..."
+  # enable LTO_CLANG_THIN
+  echo "Enabling LTO_CLANG_THIN..."
   if [ "${_compiler}" = "clang" ]; then
-    scripts/config --disable LTO_CLANG_THIN \
+    scripts/config --disable LTO_CLANG_FULL \
                    --disable LTO_NONE \
                    --enable LTO \
                    --enable LTO_CLANG \
                    --enable ARCH_SUPPORTS_LTO_CLANG \
                    --enable ARCH_SUPPORTS_LTO_CLANG_THIN \
                    --enable HAS_LTO_CLANG \
-                   --enable LTO_CLANG_FULL
-
+                   --enable LTO_CLANG_THIN
   fi
 
   # Disable features not needed for desktop use

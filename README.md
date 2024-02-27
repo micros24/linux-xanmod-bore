@@ -6,7 +6,7 @@ A simple patchset to include BORE scheduler by Masahito Suzuki into Xanmod kerne
 
 - BORE scheduler.
 - O3 optimization (can be disabled).
-- Clang compiler set to LTO_FULL (default compiler is GCC).
+- Clang compiler set to LTO_THIN (default compiler is GCC).
 - Enabled the use of all CPU cores for compilation.
 - Enabled tracers in kernel options.
 - Glitched patches from Frogging Family.
