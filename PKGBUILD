@@ -189,9 +189,14 @@ prepare() {
   fi
 
   # Disable features not needed for desktop use
+  echo "Disabling features not needed for desktop use..."
   scripts/config --disable X86_EXTENDED_PLATFORM \
                  --disable BLK_DEBUG_FS \
                  --disable MEMORY_HOTPLUG
+
+  # Setting features for desktop use
+  echo "Setting features for desktop use..."
+  scripts/config --set-val CONFIG_BLK_DEV_LOOP_MIN_COUNT 0
 
   # Setting HZ tick rate
   echo "Setting Tickrate HZ..."
