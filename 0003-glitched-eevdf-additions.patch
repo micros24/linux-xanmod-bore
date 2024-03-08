@@ -16,7 +16,7 @@ diff -Naur vlinux-6.6.1/kernel/sched/fair.c linux-6.6.1/kernel/sched/fair.c
  
  #ifdef CONFIG_SCHED_BORE
  u8   __read_mostly sched_bore                   = 1;
-@@ -240,7 +248,7 @@
+@@ -242,7 +250,7 @@
   *
   * (default: 5 msec, units: microseconds)
   */
