@@ -1,17 +1,17 @@
-From cce9611cc1a81c81f74623b0e0d7233ee642dd03 Mon Sep 17 00:00:00 2001
+From 0e5785adf200d7275b352882c52aa05eac4c053a Mon Sep 17 00:00:00 2001
 From: Masahito S <firelzrd@gmail.com>
-Date: Sun, 3 Mar 2024 05:14:31 +0900
-Subject: [PATCH] linux6.7.y-bore4.5.0
+Date: Fri, 8 Mar 2024 04:20:57 +0900
+Subject: [PATCH] linux6.7.y-bore4.5.2
 
 ---
  include/linux/sched.h   |  12 ++
  init/Kconfig            |  19 +++
- kernel/sched/core.c     | 148 ++++++++++++++++++++
+ kernel/sched/core.c     | 148 +++++++++++++++++++
  kernel/sched/debug.c    |  61 +++++++-
- kernel/sched/fair.c     | 302 ++++++++++++++++++++++++++++++++++++++--
+ kernel/sched/fair.c     | 306 ++++++++++++++++++++++++++++++++++++++--
  kernel/sched/features.h |   4 +
  kernel/sched/sched.h    |   7 +
- 7 files changed, 538 insertions(+), 15 deletions(-)
+ 7 files changed, 542 insertions(+), 15 deletions(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
 index 292c316972..5abe14fc13 100644
@@ -67,7 +67,7 @@ index 9ffb103fc9..4492c5de88 100644
  	bool "Automatic process group scheduling"
  	select CGROUPS
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index a708d225c2..1109e30c9d 100644
+index a708d225c2..a741289980 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -4488,6 +4488,143 @@ int wake_up_state(struct task_struct *p, unsigned int state)
@@ -240,7 +240,7 @@ index a708d225c2..1109e30c9d 100644
  
 +#ifdef CONFIG_SCHED_BORE
 +	sched_init_bore();
-+	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 4.5.0 by Masahito Suzuki");
++	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 4.5.2 by Masahito Suzuki");
 +#endif // CONFIG_SCHED_BORE
 +
  	wait_bit_init();
@@ -355,7 +355,7 @@ index 4580a45070..033cbe7d34 100644
  	P(se.avg.runnable_sum);
  	P(se.avg.util_sum);
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 4182fb118c..897da7598e 100644
+index 4182fb118c..ba24b9d5ce 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
 @@ -22,6 +22,9 @@
@@ -409,7 +409,7 @@ index 4182fb118c..897da7598e 100644
 +u8   __read_mostly sched_burst_penalty_offset   = 22;
 +uint __read_mostly sched_burst_penalty_scale    = 1280;
 +uint __read_mostly sched_burst_cache_lifetime   = 60000000;
-+u8   __read_mostly sched_vlag_deviation_limit   = 8;
++u8   __read_mostly sched_vlag_deviation_limit   = 11;
 +static int __maybe_unused thirty_two     = 32;
 +static int __maybe_unused sixty_four     = 64;
 +static int __maybe_unused maxval_12_bits = 4095;
@@ -784,7 +784,7 @@ index 4182fb118c..897da7598e 100644
  	if (sched_feat(PLACE_LAG) && cfs_rq->nr_running) {
  		struct sched_entity *curr = cfs_rq->curr;
  		unsigned long load;
-@@ -5241,12 +5489,18 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
+@@ -5241,12 +5489,22 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
  		 */
  		load = cfs_rq->avg_load;
  		if (curr && curr->on_rq)
@@ -793,7 +793,11 @@ index 4182fb118c..897da7598e 100644
  
 -		lag *= load + scale_load_down(se->load.weight);
 +		lag *= load + entity_weight(se);
++#if !defined(CONFIG_SCHED_BORE)
  		if (WARN_ON_ONCE(!load))
++#else // CONFIG_SCHED_BORE
++		if (unlikely(!load))
++#endif // CONFIG_SCHED_BORE
  			load = 1;
 -		lag = div_s64(lag, load);
 +		lag = div64_s64(lag, load);
@@ -821,7 +825,7 @@ index 4182fb118c..897da7598e 100644
  
  	for_each_sched_entity(se) {
  		cfs_rq = cfs_rq_of(se);
-@@ -8291,16 +8553,25 @@ static void yield_task_fair(struct rq *rq)
+@@ -8291,16 +8557,25 @@ static void yield_task_fair(struct rq *rq)
  	/*
  	 * Are we the only task in the tree?
  	 */
@@ -847,7 +851,7 @@ index 4182fb118c..897da7598e 100644
  	/*
  	 * Tell update_rq_clock() that we've just updated,
  	 * so we don't do microscopic update in schedule()
-@@ -12390,6 +12661,9 @@ static void task_fork_fair(struct task_struct *p)
+@@ -12390,6 +12665,9 @@ static void task_fork_fair(struct task_struct *p)
  	curr = cfs_rq->curr;
  	if (curr)
  		update_curr(cfs_rq);
