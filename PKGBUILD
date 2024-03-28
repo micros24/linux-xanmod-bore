@@ -193,7 +193,8 @@ prepare() {
   scripts/config --disable X86_EXTENDED_PLATFORM \
                  --disable BLK_DEBUG_FS \
                  --disable MEMORY_HOTPLUG \
-                 --disable CONFIG_ANDROID_BINDER_IPC
+                 --disable CONFIG_ANDROID_BINDER_IPC \
+                 --disable ACPI_DEBUGGER
 
   # Setting features for desktop use
   echo "Setting features for desktop use..."
