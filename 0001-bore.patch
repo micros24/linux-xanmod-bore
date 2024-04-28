@@ -1,17 +1,17 @@
-From 8290a89a457630789bdb57ed40353d181369aa10 Mon Sep 17 00:00:00 2001
+From feae72fd7f2403910c157dd679d6ec240ed1dfbf Mon Sep 17 00:00:00 2001
 From: Masahito S <firelzrd@gmail.com>
-Date: Tue, 26 Mar 2024 03:28:54 +0900
-Subject: [PATCH] linux6.8.y-bore5.0.3
+Date: Mon, 22 Apr 2024 04:12:58 +0900
+Subject: [PATCH] linux6.8.y-bore5.1.0
 
 ---
  include/linux/sched.h   |  10 ++
- init/Kconfig            |  17 ++++
- kernel/sched/core.c     | 144 ++++++++++++++++++++++++++
+ init/Kconfig            |  17 +++
+ kernel/sched/core.c     | 143 +++++++++++++++++++++++++
  kernel/sched/debug.c    |  60 ++++++++++-
- kernel/sched/fair.c     | 218 +++++++++++++++++++++++++++++++++++++++-
+ kernel/sched/fair.c     | 230 ++++++++++++++++++++++++++++++++++++++--
  kernel/sched/features.h |   4 +
  kernel/sched/sched.h    |   7 ++
- 7 files changed, 457 insertions(+), 3 deletions(-)
+ 7 files changed, 462 insertions(+), 9 deletions(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
 index ffe8f618ab..0ab0b04240 100644
@@ -63,15 +63,14 @@ index bee58f7468..13427dbb48 100644
  	bool "Automatic process group scheduling"
  	select CGROUPS
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 9116bcc903..fc3d7b48e9 100644
+index 9116bcc903..d1711f75f8 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -4515,6 +4515,139 @@ int wake_up_state(struct task_struct *p, unsigned int state)
+@@ -4515,6 +4515,138 @@ int wake_up_state(struct task_struct *p, unsigned int state)
  	return try_to_wake_up(p, state, 0);
  }
  
 +#ifdef CONFIG_SCHED_BORE
-+extern bool sched_bore;
 +extern u8   sched_burst_fork_atavistic;
 +extern uint sched_burst_cache_lifetime;
 +
@@ -206,7 +205,7 @@ index 9116bcc903..fc3d7b48e9 100644
  /*
   * Perform scheduler related setup for a newly forked process p.
   * p is forked by current.
-@@ -4531,6 +4664,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
+@@ -4531,6 +4663,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
  	p->se.prev_sum_exec_runtime	= 0;
  	p->se.nr_migrations		= 0;
  	p->se.vruntime			= 0;
@@ -216,7 +215,7 @@ index 9116bcc903..fc3d7b48e9 100644
  	p->se.vlag			= 0;
  	p->se.slice			= sysctl_sched_base_slice;
  	INIT_LIST_HEAD(&p->se.group_node);
-@@ -4847,6 +4983,9 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
+@@ -4847,6 +4982,9 @@ void sched_cgroup_fork(struct task_struct *p, struct kernel_clone_args *kargs)
  
  void sched_post_fork(struct task_struct *p)
  {
@@ -226,13 +225,13 @@ index 9116bcc903..fc3d7b48e9 100644
  	uclamp_post_fork(p);
  }
  
-@@ -9924,6 +10063,11 @@ void __init sched_init(void)
+@@ -9924,6 +10062,11 @@ void __init sched_init(void)
  	BUG_ON(&dl_sched_class != &stop_sched_class + 1);
  #endif
  
 +#ifdef CONFIG_SCHED_BORE
 +	sched_init_bore();
-+	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 5.0.3 by Masahito Suzuki");
++	printk(KERN_INFO "BORE (Burst-Oriented Response Enhancer) CPU Scheduler modification 5.1.0 by Masahito Suzuki");
 +#endif // CONFIG_SCHED_BORE
 +
  	wait_bit_init();
@@ -346,7 +345,7 @@ index 8d5d98a583..b178612617 100644
  	P(se.avg.runnable_sum);
  	P(se.avg.util_sum);
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 533547e3c9..ae55f46a8a 100644
+index 533547e3c9..a2346b1b44 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
 @@ -22,6 +22,9 @@
@@ -359,7 +358,7 @@ index 533547e3c9..ae55f46a8a 100644
   */
  #include <linux/energy_model.h>
  #include <linux/mmap_lock.h>
-@@ -67,20 +70,126 @@
+@@ -67,20 +70,125 @@
   *   SCHED_TUNABLESCALING_LOG - scaled logarithmical, *1+ilog(ncpus)
   *   SCHED_TUNABLESCALING_LINEAR - scaled linear, *ncpus
   *
@@ -399,7 +398,6 @@ index 533547e3c9..ae55f46a8a 100644
 +u8   __read_mostly sched_burst_penalty_offset   = 22;
 +uint __read_mostly sched_burst_penalty_scale    = 1280;
 +uint __read_mostly sched_burst_cache_lifetime   = 60000000;
-+static int __maybe_unused thirty_two     = 32;
 +static int __maybe_unused sixty_four     = 64;
 +static int __maybe_unused maxval_12_bits = 4095;
 +
@@ -488,7 +486,7 @@ index 533547e3c9..ae55f46a8a 100644
  int sched_thermal_decay_shift;
  static int __init setup_sched_thermal_decay_shift(char *str)
  {
-@@ -140,6 +249,69 @@ static unsigned int sysctl_numa_balancing_promote_rate_limit = 65536;
+@@ -140,6 +248,69 @@ static unsigned int sysctl_numa_balancing_promote_rate_limit = 65536;
  
  #ifdef CONFIG_SYSCTL
  static struct ctl_table sched_fair_sysctls[] = {
@@ -558,7 +556,7 @@ index 533547e3c9..ae55f46a8a 100644
  #ifdef CONFIG_CFS_BANDWIDTH
  	{
  		.procname       = "sched_cfs_bandwidth_slice_us",
-@@ -198,6 +370,13 @@ static inline void update_load_set(struct load_weight *lw, unsigned long w)
+@@ -198,6 +369,13 @@ static inline void update_load_set(struct load_weight *lw, unsigned long w)
   *
   * This idea comes from the SD scheduler of Con Kolivas:
   */
@@ -572,7 +570,7 @@ index 533547e3c9..ae55f46a8a 100644
  static unsigned int get_update_sysctl_factor(void)
  {
  	unsigned int cpus = min_t(unsigned int, num_online_cpus(), 8);
-@@ -228,6 +407,7 @@ static void update_sysctl(void)
+@@ -228,6 +406,7 @@ static void update_sysctl(void)
  	SET_SYSCTL(sched_base_slice);
  #undef SET_SYSCTL
  }
@@ -580,7 +578,7 @@ index 533547e3c9..ae55f46a8a 100644
  
  void __init sched_init_granularity(void)
  {
-@@ -707,6 +887,9 @@ static void update_entity_lag(struct cfs_rq *cfs_rq, struct sched_entity *se)
+@@ -707,6 +886,9 @@ static void update_entity_lag(struct cfs_rq *cfs_rq, struct sched_entity *se)
  	lag = avg_vruntime(cfs_rq) - se->vruntime;
  
  	limit = calc_delta_fair(max_t(u64, 2*se->slice, TICK_NSEC), se);
@@ -590,7 +588,7 @@ index 533547e3c9..ae55f46a8a 100644
  	se->vlag = clamp(lag, -limit, limit);
  }
  
-@@ -958,6 +1141,7 @@ struct sched_entity *__pick_last_entity(struct cfs_rq *cfs_rq)
+@@ -958,6 +1140,7 @@ struct sched_entity *__pick_last_entity(struct cfs_rq *cfs_rq)
   * Scheduling class statistics methods:
   */
  #ifdef CONFIG_SMP
@@ -598,7 +596,7 @@ index 533547e3c9..ae55f46a8a 100644
  int sched_update_scaling(void)
  {
  	unsigned int factor = get_update_sysctl_factor();
-@@ -969,6 +1153,7 @@ int sched_update_scaling(void)
+@@ -969,6 +1142,7 @@ int sched_update_scaling(void)
  
  	return 0;
  }
@@ -606,7 +604,7 @@ index 533547e3c9..ae55f46a8a 100644
  #endif
  #endif
  
-@@ -1168,7 +1353,13 @@ static void update_curr(struct cfs_rq *cfs_rq)
+@@ -1168,7 +1342,13 @@ static void update_curr(struct cfs_rq *cfs_rq)
  	if (unlikely(delta_exec <= 0))
  		return;
  
@@ -620,6 +618,44 @@ index 533547e3c9..ae55f46a8a 100644
  	update_deadline(cfs_rq, curr);
  	update_min_vruntime(cfs_rq);
  
+@@ -3674,10 +3864,9 @@ dequeue_load_avg(struct cfs_rq *cfs_rq, struct sched_entity *se) { }
+ #endif
+ 
+ static void reweight_eevdf(struct cfs_rq *cfs_rq, struct sched_entity *se,
+-			   unsigned long weight)
++			   unsigned long weight, u64 avruntime)
+ {
+ 	unsigned long old_weight = se->load.weight;
+-	u64 avruntime = avg_vruntime(cfs_rq);
+ 	s64 vlag, vslice;
+ 
+ 	/*
+@@ -3785,11 +3974,13 @@ static void reweight_entity(struct cfs_rq *cfs_rq, struct sched_entity *se,
+ {
+ 	bool curr = cfs_rq->curr == se;
+ 
++	if (curr)
++		update_curr(cfs_rq);
++	u64 avruntime = avg_vruntime(cfs_rq);
++
+ 	if (se->on_rq) {
+ 		/* commit outstanding execution time */
+-		if (curr)
+-			update_curr(cfs_rq);
+-		else
++		if (!curr)
+ 			__dequeue_entity(cfs_rq, se);
+ 		update_load_sub(&cfs_rq->load, se->load.weight);
+ 	}
+@@ -3802,7 +3993,7 @@ static void reweight_entity(struct cfs_rq *cfs_rq, struct sched_entity *se,
+ 		 */
+ 		se->vlag = div_s64(se->vlag * se->load.weight, weight);
+ 	} else {
+-		reweight_eevdf(cfs_rq, se, weight);
++		reweight_eevdf(cfs_rq, se, weight, avruntime);
+ 	}
+ 
+ 	update_load_set(&se->load, weight);
 @@ -5174,6 +5365,9 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
  	 *
  	 * EEVDF: placement strategy #1 / #2
@@ -701,7 +737,7 @@ diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
 index 001fe047bd..da3ad1d4e1 100644
 --- a/kernel/sched/sched.h
 +++ b/kernel/sched/sched.h
-@@ -1965,7 +1965,11 @@ static inline void dirty_sched_domain_sysctl(int cpu)
+@@ -1967,7 +1967,11 @@ static inline void dirty_sched_domain_sysctl(int cpu)
  }
  #endif
  
@@ -713,7 +749,7 @@ index 001fe047bd..da3ad1d4e1 100644
  
  static inline const struct cpumask *task_user_cpus(struct task_struct *p)
  {
-@@ -2552,6 +2556,9 @@ extern const_debug unsigned int sysctl_sched_nr_migrate;
+@@ -2554,6 +2558,9 @@ extern const_debug unsigned int sysctl_sched_nr_migrate;
  extern const_debug unsigned int sysctl_sched_migration_cost;
  
  extern unsigned int sysctl_sched_base_slice;
