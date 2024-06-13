@@ -713,7 +713,7 @@ index c62805dbd6..163e3db0b6 100644
  }
  
  static bool check_cfs_rq_runtime(struct cfs_rq *cfs_rq);
-@@ -6818,6 +7043,14 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
+@@ -6838,6 +7063,14 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
  	bool was_sched_idle = sched_idle_rq(rq);
  
  	util_est_dequeue(&rq->cfs, p);
@@ -728,7 +728,7 @@ index c62805dbd6..163e3db0b6 100644
  
  	for_each_sched_entity(se) {
  		cfs_rq = cfs_rq_of(se);
-@@ -8095,10 +8328,7 @@ static void check_preempt_wakeup_fair(struct rq *rq, struct task_struct *p, int
+@@ -8115,10 +8348,7 @@ static void check_preempt_wakeup_fair(struct rq *rq, struct task_struct *p, int
  	cfs_rq = cfs_rq_of(se);
  	update_curr(cfs_rq);
  
@@ -740,7 +740,7 @@ index c62805dbd6..163e3db0b6 100644
  		goto preempt;
  
  	return;
-@@ -8316,16 +8546,25 @@ static void yield_task_fair(struct rq *rq)
+@@ -8336,16 +8566,25 @@ static void yield_task_fair(struct rq *rq)
  	/*
  	 * Are we the only task in the tree?
  	 */
@@ -766,7 +766,7 @@ index c62805dbd6..163e3db0b6 100644
  	/*
  	 * Tell update_rq_clock() that we've just updated,
  	 * so we don't do microscopic update in schedule()
-@@ -12391,6 +12630,9 @@ static void task_fork_fair(struct task_struct *p)
+@@ -12406,6 +12645,9 @@ static void task_fork_fair(struct task_struct *p)
  	curr = cfs_rq->curr;
  	if (curr)
  		update_curr(cfs_rq);
