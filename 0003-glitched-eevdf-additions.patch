@@ -3,7 +3,7 @@ diff -Naur vlinux-6.6.1/kernel/sched/fair.c linux-6.6.1/kernel/sched/fair.c
 +++ linux-6.6.1/kernel/sched/fair.c	2023-11-11 15:51:09.630279108 +0100
 @@ -90,11 +90,11 @@
  static unsigned int configured_sched_base_slice = 1000000000ULL / HZ;
- unsigned int        sysctl_sched_min_base_slice =    2000000ULL;
+ unsigned int        sysctl_sched_min_base_slice = CONFIG_MIN_BASE_SLICE_NS;
  #else // !CONFIG_SCHED_BORE
 -unsigned int sysctl_sched_base_slice			= 750000ULL;
 -static unsigned int normalized_sysctl_sched_base_slice	= 750000ULL;
