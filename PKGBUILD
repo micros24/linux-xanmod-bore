@@ -40,8 +40,8 @@ if [ "${_compiler}" = "clang" ]; then
   _compiler_flags="CC=clang HOSTCC=clang LLVM=1 LLVM_IAS=1"
 fi
 
-# Choose between the 4 main configs for stable branch. Default x86-64-v1 which use CONFIG_GENERIC_CPU2:
-# Possible values: config_x86-64-v1 (default) / config_x86-64-v2 / config_x86-64-v3 / config_x86-64-v4
+# Choose between the 3 main configs for stable branch. Default x86-64-v1 which use CONFIG_GENERIC_CPU2:
+# Possible values: config_x86-64-v2 (default) / config_x86-64-v3 / config_x86-64-v4
 # This will be overwritten by selecting any option in microarchitecture script
 # Source files: https://github.com/xanmod/linux/tree/5.17/CONFIGS/xanmod/gcc
 if [ -z ${_config+x} ]; then
@@ -141,11 +141,11 @@ done
 sha256sums=('774698422ee54c5f1e704456f37c65c06b51b4e9a8b0866f34580d86fef8e226' # kernel
             'SKIP'                                                             # kernel signature
             '2245e4f5154045fd3a8606c4accd808b1d802e75e894d32005c406da77e6e623' # xanmod patch
-            '5c84bfe7c1971354cff3f6b3f52bf33e7bbeec22f85d5e7bfde383b54c679d30' # choose-gcc-optimization.sh
-            '8d7ba79a7a2d94ee3f1b61b0d3354af4855efb45cb739f57a700193ccc8fafaf' # 0001-bore.patch
+            'a8b38eb482eb685944757182c4886404abc12703e5e56ec39c7d61298d17d71f' # choose-gcc-optimization.sh
+            'a5542d19693926a5ed86196ea8fadd8ee7206edd3cb2fd88f63e3107f0259d86' # 0001-bore.patch
             '1f3258ce1842156fcc35ca4775f6ba50f08f8f339b8cfbc3395949bb0e368872' # 0002-glitched-cfs.patch
-            '2e90b959c23b61270f486df67582eaa4a3aa6263f370740a28d2adb948f3c833' # 0003-glitched-eevdf-additions.patch
-            '510d5bcf5461ded0c937fbc5ff7c2c6682ea9b7a7d44f1001c8ff02cf94fc137' # 0004-o3-optimization.patch
+            '7f31b838bc3de54051a2521e64aad257f62d34906874ebcff0ec21af9df56a10' # 0003-glitched-eevdf-additions.patch
+            'd5f20a66358a6193973076f246bdeaeadd866859be827946e30ac71e085ed6c1' # 0004-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
