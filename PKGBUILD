@@ -93,11 +93,11 @@ fi
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-bore
 _major=6.10
-pkgver=${_major}.2
+pkgver=${_major}.3
 _branch=6.x
 xanmod=1
 _revision=
-_sf_branch=edge
+_sf_branch=main
 pkgrel=${xanmod}
 pkgdesc='Linux Xanmod (Stable) with BORE CPU scheduler and tickrate customizations'
 url="http://www.xanmod.org/"
@@ -140,12 +140,12 @@ for _patch in ${_patches[@]}; do
 done
 sha256sums=('774698422ee54c5f1e704456f37c65c06b51b4e9a8b0866f34580d86fef8e226' # kernel
             'SKIP'                                                             # kernel signature
-            'cee2ed4ab7528cd6c10d9ca76eb31336c25868982a2920fb6fb01daf538596ae' # xanmod patch
+            'e0b4fd44086886b873d0af0222a7bdb5c70a63c5d47939c375dba392b4673921' # xanmod patch
             'a8b38eb482eb685944757182c4886404abc12703e5e56ec39c7d61298d17d71f' # choose-gcc-optimization.sh
-            'a5542d19693926a5ed86196ea8fadd8ee7206edd3cb2fd88f63e3107f0259d86' # 0001-bore.patch
+            '2a5f01fef18db18e9cc9e8405f0ed1fb1a0063d263016f4c7f23e608bb6415f1' # 0001-bore.patch
             '1f3258ce1842156fcc35ca4775f6ba50f08f8f339b8cfbc3395949bb0e368872' # 0002-glitched-cfs.patch
-            '7f31b838bc3de54051a2521e64aad257f62d34906874ebcff0ec21af9df56a10' # 0003-glitched-eevdf-additions.patch
-            'd5f20a66358a6193973076f246bdeaeadd866859be827946e30ac71e085ed6c1' # 0004-o3-optimization.patch
+            '9cf932f6aa172e880833e80c36bb95369ba9e7c619ae68b8e94be7523337ccf9' # 0003-glitched-eevdf-additions.patch
+            '18c51bce4e1629795257f348780713e25f886cd21410e1af464c21b3270d6cab' # 0004-o3-optimization.patch
 )
 
 export KBUILD_BUILD_HOST=${KBUILD_BUILD_HOST:-archlinux}
