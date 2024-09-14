@@ -12,7 +12,7 @@ index d5041f7daf689..d50f8b36065de 100644
  else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
  KBUILD_CFLAGS += -Os
  KBUILD_RUSTFLAGS += -Copt-level=s
-@@ -1158,11 +1161,6 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
+@@ -1151,11 +1154,6 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
  # Make sure -fstack-check isn't enabled (like gentoo apparently did)
  KBUILD_CFLAGS  += -fno-stack-check
  
