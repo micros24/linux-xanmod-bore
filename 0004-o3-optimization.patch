@@ -1,43 +1,46 @@
 diff --git a/Makefile b/Makefile
-index d5041f7daf689..d50f8b36065de 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -970,6 +970,9 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
+@@ -437,7 +437,7 @@ endif
+ HOSTPKG_CONFIG	= pkg-config
+
+ KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+-			 -O2 -fomit-frame-pointer -std=gnu11
++			 -O3 -fomit-frame-pointer -std=gnu11
+ KBUILD_USERCFLAGS  := $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
+ KBUILD_USERLDFLAGS := $(USERLDFLAGS)
+
+@@ -461,7 +461,7 @@ endif
+ 
+ KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) \
+ 		       $(HOSTCFLAGS) -I $(srctree)/scripts/include
+-KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS) \
++KBUILD_HOSTCXXFLAGS := -Wall -O3 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS) \
+ 		       -I $(srctree)/scripts/include
+ KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
+ 			-Zallow-features= $(HOSTRUSTFLAGS)
+@@ -954,7 +954,7 @@
+ KBUILD_RUSTFLAGS += $(rustflags64-y)
+ 
  ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
- KBUILD_CFLAGS += -O2 $(call cc-option,-fmodulo-sched -fmodulo-sched-allow-regmoves)
- KBUILD_RUSTFLAGS += -Copt-level=2
-+else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+-KBUILD_CFLAGS += -O2
 +KBUILD_CFLAGS += -O3
-+KBUILD_RUSTFLAGS += -Copt-level=3
+ KBUILD_RUSTFLAGS += -Copt-level=2
  else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
  KBUILD_CFLAGS += -Os
- KBUILD_RUSTFLAGS += -Copt-level=s
-@@ -1151,11 +1154,6 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
- # Make sure -fstack-check isn't enabled (like gentoo apparently did)
- KBUILD_CFLAGS  += -fno-stack-check
- 
--# conserve stack if available
--ifdef CONFIG_CC_IS_GCC
--KBUILD_CFLAGS   += -fconserve-stack
--endif
--
- # change __FILE__ to the relative path from the srctree
- KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
- 
 diff --git a/init/Kconfig b/init/Kconfig
-index 32c24950c4ced..b6d38eccca108 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1422,6 +1433,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
- 	  with the "-O2" compiler flag for best performance and most
- 	  helpful compile-time warnings.
- 
-+config CC_OPTIMIZE_FOR_PERFORMANCE_O3
-+	bool "Optimize more for performance (-O3)"
-+	help
-+	  Choosing this option will pass "-O3" to your compiler to optimize
-+	  the kernel yet more for performance.
-+
- config CC_OPTIMIZE_FOR_SIZE
- 	bool "Optimize for size (-Os)"
+@@ -1430,10 +1430,10 @@ choice
+ 	default CC_OPTIMIZE_FOR_PERFORMANCE
+
+ config CC_OPTIMIZE_FOR_PERFORMANCE
+-	bool "Optimize for performance (-O2)"
++	bool "Optimize for performance (-O3)"
  	help
+ 	  This is the default optimization level for the kernel, building
+-	  with the "-O2" compiler flag for best performance and most
++	  with the "-O3" compiler flag for best performance and most
+ 	  helpful compile-time warnings.
+
+ config CC_OPTIMIZE_FOR_SIZE
