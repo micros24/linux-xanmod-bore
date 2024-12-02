@@ -19,19 +19,19 @@ diff --git a/Makefile b/Makefile
  		       -I $(srctree)/scripts/include
  KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
  			-Zallow-features= $(HOSTRUSTFLAGS)
-@@ -954,7 +954,7 @@
- KBUILD_RUSTFLAGS += $(rustflags64-y)
+@@ -799,7 +954,7 @@
+ KBUILD_CFLAGS	+= -fno-delete-null-pointer-checks
  
  ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
 -KBUILD_CFLAGS += -O2
 +KBUILD_CFLAGS += -O3
- KBUILD_RUSTFLAGS += -Copt-level=2
- else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
- KBUILD_CFLAGS += -Os
+ # Perform swing modulo scheduling immediately before the first scheduling pass.
+ # This pass looks at innermost loops and reorders their instructions by
+ # overlapping different iterations.
 diff --git a/init/Kconfig b/init/Kconfig
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1430,10 +1430,10 @@ choice
+@@ -1465,10 +1465,10 @@ choice
  	default CC_OPTIMIZE_FOR_PERFORMANCE
 
  config CC_OPTIMIZE_FOR_PERFORMANCE
