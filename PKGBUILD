@@ -139,7 +139,7 @@ for _patch in ${_patches[@]}; do
     source+=("${_patch}::https://raw.githubusercontent.com/archlinux/svntogit-packages/${_commit}/trunk/${_patch}")
 done
 sha256sums=('b1a2562be56e42afb3f8489d4c2a7ac472ac23098f1ef1c1e40da601f54625eb' # kernel
-            'SKIP'                                                             # kernel signature
+            'SKIP'
             'c11f4e7dc150721359e5ae91eae2bc1fc2440603c75dd1f6d1ea00cb41e28905' # xanmod patch
             'a8b38eb482eb685944757182c4886404abc12703e5e56ec39c7d61298d17d71f' # choose-gcc-optimization.sh
             'b1d2fbbfd0ebef82d5a02dff1f2c4120550d1eba61670aa64a6714bc683a5dff' # 0001-bore.patch
