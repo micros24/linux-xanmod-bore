@@ -169,7 +169,7 @@ index 9b301180fd..e2ca4830c3 100644
  #include <trace/events/sched.h>
  
  #define CREATE_TRACE_POINTS
-@@ -2515,6 +2517,10 @@ __latent_entropy struct task_struct *copy_process(
+@@ -2525,6 +2527,10 @@ __latent_entropy struct task_struct *copy_process(
  	p->start_time = ktime_get_ns();
  	p->start_boottime = ktime_get_boottime_ns();
  
@@ -1002,3 +1002,4 @@ index c5d67a43fe..e14855d24a 100644
  extern int sysctl_resched_latency_warn_ms;
 -- 
 2.34.1
+
