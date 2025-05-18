@@ -105,7 +105,7 @@ diff --git a/init/Kconfig b/init/Kconfig
 index 5ab47c346e..ed24648f50 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1360,6 +1360,23 @@ config CHECKPOINT_RESTORE
+@@ -1363,6 +1363,23 @@ config CHECKPOINT_RESTORE
  
  	  If unsure, say N here.
  
