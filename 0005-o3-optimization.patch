@@ -1,7 +1,7 @@
 diff --git a/Makefile b/Makefile
 --- a/Makefile
 +++ b/Makefile
-@@ -462,7 +462,7 @@ endif
+@@ -459,7 +459,7 @@ endif
  HOSTPKG_CONFIG	= pkg-config
 
  KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
@@ -10,7 +10,7 @@ diff --git a/Makefile b/Makefile
  KBUILD_USERCFLAGS  := $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
  KBUILD_USERLDFLAGS := $(USERLDFLAGS)
 
-@@ -490,7 +490,7 @@ endif
+@@ -487,7 +487,7 @@ endif
  
  KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) \
  		       $(HOSTCFLAGS) -I $(srctree)/scripts/include
@@ -19,19 +19,19 @@ diff --git a/Makefile b/Makefile
  		       -I $(srctree)/scripts/include
  KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
  			-Zallow-features= $(HOSTRUSTFLAGS)
-@@ -858,7 +1013,7 @@
+@@ -855,7 +1010,7 @@
  KBUILD_CFLAGS	+= -fno-delete-null-pointer-checks
  
  ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
 -KBUILD_CFLAGS += -O2
 +KBUILD_CFLAGS += -O3
- # Perform swing modulo scheduling immediately before the first scheduling pass.
- # This pass looks at innermost loops and reorders their instructions by
- # overlapping different iterations.
+ # Enable software pipelining (Swing Modulo Scheduling) for innermost loops.
+ KBUILD_CFLAGS += $(call cc-option,-fmodulo-sched -fmodulo-sched-allow-regmoves) \
+ 		 $(call cc-option,-mllvm -enable-pipeliner)
 diff --git a/init/Kconfig b/init/Kconfig
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1496,10 +1496,10 @@ choice
+@@ -1502,10 +1502,10 @@ choice
  	default CC_OPTIMIZE_FOR_PERFORMANCE
 
  config CC_OPTIMIZE_FOR_PERFORMANCE
