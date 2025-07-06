@@ -93,11 +93,11 @@ fi
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-bore
 _major=6.15
-pkgver=${_major}.3
+pkgver=${_major}.4
 _branch=6.x
 xanmod=1
 _revision=
-_sf_branch=edge
+_sf_branch=main
 pkgrel=${xanmod}
 pkgdesc='Linux Xanmod (Stable) with BORE CPU scheduler and tickrate customizations'
 url="http://www.xanmod.org/"
@@ -141,10 +141,10 @@ for _patch in ${_patches[@]}; do
 done
 sha256sums=('7586962547803be7ecc4056efc927fb25214548722bd28171172f3599abb9764' # kernel
             'SKIP'                                                             # kernel signature
-            'f7bf651dd9f75df86932558c47d3399d4afcf5d502254ae2d52b5131f7de27f8' # xanmod patch
+            '8d5ea226186dd7ec85bd9fc7aa8476ef4f25ddeb28eee7c43b5fc32eddea6319' # xanmod patch
             'a8b38eb482eb685944757182c4886404abc12703e5e56ec39c7d61298d17d71f' # choose-gcc-optimization.sh
-            'd442a069d5362e2ecdacb7cdfad714deea10ab05399a627c0de9d62eeece3d2c' # 0001-bore.patch
-            '6d553cc2c88757210ffc8c8cfafa81760d501a2d64d0c7b82d0e61e621e87797' # 0002-sched-fair-Prefer-full-idle-SMT-cores.patch
+            '691a2558426c026799fa333f2241e1ffe2b3e3c6507dcb845686302836de8dc4' # 0001-bore.patch
+            '5643290b704f2e73b47805b671fe570fd1fa575a7ffdff2d30ef3bfdfe1684b9' # 0002-sched-fair-Prefer-full-idle-SMT-cores.patch
             '1f3258ce1842156fcc35ca4775f6ba50f08f8f339b8cfbc3395949bb0e368872' # 0003-glitched-cfs.patch
             '10bf07a35c4df869230ccb9cbe5e10cd0921f517263ebfc2ecc0e26440a1028f' # 0004-glitched-eevdf-additions.patch
             'd18f17e8519cf6e8208f2276c29f664d7e8cf9fd1e202cdc26e37279102d48c9' # 0005-o3-optimization.patch
