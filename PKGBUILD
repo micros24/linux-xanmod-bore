@@ -93,7 +93,7 @@ fi
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-xanmod-bore
 _major=6.15
-pkgver=${_major}.4
+pkgver=${_major}.7
 _branch=6.x
 xanmod=1
 _revision=
@@ -141,12 +141,12 @@ for _patch in ${_patches[@]}; do
 done
 sha256sums=('7586962547803be7ecc4056efc927fb25214548722bd28171172f3599abb9764' # kernel
             'SKIP'                                                             # kernel signature
-            '8d5ea226186dd7ec85bd9fc7aa8476ef4f25ddeb28eee7c43b5fc32eddea6319' # xanmod patch
+            'f8735b71c5fe8b821b6ce04525a2eb67e5ac57b43c4c9f7cd2a7a7dd47a1de78' # xanmod patch
             'a8b38eb482eb685944757182c4886404abc12703e5e56ec39c7d61298d17d71f' # choose-gcc-optimization.sh
-            '691a2558426c026799fa333f2241e1ffe2b3e3c6507dcb845686302836de8dc4' # 0001-bore.patch
-            '5643290b704f2e73b47805b671fe570fd1fa575a7ffdff2d30ef3bfdfe1684b9' # 0002-sched-fair-Prefer-full-idle-SMT-cores.patch
+            'd9a57ed6377f19943861f2daf4f0654e1689dd0f78f880adf17961fa1c8a549c' # 0001-bore.patch
+            '504cefb5011831d353dbd886c4d62246d1a0b1e71e6b2f1a2c51b0a3748d9ce3' # 0002-sched-fair-Prefer-full-idle-SMT-cores.patch
             '1f3258ce1842156fcc35ca4775f6ba50f08f8f339b8cfbc3395949bb0e368872' # 0003-glitched-cfs.patch
-            '10bf07a35c4df869230ccb9cbe5e10cd0921f517263ebfc2ecc0e26440a1028f' # 0004-glitched-eevdf-additions.patch
+            '5c403ce906b662520647cd9981bc3fe77d074dcd9913e050098a67e33d3126fc' # 0004-glitched-eevdf-additions.patch
             'd18f17e8519cf6e8208f2276c29f664d7e8cf9fd1e202cdc26e37279102d48c9' # 0005-o3-optimization.patch
 )
 
