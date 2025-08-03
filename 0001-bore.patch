@@ -642,7 +642,7 @@ index 39fac649aa..71d817ce8b 100644
 @@ -8554,6 +8558,10 @@ void __init sched_init(void)
  	BUG_ON(!sched_class_above(&ext_sched_class, &idle_sched_class));
  #endif
- 'x86_64'
+ 
 +#ifdef CONFIG_SCHED_BORE
 +	sched_bore_init();
 +#endif // CONFIG_SCHED_BORE
