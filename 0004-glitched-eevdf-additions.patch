@@ -40,7 +40,7 @@ diff -Naur vlinux-6.6.1/kernel/sched/topology.c linux-6.6.1/kernel/sched/topolog
 diff -Naur vlinux-6.6.1/mm/page-writeback.c linux-6.6.1/mm/page-writeback.c
 --- vlinux-6.6.1/mm/page-writeback.c	2023-11-08 11:56:25.000000000 +0100
 +++ linux-6.6.1/mm/page-writeback.c	2023-11-11 16:07:22.214222902 +0100
-@@ -71,7 +71,7 @@
+@@ -72,7 +72,7 @@
  /*
   * Start background writeback (via writeback threads) at this percentage
   */
@@ -49,7 +49,7 @@ diff -Naur vlinux-6.6.1/mm/page-writeback.c linux-6.6.1/mm/page-writeback.c
  
  /*
   * dirty_background_bytes starts at 0 (disabled) so that it is a function of
-@@ -88,7 +92,7 @@
+@@ -89,7 +93,7 @@
  /*
   * The generator of dirty data starts writeback at this percentage
   */
