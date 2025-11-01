@@ -94,7 +94,7 @@ Tested-by: Mario Roy <...>
 diff -uarp a/kernel/sched/fair.c b/kernel/sched/fair.c
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -7359,6 +7359,24 @@ static inline int __select_idle_cpu(int cpu, struct task_struct *p)
+@@ -7542,6 +7542,24 @@ static inline int __select_idle_cpu(int cpu, struct task_struct *p)
  DEFINE_STATIC_KEY_FALSE(sched_smt_present);
  EXPORT_SYMBOL_GPL(sched_smt_present);
  
@@ -119,7 +119,7 @@ diff -uarp a/kernel/sched/fair.c b/kernel/sched/fair.c
  static inline void set_idle_cores(int cpu, int val)
  {
  	struct sched_domain_shared *sds;
-@@ -7814,6 +7832,19 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+@@ -7817,6 +7835,19 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
  	unsigned long task_util, util_min, util_max;
  	int i, recent_used_cpu, prev_aff = -1;
  
@@ -139,7 +139,7 @@ diff -uarp a/kernel/sched/fair.c b/kernel/sched/fair.c
  	/*
  	 * On asymmetric system, update task utilization because we will check
  	 * that the task fits with CPU's capacity.
-@@ -7830,7 +7861,7 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+@@ -7833,7 +7864,7 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
  	 */
  	lockdep_assert_irqs_disabled();
  
@@ -148,7 +148,7 @@ diff -uarp a/kernel/sched/fair.c b/kernel/sched/fair.c
  	    asym_fits_cpu(task_util, util_min, util_max, target))
  		return target;
  
-@@ -7864,24 +7895,6 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+@@ -7867,24 +7898,6 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
  		return prev;
  	}
  
@@ -173,7 +173,7 @@ diff -uarp a/kernel/sched/fair.c b/kernel/sched/fair.c
  	/*
  	 * For asymmetric CPU capacity systems, our domain of interest is
  	 * sd_asym_cpucapacity rather than sd_llc.
-@@ -8615,7 +8628,14 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int wake_flags)
+@@ -8618,7 +8631,14 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int wake_flags)
  		new_cpu = sched_balance_find_dst_cpu(sd, p, cpu, prev_cpu, sd_flag);
  	} else if (wake_flags & WF_TTWU) { /* XXX always ? */
  		/* Fast path */
