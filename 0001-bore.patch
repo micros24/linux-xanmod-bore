@@ -1115,7 +1115,7 @@ diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
 index cf2109b67f..aa70f36084 100644
 --- a/kernel/sched/sched.h
 +++ b/kernel/sched/sched.h
-@@ -2127,7 +2127,11 @@ extern int group_balance_cpu(struct sched_group *sg);
+@@ -2128,7 +2128,11 @@ extern int group_balance_cpu(struct sched_group *sg);
  extern void update_sched_domain_debugfs(void);
  extern void dirty_sched_domain_sysctl(int cpu);
  
@@ -1127,7 +1127,7 @@ index cf2109b67f..aa70f36084 100644
  
  static inline const struct cpumask *task_user_cpus(struct task_struct *p)
  {
-@@ -2803,7 +2807,12 @@ extern void wakeup_preempt(struct rq *rq, struct task_struct *p, int flags);
+@@ -2804,7 +2808,12 @@ extern void wakeup_preempt(struct rq *rq, struct task_struct *p, int flags);
  extern __read_mostly unsigned int sysctl_sched_nr_migrate;
  extern __read_mostly unsigned int sysctl_sched_migration_cost;
  
