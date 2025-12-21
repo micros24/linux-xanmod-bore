@@ -31,7 +31,7 @@ diff --git a/Makefile b/Makefile
 diff --git a/init/Kconfig b/init/Kconfig
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1554,10 +1554,10 @@ choice
+@@ -1564,10 +1564,10 @@ choice
  	default CC_OPTIMIZE_FOR_PERFORMANCE
 
  config CC_OPTIMIZE_FOR_PERFORMANCE

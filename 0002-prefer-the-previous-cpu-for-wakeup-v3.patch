@@ -266,7 +266,7 @@ index 8ce56a8d50..81cf8902cc 100644
  static unsigned long task_h_load(struct task_struct *p);
  static unsigned long capacity_of(int cpu);
  
-@@ -7542,6 +7542,24 @@ static inline int __select_idle_cpu(int cpu, struct task_struct *p)
+@@ -7634,6 +7634,24 @@ static inline int __select_idle_cpu(int cpu, struct task_struct *p)
  DEFINE_STATIC_KEY_FALSE(sched_smt_present);
  EXPORT_SYMBOL_GPL(sched_smt_present);
  
@@ -291,7 +291,7 @@ index 8ce56a8d50..81cf8902cc 100644
  static inline void set_idle_cores(int cpu, int val)
  {
  	struct sched_domain_shared *sds;
-@@ -7810,13 +7828,26 @@ static inline bool asym_fits_cpu(unsigned long util,
+@@ -7902,13 +7920,26 @@ static inline bool asym_fits_cpu(unsigned long util,
  /*
   * Try and locate an idle core/thread in the LLC cache domain.
   */
@@ -319,7 +319,7 @@ index 8ce56a8d50..81cf8902cc 100644
  	/*
  	 * On asymmetric system, update task utilization because we will check
  	 * that the task fits with CPU's capacity.
-@@ -7833,7 +7864,7 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+@@ -7925,7 +7956,7 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
  	 */
  	lockdep_assert_irqs_disabled();
  
@@ -328,7 +328,7 @@ index 8ce56a8d50..81cf8902cc 100644
  	    asym_fits_cpu(task_util, util_min, util_max, target))
  		return target;
  
-@@ -7867,24 +7898,6 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+@@ -7959,24 +7990,6 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
  		return prev;
  	}
  
@@ -353,7 +353,7 @@ index 8ce56a8d50..81cf8902cc 100644
  	/*
  	 * For asymmetric CPU capacity systems, our domain of interest is
  	 * sd_asym_cpucapacity rather than sd_llc.
-@@ -8618,7 +8631,14 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int wake_flags)
+@@ -8710,7 +8723,14 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int wake_flags)
  		new_cpu = sched_balance_find_dst_cpu(sd, p, cpu, prev_cpu, sd_flag);
  	} else if (wake_flags & WF_TTWU) { /* XXX always ? */
  		/* Fast path */
