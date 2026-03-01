@@ -34,8 +34,10 @@ if [ -z ${_use_tracers+x} ]; then
 fi
 
 # Unique compiler supported upstream is GCC
-## Choose between GCC and CLANG config (default is GCC)
-## Use the environment variable "_compiler=clang"
+## Choose between GCC and CLANG config (default is CLANG)
+## Use the environment variable "_compiler=clang" if you wanted to use CLANG compiler
+## Remove the below line if you wanted to use GCC
+_compiler=clang
 if [ "${_compiler}" = "clang" ]; then
   _compiler_flags="CC=clang HOSTCC=clang LLVM=1 LLVM_IAS=1"
 fi
