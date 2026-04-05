@@ -10,7 +10,7 @@ diff --git a/Makefile b/Makefile
  KBUILD_USERCFLAGS  := $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
  KBUILD_USERLDFLAGS := $(USERLDFLAGS)
 
-@@ -498,7 +498,7 @@ endif
+@@ -499,7 +499,7 @@ endif
  
  KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) \
  		       $(HOSTCFLAGS) -I $(srctree)/scripts/include
@@ -19,7 +19,7 @@ diff --git a/Makefile b/Makefile
  		       -I $(srctree)/scripts/include
  KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
  			-Zallow-features= $(HOSTRUSTFLAGS)
-@@ -886,11 +886,11 @@ KBUILD_CFLAGS       += $(call cc-disable-warning, format-overflow)
+@@ -887,11 +887,11 @@ KBUILD_CFLAGS       += $(call cc-disable-warning, format-overflow)
  KBUILD_CFLAGS	+= -fno-delete-null-pointer-checks
  
  ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE

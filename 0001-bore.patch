@@ -728,7 +728,7 @@ index dbf4e32a06..282a43cc26 100644
  	struct load_weight lw;
  
  	if (task_has_idle_policy(p)) {
-@@ -8561,6 +8569,10 @@ void __init sched_init(void)
+@@ -8564,6 +8572,10 @@ void __init sched_init(void)
  	BUG_ON(!sched_class_above(&ext_sched_class, &idle_sched_class));
  #endif
  
