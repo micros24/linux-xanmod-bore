@@ -1,7 +1,7 @@
 diff --git a/Makefile b/Makefile
 --- a/Makefile
 +++ b/Makefile
-@@ -464,7 +464,7 @@ endif
+@@ -467,7 +467,7 @@ endif
  export KERNELDOC
  
  KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
@@ -10,7 +10,7 @@ diff --git a/Makefile b/Makefile
  KBUILD_USERCFLAGS  := $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
  KBUILD_USERLDFLAGS := $(USERLDFLAGS)
 
-@@ -499,7 +499,7 @@ endif
+@@ -505,7 +505,7 @@ endif
  
  KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) \
  		       $(HOSTCFLAGS) -I $(srctree)/scripts/include
@@ -19,7 +19,7 @@ diff --git a/Makefile b/Makefile
  		       -I $(srctree)/scripts/include
  KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
  			-Zallow-features= $(HOSTRUSTFLAGS)
-@@ -887,11 +887,11 @@ KBUILD_CFLAGS       += $(call cc-disable-warning, format-overflow)
+@@ -894,11 +894,11 @@ KBUILD_CFLAGS       += $(call cc-disable-warning, format-overflow)
  KBUILD_CFLAGS	+= -fno-delete-null-pointer-checks
  
  ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
@@ -36,7 +36,7 @@ diff --git a/Makefile b/Makefile
 diff --git a/init/Kconfig b/init/Kconfig
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1577,10 +1577,10 @@ choice
+@@ -1593,10 +1593,10 @@ choice
  	default CC_OPTIMIZE_FOR_PERFORMANCE
 
  config CC_OPTIMIZE_FOR_PERFORMANCE
