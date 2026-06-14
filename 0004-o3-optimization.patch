@@ -19,7 +19,7 @@ diff --git a/Makefile b/Makefile
  		       -I $(srctree)/scripts/include
  KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
  			-Zallow-features= $(HOSTRUSTFLAGS)
-@@ -894,11 +894,11 @@ KBUILD_CFLAGS       += $(call cc-disable-warning, format-overflow)
+@@ -896,11 +896,11 @@ KBUILD_CFLAGS       += $(call cc-disable-warning, format-overflow)
  KBUILD_CFLAGS	+= -fno-delete-null-pointer-checks
  
  ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
