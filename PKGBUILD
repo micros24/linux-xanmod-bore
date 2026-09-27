@@ -355,9 +355,9 @@ scripts/config --set-str CONFIG_SECURITY_TOMOYO_ACTIVATION_TRIGGER "/usr/lib/sys
   ### Optionally load needed modules for the make localmodconfig
   # See https://aur.archlinux.org/packages/modprobed-db
   if [ "$_localmodcfg" = "y" ]; then
-    if [ -f $HOME/.config/modprobed.db ]; then
+    if [ -f $HOME/.local/share/modprobed-db/modprobed.db ]; then
       echo "Running Steven Rostedt's make localmodconfig now"
-      make ${_compiler_flags} LSMOD=$HOME/.config/modprobed.db localmodconfig
+      make ${_compiler_flags} LSMOD=$HOME/.local/share/modprobed-db/modprobed.db localmodconfig
     else
       echo "No modprobed.db data found"
       exit 1
