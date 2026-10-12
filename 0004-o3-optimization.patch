@@ -81,7 +81,7 @@ index 598f17810..a2ef052ce 100644
 diff --git a/init/Kconfig b/init/Kconfig
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -1633,6 +1641,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
+@@ -1638,6 +1646,12 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
  	  with the "-O2" compiler flag for best performance and most
  	  helpful compile-time warnings.
  
